@@ -35,7 +35,6 @@ const Home: NextPage = () => {
             Create <span className="text-[hsl(280,100%,70%)]">T3</span> Turbo
           </h1>
           <AuthShowcase />
-
           <div className="flex h-[60vh] justify-center overflow-y-scroll px-4 text-2xl">
             {postQuery.data ? (
               <div className="flex flex-col gap-4">
