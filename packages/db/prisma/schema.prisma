@@ -17,3 +17,24 @@ model Post {
     title   String
     content String
 }
+
+model Empresa {
+  id   String @id @default(cuid())
+  nome String
+  apelido String
+  cnpj String
+  active Boolean? @default(true)
+  createdAt DateTime? @default(now())
+  whoCreated String
+  updatedAt DateTime? @updatedAt
+  linkOrders LinkOrders[]
+}
+
+model LinkOrders {
+  id  String @id @default(cuid())
+  whoIsAsking String
+  aproved Boolean? @default(false)
+  createdAt DateTime? @default(now())
+  empresaId String
+  empresa Empresa @relation(fields: [empresaId], references: [id])
+}
