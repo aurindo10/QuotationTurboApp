@@ -3,7 +3,7 @@ import { Drawer } from "../components/template/Drawer";
 import { NextPageWithLayout } from "./_app";
 
 const Page: NextPageWithLayout = () => {
-  return <div className="text-[18px] text-white"> Olá</div>;
+  return <div></div>;
 };
 Page.getLayout = function IndexPage(page: ReactElement) {
   return (
