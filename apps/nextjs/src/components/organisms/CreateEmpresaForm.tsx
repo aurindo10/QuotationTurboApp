@@ -15,6 +15,7 @@ const FormSchemaToCreateEmpresa = z.object({
 type FormData = z.infer<typeof FormSchemaToCreateEmpresa>;
 type alertMessage = "success" | "warning" | "error" | null;
 export const CreateEmpresaForm = () => {
+  const [isLoading, setIsLoading] = useState("");
   const [alertMessage, setAlertMessage] = useState<alertMessage>(null);
   const {
     handleSubmit,
@@ -28,9 +29,11 @@ export const CreateEmpresaForm = () => {
   const { mutateAsync: createEmpresa } =
     trpc.empresa.createEmpresa.useMutation();
   const onSubmit = async (data: FormData) => {
+    setIsLoading("loading");
     setAlertMessage("success");
     const createdEmpresa = await createEmpresa(data);
     if (createdEmpresa) {
+      setIsLoading("");
     }
     reset();
   };
@@ -135,16 +138,11 @@ export const CreateEmpresaForm = () => {
       <div className=" w-full md:max-w-md">
         <button
           type="submit"
-          className="btn btn-primary my-2 w-full md:max-w-md"
+          className={`btn btn-primary my-2 w-full md:max-w-md ${isLoading}`}
         >
           Criar Empresa
         </button>
       </div>
-      <Alert
-        type={alertMessage}
-        message="okokokokok"
-        setAlert={setAlertMessage}
-      ></Alert>
     </form>
   );
 };
