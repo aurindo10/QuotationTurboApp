@@ -25,7 +25,6 @@ export const CreateEmpresaForm = () => {
   } = useForm<FormData>({
     resolver: zodResolver(FormSchemaToCreateEmpresa),
   });
-  console.log(errors);
   const { mutateAsync: createEmpresa } =
     trpc.empresa.createEmpresa.useMutation();
   const onSubmit = async (data: FormData) => {
