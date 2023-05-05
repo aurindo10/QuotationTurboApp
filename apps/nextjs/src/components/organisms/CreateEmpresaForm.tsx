@@ -27,12 +27,19 @@ export const CreateEmpresaForm = () => {
   });
   const { mutateAsync: createEmpresa } =
     trpc.empresa.createEmpresa.useMutation();
+  const { mutateAsync: insertIdEmpresaIntoMetaData } =
+    trpc.empresa.insertIdEmpresaIntoMetaData.useMutation();
   const onSubmit = async (data: FormData) => {
     setIsLoading("loading");
     setAlertMessage("success");
     const createdEmpresa = await createEmpresa(data);
     if (createdEmpresa) {
       setIsLoading("");
+      const userupdated = await insertIdEmpresaIntoMetaData({
+        active: createdEmpresa.active!,
+        idEmpresa: createdEmpresa.id,
+        nomeEmpresa: createdEmpresa.nome,
+      });
     }
     reset();
   };

@@ -10,7 +10,7 @@ const Page: NextPageWithLayout = () => {
   if (!isLoaded) {
     return <div className="text-slate-50">loading</div>;
   }
-  if (!user!.publicMetadata.worker) {
+  if (!user!.publicMetadata.nomeEmpresa) {
     router.push("/criarempresa");
   }
   return <div>Olá</div>;

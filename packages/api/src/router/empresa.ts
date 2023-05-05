@@ -1,6 +1,6 @@
 import { protectedProcedure, publicProcedure, router } from "../trpc";
 import { z } from "zod";
-
+import { clerkClient } from "@clerk/nextjs/server";
 export const empresaRouter = router({
   createEmpresa: protectedProcedure
     .input(
@@ -22,5 +22,26 @@ export const empresaRouter = router({
         },
       });
       return createdEmpresa;
+    }),
+  insertIdEmpresaIntoMetaData: protectedProcedure
+    .input(
+      z.object({
+        idEmpresa: z.string(),
+        active: z.boolean(),
+        nomeEmpresa: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const updatedUser = await clerkClient.users.updateUserMetadata(
+        ctx.auth.userId,
+        {
+          publicMetadata: {
+            idEmpresa: input.idEmpresa,
+            active: input.active,
+            nomeEmpresa: input.nomeEmpresa,
+          },
+        },
+      );
+      return updatedUser;
     }),
 });
