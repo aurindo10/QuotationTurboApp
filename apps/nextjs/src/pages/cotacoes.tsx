@@ -1,6 +1,7 @@
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/router";
 import { ReactElement, useContext, useEffect } from "react";
+import { CotacoesList } from "../components/organisms/CotacoesList";
 import { Drawer } from "../components/template/Drawer";
 import { NextPageWithLayout } from "./_app";
 
@@ -13,7 +14,11 @@ const Page: NextPageWithLayout = () => {
   if (!user!.publicMetadata.nomeEmpresa) {
     router.push("/criarempresa");
   }
-  return <div>Olá</div>;
+  return (
+    <div className="w-full">
+      <CotacoesList></CotacoesList>
+    </div>
+  );
 };
 Page.getLayout = function IndexPage(page: ReactElement) {
   return (
