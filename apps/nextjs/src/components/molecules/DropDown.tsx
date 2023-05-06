@@ -29,10 +29,10 @@ const DropdownMenuDemo = () => {
           align={"end"}
         >
           <div className="w-32 space-y-1">
-            <DropdownMenu.Item className="btn  btn-xs w-full">
+            <DropdownMenu.Item className="btn  btn-sm w-full">
               Abrir
             </DropdownMenu.Item>
-            <DropdownMenu.Item className="btn  btn-xs w-full">
+            <DropdownMenu.Item className="btn  btn-sm w-full">
               Criar
             </DropdownMenu.Item>
             <DropdownMenu.Item className="btn  btn-xs w-full">
