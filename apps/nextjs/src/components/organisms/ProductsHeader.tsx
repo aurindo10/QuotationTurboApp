@@ -1,4 +1,4 @@
-import { AddProductButton } from "../atoms/AddProductButton";
+import { AddProductModal } from "./AddProductModal";
 
 export const ProductsHeader = () => {
   return (
@@ -7,7 +7,7 @@ export const ProductsHeader = () => {
         <label className="w-full text-center text-[30px] font-bold">
           Produtos
         </label>
-        <AddProductButton></AddProductButton>
+        <AddProductModal></AddProductModal>
       </div>
     </div>
   );

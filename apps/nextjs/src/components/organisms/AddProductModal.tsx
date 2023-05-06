@@ -1,0 +1,71 @@
+import * as Dialog from "@radix-ui/react-dialog";
+import { AddProductButton } from "../atoms/AddProductButton";
+
+export const AddProductModal = () => {
+  return (
+    <Dialog.Root>
+      <Dialog.Trigger>
+        <AddProductButton></AddProductButton>
+      </Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Overlay className="bg-blackA9 data-[state=open]:animate-overlayShow fixed inset-0 z-50" />
+        <Dialog.Content className="data-[state=open]:animate-contentShow bg-neutral fixed top-[50%] left-[50%] z-50 max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
+          <div className="grid">
+            <h3 className="mb-4 text-lg font-bold">
+              Digite as informações do produto
+            </h3>
+            <div className="form-control w-full">
+              <label className="label">
+                <span className="label-text">Nome do Produto</span>
+              </label>
+              <input
+                type="text"
+                placeholder="Digite o nome do produto"
+                className="input input-bordered w-full"
+              />
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Descrição do Produto</span>
+              </label>
+              <textarea
+                className="textarea textarea-bordered h-24"
+                placeholder="Descrição do produto..."
+              ></textarea>
+            </div>
+            <div className="flex gap-2">
+              <div className="form-control w-full max-w-xs">
+                <label className="label">
+                  <span className="label-text">Marca</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Digite aqui.."
+                  className="input input-bordered w-full max-w-xs"
+                />
+              </div>
+              <div className="form-control w-full max-w-xs">
+                <label className="label">
+                  <span className="label-text">Unidade</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Digite aqui.."
+                  className="input input-bordered w-full max-w-xs"
+                />
+              </div>
+            </div>
+            <div className="flex justify-end gap-6">
+              <Dialog.Close asChild>
+                <button className="btn btn-secondary mt-4">Cancelar</button>
+              </Dialog.Close>
+              <Dialog.Close asChild>
+                <button className="btn btn-primary mt-4">Salvar</button>
+              </Dialog.Close>
+            </div>
+          </div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  );
+};
