@@ -2,6 +2,7 @@ import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/router";
 import { ReactElement, useContext, useEffect } from "react";
 import { SearchInput } from "../components/molecules/SearchInput";
+import { ProductsHeader } from "../components/organisms/ProductsHeader";
 import { ProductsTabe } from "../components/organisms/ProductsTable";
 import { Drawer } from "../components/template/Drawer";
 import { NextPageWithLayout } from "./_app";
@@ -18,7 +19,8 @@ const Page: NextPageWithLayout = () => {
   return (
     <div className="w-full space-y-3 py-4 px-2 md:px-4">
       <div className="flex w-full justify-center">
-        <div className="w-full max-w-md ">
+        <div className="w-full max-w-md space-y-2">
+          <ProductsHeader></ProductsHeader>
           <SearchInput></SearchInput>
         </div>
       </div>
