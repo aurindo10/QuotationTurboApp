@@ -28,6 +28,7 @@ model Empresa {
   whoCreated String
   updatedAt DateTime? @updatedAt
   linkOrders LinkOrders[]
+  products Product[]
 }
 
 model LinkOrders {
@@ -35,6 +36,17 @@ model LinkOrders {
   whoIsAsking String
   aproved Boolean? @default(false)
   createdAt DateTime? @default(now())
+  empresaId String
+  empresa Empresa @relation(fields: [empresaId], references: [id])
+}
+model Product {
+  id  String @id @default(cuid())
+  nome String
+  brand String
+  unit String
+  whoCreated String
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
   empresaId String
   empresa Empresa @relation(fields: [empresaId], references: [id])
 }
