@@ -3,6 +3,7 @@ import { Plus } from "@phosphor-icons/react";
 import * as Dialog from "@radix-ui/react-dialog";
 import React from "react";
 import { useProductsStore } from "../../../zustandStore/ProductStore";
+import { useToastStore } from "../../../zustandStore/ToastStore";
 import { trpc } from "../../utils/trpc";
 interface Props {
   open: boolean;
@@ -16,6 +17,10 @@ export const DeleteProductModal = ({
   productId,
   productName,
 }: Props) => {
+  const [setToastOpen, setContent] = useToastStore((state) => [
+    state.setOpenOnClique,
+    state.setContent,
+  ]);
   const [deleteProductState] = useProductsStore((state) => [
     state.deleteProduct,
   ]);
@@ -29,9 +34,15 @@ export const DeleteProductModal = ({
     setIsLoading("loading");
     const deletedProdcut = await deleteProduct({ id: productId });
     if (deletedProdcut) {
-      deleteProductState(deletedProdcut.id);
-      setOpen(false);
       setIsLoading("");
+      setOpen(false);
+      deleteProductState(productId);
+      setContent({
+        title: "Produto deletado com sucesso",
+        description: `O produto ${productName} foi deletado com sucesso`,
+        type: "success",
+      });
+      setToastOpen();
     }
   };
   return (

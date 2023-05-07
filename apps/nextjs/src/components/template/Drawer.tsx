@@ -1,5 +1,6 @@
 import { UserButton } from "@clerk/nextjs";
 import { useEffect, useRef, useState } from "react";
+import { ToastInfo } from "../atoms/Toast";
 
 export const Drawer = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -100,6 +101,7 @@ export const Drawer = () => {
           </button>
         </div>
       </div>
+      <ToastInfo></ToastInfo>
     </div>
   );
 };

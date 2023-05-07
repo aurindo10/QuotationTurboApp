@@ -30,6 +30,12 @@ export const AddProductModal = () => {
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      nome: "",
+      descricao: "",
+      brand: "",
+      unit: "",
+    },
   });
   const { mutateAsync: createProduct } =
     trpc.product.createProduct.useMutation();
@@ -41,10 +47,10 @@ export const AddProductModal = () => {
       empresa: empresaId,
     });
     if (createdProduct) {
+      reset();
       addProduct(createdProduct);
       setIsLoading("");
       setOpen(false);
-      reset();
     }
   };
   return (
