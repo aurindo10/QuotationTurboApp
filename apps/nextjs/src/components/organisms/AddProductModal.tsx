@@ -1,10 +1,11 @@
 import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Plus } from "@phosphor-icons/react";
 import * as Dialog from "@radix-ui/react-dialog";
+import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { trpc } from "../../utils/trpc";
-import { AddProductButton } from "../atoms/AddProductButton";
 
 const FormSchema = z.object({
   nome: z.string().min(1, "Nome é obrigatório"),
@@ -14,6 +15,7 @@ const FormSchema = z.object({
 });
 type FormData = z.infer<typeof FormSchema>;
 export const AddProductModal = () => {
+  const [open, setOpen] = React.useState(false);
   const { user } = useUser();
   const {
     handleSubmit,
@@ -31,14 +33,20 @@ export const AddProductModal = () => {
       empresa: empresaId,
     });
     if (createdProduct) {
+      setOpen(false);
       console.log("createdProduct", createdProduct);
     }
   };
   return (
-    <Dialog.Root>
-      <Dialog.Trigger>
-        <AddProductButton></AddProductButton>
-      </Dialog.Trigger>
+    <Dialog.Root open={open} onOpenChange={() => setOpen(!open)}>
+      <div>
+        <button
+          onClick={() => setOpen(true)}
+          className="btn btn-primary btn-square"
+        >
+          <Plus size={32} />
+        </button>
+      </div>
       <Dialog.Portal>
         <Dialog.Overlay className="bg-blackA9 data-[state=open]:animate-overlayShow fixed inset-0 z-50" />
         <Dialog.Content className="data-[state=open]:animate-contentShow bg-neutral fixed top-[50%] left-[50%] z-50 max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
@@ -120,9 +128,12 @@ export const AddProductModal = () => {
               </div>
             </div>
             <div className="flex justify-end gap-6">
-              <Dialog.Close asChild>
-                <button className="btn btn-secondary mt-4">Cancelar</button>
-              </Dialog.Close>
+              <button
+                className="btn btn-secondary mt-4"
+                onClick={() => setOpen(false)}
+              >
+                Cancelar
+              </button>
               <button className="btn btn-primary mt-4" type="submit">
                 Salvar
               </button>
