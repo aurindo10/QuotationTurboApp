@@ -1,60 +1,71 @@
 import { PencilSimple, Trash } from "@phosphor-icons/react";
+import { trpc } from "../../utils/trpc";
+import { ProductsTableSkeleton } from "../SkeletonPages/ProductPageSkeleton";
 
 export const ProductsTabe = () => {
+  const { data, status } = trpc.product.getAllProducts.useQuery();
+
   return (
-    <div className="w-full overflow-x-auto">
-      <table className="table-zebra table w-full ">
-        {/* head */}
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Descrição</th>
-            <th>Marca</th>
-            <th>Unidade</th>
-            <th className="w-8 text-center">Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {/* row 1 */}
-          <tr>
-            <th>
-              <div className="w-32 whitespace-normal md:w-full">
-                Carro de mão Carro de mão Carro de mão
-              </div>
-            </th>
-            <td>
-              <div className="w-40 whitespace-normal md:w-full">
-                dlfl;sdkl dflkdl;f ;lsdaklds fdslkfl;sd ldkfs;lk
-              </div>
-            </td>
-            <td>
-              <label>Tramontina</label>
-            </td>
-            <td>
-              <label>Metros</label>
-            </td>
-            <th className="space-x-3">
-              <button className="btn btn-accent  btn-square">
-                <Trash size={24} />
-              </button>
-              <button className="btn btn-warning  btn-square">
-                <PencilSimple size={24} />
-              </button>
-            </th>
-          </tr>
-          {/* row 2 */}
-        </tbody>
-        {/* foot */}
-        <tfoot>
-          <tr>
-            <th>Nome</th>
-            <th>Descrição</th>
-            <th>Marca</th>
-            <th>Unidade</th>
-            <th className="w-8 text-center">Ações</th>
-          </tr>
-        </tfoot>
-      </table>
+    <div>
+      {status === "loading" ? (
+        <ProductsTableSkeleton />
+      ) : (
+        <div className="w-full overflow-x-auto">
+          <table className="table-zebra table w-full ">
+            {/* head */}
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Marca</th>
+                <th>Unidade</th>
+                <th className="w-8 text-center">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data?.map((product) => {
+                return (
+                  <tr key={product.id}>
+                    <th>
+                      <div className="w-32 whitespace-normal md:w-full">
+                        {product.nome}
+                      </div>
+                    </th>
+                    <td>
+                      <div className="w-40 whitespace-normal md:w-full">
+                        {product.descricao}
+                      </div>
+                    </td>
+                    <td>
+                      <label>{product.brand}</label>
+                    </td>
+                    <td>
+                      <label>{product.unit}</label>
+                    </td>
+                    <th className="space-x-3">
+                      <button className="btn btn-accent  btn-square">
+                        <Trash size={24} />
+                      </button>
+                      <button className="btn btn-warning  btn-square">
+                        <PencilSimple size={24} />
+                      </button>
+                    </th>
+                  </tr>
+                );
+              })}
+            </tbody>
+            <tfoot>
+              <tr>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Marca</th>
+                <th>Unidade</th>
+                <th className="w-8 text-center">Ações</th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      )}
     </div>
   );
 };
