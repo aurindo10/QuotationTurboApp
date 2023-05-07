@@ -24,7 +24,9 @@ export const useProductsStore = create(
       }),
     deleteProduct: (id) => {
       set((state) => {
-        state.allPrducts.filter((product) => product.id !== id);
+        state.allPrducts = state.allPrducts.filter(
+          (product) => product.id !== id,
+        );
       });
     },
   })),

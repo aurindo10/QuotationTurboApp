@@ -1,10 +1,20 @@
 import { PencilSimple, Trash } from "@phosphor-icons/react";
+import React from "react";
 import { useEffect } from "react";
 import { useProductsStore } from "../../../zustandStore/ProductStore";
 import { trpc } from "../../utils/trpc";
 import { ProductsTableSkeleton } from "../SkeletonPages/ProductPageSkeleton";
-
+import { DeleteProductModal } from "./DeleteProductModal";
+interface ClickedProduct {
+  id: string;
+  nome: string;
+}
 export const ProductsTabe = () => {
+  const [open, setOpen] = React.useState(false);
+  const [clickedProduct, setClickedProduct] = React.useState<ClickedProduct>({
+    id: "",
+    nome: "",
+  });
   const { data, status } = trpc.product.getAllProducts.useQuery();
   const [allPrducts, addManyProducts] = useProductsStore((state) => [
     state.allPrducts,
@@ -53,7 +63,16 @@ export const ProductsTabe = () => {
                       <label>{product.unit}</label>
                     </td>
                     <th className="space-x-3">
-                      <button className="btn btn-accent  btn-square">
+                      <button
+                        className="btn btn-accent  btn-square"
+                        onClick={() => {
+                          setOpen(true);
+                          setClickedProduct({
+                            id: product.id,
+                            nome: product.nome,
+                          });
+                        }}
+                      >
                         <Trash size={24} />
                       </button>
                       <button className="btn btn-warning  btn-square">
@@ -76,6 +95,12 @@ export const ProductsTabe = () => {
           </table>
         </div>
       )}
+      <DeleteProductModal
+        open={open}
+        productName={clickedProduct.nome}
+        productId={clickedProduct.id}
+        setOpen={setOpen}
+      ></DeleteProductModal>
     </div>
   );
 };
