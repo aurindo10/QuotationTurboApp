@@ -9,6 +9,7 @@ export const productRouter = router({
         brand: z.string(),
         unit: z.string(),
         empresa: z.string(),
+        descricao: z.string(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -17,6 +18,7 @@ export const productRouter = router({
           nome: input.nome,
           whoCreated: ctx.auth.userId,
           createdAt: new Date(),
+          descricao: input.descricao,
           brand: input.brand,
           unit: input.unit,
           empresaId: input.empresa,
