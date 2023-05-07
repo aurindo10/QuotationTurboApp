@@ -44,4 +44,28 @@ export const productRouter = router({
       });
       return deletedProduct;
     }),
+  updateOneProduct: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        nome: z.string(),
+        descricao: z.string(),
+        brand: z.string(),
+        unit: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const updatedProduct = await ctx.prisma.product.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          nome: input.nome,
+          descricao: input.descricao,
+          brand: input.brand,
+          unit: input.unit,
+        },
+      });
+      return updatedProduct;
+    }),
 });

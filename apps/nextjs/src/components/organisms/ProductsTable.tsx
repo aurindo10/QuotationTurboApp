@@ -1,20 +1,36 @@
+import { AppRouter } from "@acme/api";
 import { PencilSimple, Trash } from "@phosphor-icons/react";
+import { inferRouterInputs } from "@trpc/server";
 import React from "react";
 import { useEffect } from "react";
 import { useProductsStore } from "../../../zustandStore/ProductStore";
 import { trpc } from "../../utils/trpc";
 import { ProductsTableSkeleton } from "../SkeletonPages/ProductPageSkeleton";
 import { DeleteProductModal } from "./DeleteProductModal";
+import { EditProductModal } from "./EditProductModal";
 interface ClickedProduct {
   id: string;
   nome: string;
 }
+type RouterInput = inferRouterInputs<AppRouter>;
+export type UpdateOneProductType = RouterInput["product"]["updateOneProduct"];
 export const ProductsTabe = () => {
   const [open, setOpen] = React.useState(false);
+  const [editModalOpen, setEditModalOpen] = React.useState(false);
+  const [infoModalOpen, setInfoModalOpen] =
+    React.useState<UpdateOneProductType>({
+      id: "",
+      nome: "",
+      descricao: "",
+      brand: "",
+      unit: "",
+    });
+
   const [clickedProduct, setClickedProduct] = React.useState<ClickedProduct>({
     id: "",
     nome: "",
   });
+
   const { data, status } = trpc.product.getAllProducts.useQuery();
   const [allPrducts, addManyProducts] = useProductsStore((state) => [
     state.allPrducts,
@@ -75,7 +91,13 @@ export const ProductsTabe = () => {
                       >
                         <Trash size={24} />
                       </button>
-                      <button className="btn btn-warning  btn-square">
+                      <button
+                        className="btn btn-warning  btn-square"
+                        onClick={() => {
+                          setEditModalOpen(true);
+                          setInfoModalOpen(product);
+                        }}
+                      >
                         <PencilSimple size={24} />
                       </button>
                     </th>
@@ -101,6 +123,11 @@ export const ProductsTabe = () => {
         productId={clickedProduct.id}
         setOpen={setOpen}
       ></DeleteProductModal>
+      <EditProductModal
+        product={infoModalOpen}
+        setOpen={setEditModalOpen}
+        open={editModalOpen}
+      ></EditProductModal>
     </div>
   );
 };

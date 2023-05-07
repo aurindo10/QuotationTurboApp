@@ -9,6 +9,7 @@ type Store = {
   addProduct: (product: GetAllProducts[0]) => void;
   addManyProducts: (products: GetAllProducts) => void;
   deleteProduct: (id: string) => void;
+  updateProduct: (product: GetAllProducts[0]) => void;
 };
 
 export const useProductsStore = create(
@@ -26,6 +27,13 @@ export const useProductsStore = create(
       set((state) => {
         state.allPrducts = state.allPrducts.filter(
           (product) => product.id !== id,
+        );
+      });
+    },
+    updateProduct: (product) => {
+      set((state) => {
+        state.allPrducts = state.allPrducts.map((p) =>
+          p.id === product.id ? product : p,
         );
       });
     },
