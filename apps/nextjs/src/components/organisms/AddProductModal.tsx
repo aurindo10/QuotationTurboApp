@@ -6,6 +6,7 @@ import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { useProductsStore } from "../../../zustandStore/ProductStore";
+import { useToastStore } from "../../../zustandStore/ToastStore";
 import { trpc } from "../../utils/trpc";
 
 const FormSchema = z.object({
@@ -16,6 +17,10 @@ const FormSchema = z.object({
 });
 type FormData = z.infer<typeof FormSchema>;
 export const AddProductModal = () => {
+  const [setToastOpen, setContent] = useToastStore((state) => [
+    state.setOpenOnClique,
+    state.setContent,
+  ]);
   const [allPrducts, addProduct] = useProductsStore((state) => [
     state.allPrducts,
     state.addProduct,
@@ -47,6 +52,12 @@ export const AddProductModal = () => {
       empresa: empresaId,
     });
     if (createdProduct) {
+      setToastOpen();
+      setContent({
+        title: "Produto criado com sucesso",
+        description: `O produto ${createdProduct.nome} foi criado com sucesso`,
+        type: "success",
+      });
       reset();
       addProduct(createdProduct);
       setIsLoading("");
