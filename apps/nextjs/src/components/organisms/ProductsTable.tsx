@@ -1,10 +1,20 @@
 import { PencilSimple, Trash } from "@phosphor-icons/react";
+import { useEffect } from "react";
+import { useProductsStore } from "../../../zustandStore/ProductStore";
 import { trpc } from "../../utils/trpc";
 import { ProductsTableSkeleton } from "../SkeletonPages/ProductPageSkeleton";
 
 export const ProductsTabe = () => {
   const { data, status } = trpc.product.getAllProducts.useQuery();
-
+  const [allPrducts, addManyProducts] = useProductsStore((state) => [
+    state.allPrducts,
+    state.addManyProducts,
+  ]);
+  useEffect(() => {
+    if (status === "success") {
+      addManyProducts(data);
+    }
+  }, [data, status]);
   return (
     <div>
       {status === "loading" ? (
@@ -23,7 +33,7 @@ export const ProductsTabe = () => {
               </tr>
             </thead>
             <tbody>
-              {data?.map((product) => {
+              {allPrducts?.map((product) => {
                 return (
                   <tr key={product.id}>
                     <th>

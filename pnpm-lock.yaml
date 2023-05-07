@@ -119,6 +119,7 @@ importers:
       daisyui: ^2.51.6
       eslint: ^8.28.0
       eslint-config-next: 13.1.6
+      immer: ^10.0.1
       lucide-react: ^0.211.0
       next: ^13.1.6
       postcss: ^8.4.19
@@ -130,6 +131,7 @@ importers:
       tailwindcss-animate: ^1.0.5
       typescript: ^4.9.3
       zod: ^3.18.0
+      zustand: ^4.3.8
     dependencies:
       '@acme/api': link:../../packages/api
       '@acme/db': link:../../packages/db
@@ -152,6 +154,7 @@ importers:
       class-variance-authority: 0.6.0_typescript@4.9.4
       clsx: 1.2.1
       daisyui: 2.51.6_r4gnkvssmvyxmi2wmat5xbx36a
+      immer: 10.0.1
       lucide-react: 0.211.0_react@18.2.0
       next: 13.1.6_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
@@ -160,6 +163,7 @@ importers:
       tailwind-merge: 1.12.0
       tailwindcss-animate: 1.0.5_tailwindcss@3.2.4
       zod: 3.20.0
+      zustand: 4.3.8_immer@10.0.1+react@18.2.0
     devDependencies:
       '@types/node': 18.11.13
       '@types/react': 18.0.26
@@ -6841,6 +6845,10 @@ packages:
     hasBin: true
     dev: false
 
+  /immer/10.0.1:
+    resolution: {integrity: sha512-zg++jJLsKKTwXGeSYIw0HgChSYQGtu0UDTnbKx5aGLYgte4CwTmH9eJDYyQ6FheyUtBe+lQW9FrGxya1G+Dtmg==}
+    dev: false
+
   /import-fresh/2.0.0:
     resolution: {integrity: sha512-eZ5H8rcgYazHbKC3PG4ClHNykCSxtAhxSSEM+2mb+7evD2CKF5V7c0dNum7AdpDh0ZdICwZY9sRSn8f+KH96sg==}
     engines: {node: '>=4'}
@@ -11224,4 +11232,21 @@ packages:
 
   /zod/3.20.0:
     resolution: {integrity: sha512-ZWxs7oM5ixoo1BMoxTNeDMYSih/F/FUnExsnRtHT04rG6q0Bd74TKS45RGXw07TOalOZyyzdKaYH38k8yTEv9A==}
+    dev: false
+
+  /zustand/4.3.8_immer@10.0.1+react@18.2.0:
+    resolution: {integrity: sha512-4h28KCkHg5ii/wcFFJ5Fp+k1J3gJoasaIbppdgZFO4BPJnsNxL0mQXBSFgOgAdCdBj35aDTPvdAJReTMntFPGg==}
+    engines: {node: '>=12.7.0'}
+    peerDependencies:
+      immer: '>=9.0'
+      react: '>=16.8'
+    peerDependenciesMeta:
+      immer:
+        optional: true
+      react:
+        optional: true
+    dependencies:
+      immer: 10.0.1
+      react: 18.2.0
+      use-sync-external-store: 1.2.0_react@18.2.0
     dev: false

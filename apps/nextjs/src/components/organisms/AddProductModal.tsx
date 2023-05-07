@@ -5,6 +5,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
+import { useProductsStore } from "../../../zustandStore/ProductStore";
 import { trpc } from "../../utils/trpc";
 
 const FormSchema = z.object({
@@ -15,6 +16,10 @@ const FormSchema = z.object({
 });
 type FormData = z.infer<typeof FormSchema>;
 export const AddProductModal = () => {
+  const [allPrducts, addProduct] = useProductsStore((state) => [
+    state.allPrducts,
+    state.addProduct,
+  ]);
   const [isLoading, setIsLoading] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const { user } = useUser();
@@ -35,6 +40,7 @@ export const AddProductModal = () => {
       empresa: empresaId,
     });
     if (createdProduct) {
+      addProduct(createdProduct);
       setIsLoading("");
       setOpen(false);
       console.log("createdProduct", createdProduct);
