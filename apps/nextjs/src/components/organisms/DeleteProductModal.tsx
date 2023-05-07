@@ -67,7 +67,7 @@ export const DeleteProductModal = ({
               Cancelar
             </button>
             <button
-              className={`btn btn-primary mt-4 ${isLoading}`}
+              className={`btn btn-accent mt-4 ${isLoading}`}
               onClick={HandleDeleteProduct}
             >
               Deletar

@@ -183,7 +183,7 @@ export const EditProductModal = ({
                 Cancelar
               </button>
               <button
-                className={`btn btn-primary mt-4 ${isLoading}`}
+                className={`btn btn-success mt-4 ${isLoading}`}
                 type="submit"
               >
                 Salvar
