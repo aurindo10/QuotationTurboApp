@@ -26,6 +26,7 @@ export const AddProductModal = () => {
   const {
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(FormSchema),
@@ -43,7 +44,7 @@ export const AddProductModal = () => {
       addProduct(createdProduct);
       setIsLoading("");
       setOpen(false);
-      console.log("createdProduct", createdProduct);
+      reset();
     }
   };
   return (
