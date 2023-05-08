@@ -29,6 +29,7 @@ model Empresa {
   updatedAt DateTime? @updatedAt
   linkOrders LinkOrders[]
   products Product[]
+  Cotacoes Cotacoes[]
 }
 
 model LinkOrders {
@@ -50,4 +51,27 @@ model Product {
   updatedAt DateTime? @updatedAt
   empresaId String
   empresa Empresa @relation(fields: [empresaId], references: [id])
+  ProdutosDaCotacao ProdutosDaCotacao[]
+}
+
+model Cotacoes {
+  id String @id @default(cuid())
+  createdAt DateTime? @default(now())
+  nome  String
+  updatedAt DateTime? @updatedAt
+  empresaId String
+  empresa Empresa @relation(fields: [empresaId], references: [id])
+  whoCreated String
+  produtos ProdutosDaCotacao[]
+}
+model ProdutosDaCotacao {
+  id String @id @default(cuid())
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+  cotacaoId String
+  cotacao Cotacoes @relation(fields: [cotacaoId], references: [id])
+  produtoId String
+  produto Product @relation(fields: [produtoId], references: [id])
+  whoCreated String
+  empresaId String
 }
