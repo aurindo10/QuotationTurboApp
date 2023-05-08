@@ -63,6 +63,7 @@ model Cotacoes {
   empresa Empresa @relation(fields: [empresaId], references: [id])
   whoCreated String
   produtos ProdutosDaCotacao[]
+  ammountOfTradeRepresentative Float?
 }
 model ProdutosDaCotacao {
   id String @id @default(cuid())

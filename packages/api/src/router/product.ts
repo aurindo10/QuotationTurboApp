@@ -27,7 +27,7 @@ export const productRouter = router({
       return createdEmpresa;
     }),
   getAllProducts: protectedProcedure.query(async ({ ctx }) => {
-    const allProducts = await ctx.prisma.product.findMany();
+    const allProducts = await ctx.prisma.product.findMany({});
     return allProducts;
   }),
   deleteOneProduct: protectedProcedure
