@@ -68,4 +68,23 @@ export const productRouter = router({
       });
       return updatedProduct;
     }),
+  getProductsByCotation: protectedProcedure
+    .input(
+      z.object({
+        idEmpresa: z.string(),
+        cotacaoId: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const foundProducts = await ctx.prisma.produtosDaCotacao.findMany({
+        where: {
+          empresaId: input.idEmpresa,
+          cotacaoId: input.cotacaoId,
+        },
+        select: {
+          produto: true,
+        },
+      });
+      return foundProducts;
+    }),
 });

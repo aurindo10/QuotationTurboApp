@@ -6,12 +6,15 @@ import {
   CheckIcon,
   ChevronRightIcon,
 } from "@radix-ui/react-icons";
-
-const DropdownMenuDemo = () => {
+import { useRouter } from "next/router";
+interface Props {
+  id: string;
+}
+const DropdownMenuDemo = ({ id }: Props) => {
   const [bookmarksChecked, setBookmarksChecked] = React.useState(true);
   const [urlsChecked, setUrlsChecked] = React.useState(false);
   const [person, setPerson] = React.useState("pedro");
-
+  const router = useRouter();
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
@@ -29,7 +32,10 @@ const DropdownMenuDemo = () => {
           align={"end"}
         >
           <div className="w-32 space-y-1">
-            <DropdownMenu.Item className="btn  btn-sm w-full">
+            <DropdownMenu.Item
+              className="btn  btn-sm w-full"
+              onClick={() => router.push(`/cotacoes/products/${id}`)}
+            >
               Abrir
             </DropdownMenu.Item>
             <DropdownMenu.Item className="btn  btn-sm w-full">

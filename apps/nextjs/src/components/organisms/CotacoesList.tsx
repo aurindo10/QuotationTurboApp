@@ -37,7 +37,7 @@ export const CotacoesList = () => {
                 <h3>Criado: 04/03/2023</h3>
               </div>
               <div className="card-actions justify-end">
-                <DropdownMenuDemo></DropdownMenuDemo>
+                <DropdownMenuDemo id={cotacao.id}></DropdownMenuDemo>
               </div>
             </div>
           </div>
