@@ -2,17 +2,29 @@ import { useUser } from "@clerk/nextjs";
 import { DotsThreeOutlineVertical } from "@phosphor-icons/react";
 import { trpc } from "../../utils/trpc";
 import DropdownMenuDemo from "../molecules/DropDown";
+import { useCotacoesStore } from "../../../zustandStore/CotacoesStore";
+import { useEffect } from "react";
 export const CotacoesList = () => {
   const { user } = useUser();
+  const [allCotacoes, addManyCotacoes] = useCotacoesStore((state) => [
+    state.allCotacoes,
+    state.addManyCotacoes,
+  ]);
+
   const { data, status } = trpc.cotacoes.getCotacoes.useQuery({
     empresaId: user?.publicMetadata.idEmpresa as string,
   });
+  useEffect(() => {
+    if (status === "success") {
+      addManyCotacoes(data);
+    }
+  }, [status, data]);
   if (status === "loading") {
     return <div>loading</div>;
   }
   return (
     <div className="flex w-full flex-col items-center ">
-      {data?.map((cotacao) => {
+      {allCotacoes?.map((cotacao) => {
         return (
           <div
             className="card card-compact bg-base-100 w-full max-w-xl shadow-xl"

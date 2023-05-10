@@ -5,6 +5,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
+import { useCotacoesStore } from "../../../zustandStore/CotacoesStore";
 import { useProductsStore } from "../../../zustandStore/ProductStore";
 import { useToastStore } from "../../../zustandStore/ToastStore";
 import { trpc } from "../../utils/trpc";
@@ -27,6 +28,7 @@ export const AddCotacaoModal = () => {
   ]);
   const [isLoading, setIsLoading] = React.useState("");
   const [open, setOpen] = React.useState(false);
+  const [addCotacao] = useCotacoesStore((state) => [state.addCotacao]);
   const { user } = useUser();
   const {
     handleSubmit,
@@ -50,6 +52,7 @@ export const AddCotacaoModal = () => {
       empresaId: empresaId,
     });
     if (createdCotacao) {
+      addCotacao(createdCotacao);
       setToastOpen();
       setContent({
         title: "Produto criado com sucesso",
