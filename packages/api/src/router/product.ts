@@ -87,4 +87,22 @@ export const productRouter = router({
       });
       return foundProducts;
     }),
+  getProductByName: protectedProcedure
+    .input(
+      z.object({
+        nome: z.string(),
+        idEmpresa: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const foundProduct = await ctx.prisma.product.findMany({
+        where: {
+          empresaId: input.idEmpresa,
+          nome: {
+            contains: input.nome,
+          },
+        },
+      });
+      return foundProduct;
+    }),
 });
