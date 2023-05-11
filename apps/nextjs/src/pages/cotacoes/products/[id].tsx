@@ -40,7 +40,7 @@ const Page: NextPageWithLayout = () => {
   return (
     <div className="w-full">
       <InputToAddProductOnCotation></InputToAddProductOnCotation>
-      <DataTable data={[allProducts!]} columns={columns}></DataTable>
+      {/* <DataTable data={[allProducts!]} columns={columns}></DataTable> */}
     </div>
   );
 };
