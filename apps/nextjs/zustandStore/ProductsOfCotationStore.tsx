@@ -11,6 +11,8 @@ type Store = {
   addManyProducts: (product: getProductsByCotationType) => void;
   addProduct: (products: getProductsByCotationType[0]) => void;
   addProductToSearchState: (products: getProductByNameType) => void;
+  setIsLoading: (sate: string) => void;
+  isLoading: string;
   //   deleteProduct: (id: string) => void;
   //   updateProduct: (product: GetAllProducts[0]) => void;
 };
@@ -33,6 +35,8 @@ export const useProductsOfCotationStore = create(
       },
     ],
     searchInputState: [],
+    isLoading: "",
+
     addManyProducts: (cotacoes) =>
       set((state) => {
         state.allProducts = cotacoes;
@@ -45,6 +49,11 @@ export const useProductsOfCotationStore = create(
     addProductToSearchState: (products) => {
       set((state) => {
         state.searchInputState = products;
+      });
+    },
+    setIsLoading: (loading) => {
+      set((state) => {
+        state.isLoading = loading;
       });
     },
     // addProduct: (descricao) =>

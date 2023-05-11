@@ -24,8 +24,9 @@ import { cn } from "../../../libs/utils";
 export function ComboboxDemo() {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
-  const [searchInputState] = useProductsOfCotationStore((state) => [
+  const [searchInputState, isLoading] = useProductsOfCotationStore((state) => [
     state.searchInputState,
+    state.isLoading,
   ]);
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -45,7 +46,17 @@ export function ComboboxDemo() {
       <PopoverContent className="w-[200px] p-0">
         <Command>
           <InputToAddProductOnCotation />
-          <CommandEmpty>No framework found.</CommandEmpty>
+          <CommandEmpty>
+            <div className="py-2">
+              {isLoading ? (
+                <button className={`btn btn-square btn-xs ${isLoading}`} />
+              ) : (
+                <label className="text-white">
+                  Não foi encontrado nenhum produto
+                </label>
+              )}
+            </div>
+          </CommandEmpty>
           <CommandGroup>
             {searchInputState.map((framework) => (
               <div>

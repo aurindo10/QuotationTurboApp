@@ -11,30 +11,35 @@ export const InputToAddProductOnCotation = () => {
   const { user } = useUser();
   const { mutateAsync: getProductByName } =
     trpc.product.getProductByName.useMutation();
-  const [addProductToSearchState] = useProductsOfCotationStore((state) => [
-    state.addProductToSearchState,
-  ]);
+  const [addProductToSearchState, setIsLoading] = useProductsOfCotationStore(
+    (state) => [state.addProductToSearchState, state.setIsLoading],
+  );
 
   const handleSearch = async (value: string) => {
+    setIsLoading("loading");
     const productsFound = await getProductByName({
       nome: value,
       idEmpresa: user?.publicMetadata.idEmpresa as string,
     });
     if (productsFound) {
-      addProductToSearchState(productsFound);
+      if (value.length > 3) {
+        addProductToSearchState(productsFound);
+      } else {
+        addProductToSearchState([]);
+      }
+      setIsLoading("");
       console.log(productsFound);
     }
   };
-  const debouncedHandleSearch = useCallback(_.debounce(handleSearch, 600), []);
-
+  const debouncedHandleSearch = useCallback(_.debounce(handleSearch, 300), []);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    console.log(value);
-    setInputValue(value);
-    if (value.length > 3) {
-      debouncedHandleSearch(value);
+    if (value.length < 3) {
       addProductToSearchState([]);
     }
+    setIsLoading("loading");
+    setInputValue(value);
+    debouncedHandleSearch(value);
   };
   const inputRef = useRef<HTMLInputElement | null>(null);
 
