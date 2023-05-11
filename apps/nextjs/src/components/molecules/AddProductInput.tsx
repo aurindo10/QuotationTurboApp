@@ -1,21 +1,19 @@
 import { useUser } from "@clerk/nextjs";
-import React, { ChangeEvent, useCallback, useState } from "react";
+import React, { ChangeEvent, useCallback, useRef, useState } from "react";
 import { useProductsOfCotationStore } from "../../../zustandStore/ProductsOfCotationStore";
 import { RouterOutputs, trpc } from "../../utils/trpc";
 import _ from "lodash";
-import { InputDropdown } from "./InputDropDown";
+import { CommandInput } from "../../../components/ui/command";
 
 type getProductByNameType = RouterOutputs["product"]["getProductByName"];
 export const InputToAddProductOnCotation = () => {
   const [inputValue, setInputValue] = useState("");
   const { user } = useUser();
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [products, setProducts] = useState<getProductByNameType>([]);
   const { mutateAsync: getProductByName } =
     trpc.product.getProductByName.useMutation();
-  const [addManyProducts, allProductsState] = useProductsOfCotationStore(
-    (state) => [state.addManyProducts, state.allProducts],
-  );
+  const [addProductToSearchState] = useProductsOfCotationStore((state) => [
+    state.addProductToSearchState,
+  ]);
 
   const handleSearch = async (value: string) => {
     const productsFound = await getProductByName({
@@ -23,8 +21,7 @@ export const InputToAddProductOnCotation = () => {
       idEmpresa: user?.publicMetadata.idEmpresa as string,
     });
     if (productsFound) {
-      setIsDropdownOpen(true);
-      setProducts(productsFound);
+      addProductToSearchState(productsFound);
       console.log(productsFound);
     }
   };
@@ -32,28 +29,22 @@ export const InputToAddProductOnCotation = () => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
+    console.log(value);
     setInputValue(value);
     if (value.length > 3) {
       debouncedHandleSearch(value);
-      setProducts([]);
-      setIsDropdownOpen(false);
+      addProductToSearchState([]);
     }
   };
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   return (
-    <div className="flex">
-      <input
-        type="text"
-        placeholder="Type here"
-        value={inputValue}
-        onChange={handleChange}
-        className="input input-bordered w-full max-w-xs"
-      />
-      <InputDropdown
-        isOpen={isDropdownOpen}
-        setIsOpen={setIsDropdownOpen}
-        products={products}
-      ></InputDropdown>
-    </div>
+    <input
+      type="text"
+      className="bg-slate-900 px-2 py-2"
+      placeholder="Digite aqui"
+      value={inputValue}
+      onChange={handleChange}
+    />
   );
 };

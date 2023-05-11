@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { ReactElement, useContext, useEffect } from "react";
 import { useProductsOfCotationStore } from "../../../../zustandStore/ProductsOfCotationStore";
 import { InputToAddProductOnCotation } from "../../../components/molecules/AddProductInput";
+import { ComboboxDemo } from "../../../components/organisms/SelectInputProduct";
 import { columns } from "../../../components/organisms/columns";
 import { DataTable } from "../../../components/template/data-table";
 import { Drawer } from "../../../components/template/Drawer";
@@ -39,7 +40,8 @@ const Page: NextPageWithLayout = () => {
   }
   return (
     <div className="w-full">
-      <InputToAddProductOnCotation></InputToAddProductOnCotation>
+      {/* <InputToAddProductOnCotation></InputToAddProductOnCotation> */}
+      <ComboboxDemo></ComboboxDemo>
       {/* <DataTable data={[allProducts!]} columns={columns}></DataTable> */}
     </div>
   );
