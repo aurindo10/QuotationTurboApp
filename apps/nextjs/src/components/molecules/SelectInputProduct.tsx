@@ -19,7 +19,7 @@ import { InputToAddProductOnCotation } from "../atoms/AddProductInput";
 import { useProductsOfCotationStore } from "../../../zustandStore/ProductsOfCotationStore";
 import { cn } from "../../../libs/utils";
 
-export function ComboboxDemo() {
+export function SelectInputProduct() {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
   const [searchInputState, isLoading] = useProductsOfCotationStore((state) => [

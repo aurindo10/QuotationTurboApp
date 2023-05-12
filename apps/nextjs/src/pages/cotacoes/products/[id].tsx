@@ -3,8 +3,8 @@ import { useRouter } from "next/router";
 import { ReactElement, useContext, useEffect } from "react";
 import { useProductsOfCotationStore } from "../../../../zustandStore/ProductsOfCotationStore";
 import { InputToAddProductOnCotation } from "../../../components/atoms/AddProductInput";
-import { ComboboxDemo } from "../../../components/molecules/SelectInputProduct";
 import { columns } from "../../../components/organisms/columns";
+import { SubHeaderProductsCotacao } from "../../../components/organisms/SubHeaderProductsCotacao";
 import { DataTable } from "../../../components/template/data-table";
 import { Drawer } from "../../../components/template/Drawer";
 import { trpc } from "../../../utils/trpc";
@@ -25,24 +25,23 @@ const Page: NextPageWithLayout = () => {
     (state) => [state.addManyProducts, state.allProducts],
   );
 
-  // const { data: allProducts, status: statusGettingProducts } =
-  //   trpc.product.getProductsByCotation.useQuery({
-  //     idEmpresa: idEmpresa,
-  //     cotacaoId: (router.query.id as string) ?? "",
-  //   });
-  // useEffect(() => {
-  //   if (statusGettingProducts === "success" && allProducts) {
-  //     addManyProducts(allProducts);
-  //   }
-  // }, [statusGettingProducts, allProducts]);
-  // if (statusGettingProducts === "loading") {
-  //   return <div className=" text-slate-50"> Carregando...</div>;
-  // }
+  const { data: allProducts, status: statusGettingProducts } =
+    trpc.product.getProductsByCotation.useQuery({
+      idEmpresa: idEmpresa,
+      cotacaoId: (router.query.id as string) ?? "",
+    });
+  useEffect(() => {
+    if (statusGettingProducts === "success" && allProducts) {
+      addManyProducts(allProducts);
+    }
+  }, [statusGettingProducts, allProducts]);
+  if (statusGettingProducts === "loading") {
+    return <div className=" text-slate-50"> Carregando...</div>;
+  }
   return (
     <div className="w-full">
-      {/* <InputToAddProductOnCotation></InputToAddProductOnCotation> */}
-      <ComboboxDemo></ComboboxDemo>
-      {/* <DataTable data={[allProducts!]} columns={columns}></DataTable> */}
+      <SubHeaderProductsCotacao></SubHeaderProductsCotacao>
+      <DataTable data={[allProducts!]} columns={columns}></DataTable>
     </div>
   );
 };
