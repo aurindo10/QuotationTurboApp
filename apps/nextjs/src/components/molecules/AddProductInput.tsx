@@ -6,7 +6,12 @@ import _ from "lodash";
 import { CommandInput } from "../../../components/ui/command";
 
 type getProductByNameType = RouterOutputs["product"]["getProductByName"];
-export const InputToAddProductOnCotation = () => {
+interface InputToAddProductOnCotationProps {
+  setValue: React.Dispatch<React.SetStateAction<string>>;
+}
+export const InputToAddProductOnCotation = ({
+  setValue,
+}: InputToAddProductOnCotationProps) => {
   const [inputValue, setInputValue] = useState("");
   const { user } = useUser();
   const { mutateAsync: getProductByName } =
@@ -17,19 +22,18 @@ export const InputToAddProductOnCotation = () => {
 
   const handleSearch = async (value: string) => {
     setIsLoading("loading");
-    const productsFound = await getProductByName({
-      nome: value,
-      idEmpresa: user?.publicMetadata.idEmpresa as string,
-    });
-    if (productsFound) {
-      if (value.length > 3) {
-        addProductToSearchState(productsFound);
-      } else {
-        addProductToSearchState([]);
-      }
-      setIsLoading("");
-      console.log(productsFound);
+
+    if (value.length > 3) {
+      const productsFound = await getProductByName({
+        nome: value,
+        idEmpresa: user?.publicMetadata.idEmpresa as string,
+      });
+      addProductToSearchState(productsFound);
+    } else {
+      addProductToSearchState([]);
+      setValue("");
     }
+    setIsLoading("");
   };
   const debouncedHandleSearch = useCallback(_.debounce(handleSearch, 300), []);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

@@ -25,19 +25,19 @@ const Page: NextPageWithLayout = () => {
     (state) => [state.addManyProducts, state.allProducts],
   );
 
-  const { data: allProducts, status: statusGettingProducts } =
-    trpc.product.getProductsByCotation.useQuery({
-      idEmpresa: idEmpresa,
-      cotacaoId: (router.query.id as string) ?? "",
-    });
-  useEffect(() => {
-    if (statusGettingProducts === "success" && allProducts) {
-      addManyProducts(allProducts);
-    }
-  }, [statusGettingProducts, allProducts]);
-  if (statusGettingProducts === "loading") {
-    return <div className=" text-slate-50"> Carregando...</div>;
-  }
+  // const { data: allProducts, status: statusGettingProducts } =
+  //   trpc.product.getProductsByCotation.useQuery({
+  //     idEmpresa: idEmpresa,
+  //     cotacaoId: (router.query.id as string) ?? "",
+  //   });
+  // useEffect(() => {
+  //   if (statusGettingProducts === "success" && allProducts) {
+  //     addManyProducts(allProducts);
+  //   }
+  // }, [statusGettingProducts, allProducts]);
+  // if (statusGettingProducts === "loading") {
+  //   return <div className=" text-slate-50"> Carregando...</div>;
+  // }
   return (
     <div className="w-full">
       {/* <InputToAddProductOnCotation></InputToAddProductOnCotation> */}

@@ -39,13 +39,14 @@ export function ComboboxDemo() {
         >
           {value
             ? searchInputState.find((product) => product.id == value)?.nome
-            : "Selecione"}
+            : searchInputState.find((product) => product.id == value)?.nome ??
+              "Selecione"}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <InputToAddProductOnCotation />
+          <InputToAddProductOnCotation setValue={setValue} />
           <CommandEmpty>
             <div className="py-2">
               {isLoading ? (
@@ -58,11 +59,11 @@ export function ComboboxDemo() {
             </div>
           </CommandEmpty>
           <CommandGroup>
-            {searchInputState.map((framework) => (
-              <div>
+            {searchInputState.map((product) => (
+              <div key={product.id}>
                 <CommandItem
-                  key={framework.id}
-                  value={framework.id}
+                  key={product.id}
+                  value={product.id}
                   onSelect={(currentValue: string) => {
                     setValue(currentValue === value ? "" : currentValue);
                     setOpen(false);
@@ -71,10 +72,10 @@ export function ComboboxDemo() {
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value === framework.id ? "opacity-100" : "opacity-0",
+                      value === product.id ? "opacity-100" : "opacity-0",
                     )}
                   />
-                  {framework.nome}
+                  {product.nome}
                 </CommandItem>
                 <div className="h-[0.1px] w-full bg-white"></div>
               </div>
