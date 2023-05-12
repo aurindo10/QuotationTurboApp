@@ -22,7 +22,6 @@ export const InputToAddProductOnCotation = ({
 
   const handleSearch = async (value: string) => {
     setIsLoading("loading");
-
     if (value.length > 3) {
       const productsFound = await getProductByName({
         nome: value,
@@ -45,8 +44,6 @@ export const InputToAddProductOnCotation = ({
     setInputValue(value);
     debouncedHandleSearch(value);
   };
-  const inputRef = useRef<HTMLInputElement | null>(null);
-
   return (
     <input
       type="text"

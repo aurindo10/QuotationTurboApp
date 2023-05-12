@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 
@@ -17,7 +15,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "../../../components/ui/popover";
-import { InputToAddProductOnCotation } from "../molecules/AddProductInput";
+import { InputToAddProductOnCotation } from "../atoms/AddProductInput";
 import { useProductsOfCotationStore } from "../../../zustandStore/ProductsOfCotationStore";
 import { cn } from "../../../libs/utils";
 
