@@ -35,4 +35,47 @@ export const cotacoesRouter = router({
       });
       return allCotacoes;
     }),
+  addProductToCotacao: protectedProcedure
+    .input(
+      z.object({
+        cotacaoId: z.string(),
+        produtoId: z.string(),
+        quantidade: z.number(),
+        empresaId: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      console.log(input);
+      const createdProductOnCotation =
+        await ctx.prisma.produtosDaCotacao.create({
+          data: {
+            produtoId: input.produtoId,
+            cotacaoId: input.cotacaoId,
+            createdAt: new Date(),
+            whoCreated: ctx.auth.userId,
+            empresaId: input.empresaId,
+            quantidade: input.quantidade,
+          },
+          select: {
+            produto: true,
+            id: true,
+          },
+        });
+      return createdProductOnCotation;
+    }),
+  deleteProductFromCotacao: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      console.log(input);
+      const deletedProduct = await ctx.prisma.produtosDaCotacao.delete({
+        where: {
+          id: input.id,
+        },
+      });
+      return deletedProduct;
+    }),
 });

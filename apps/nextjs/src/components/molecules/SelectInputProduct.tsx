@@ -21,19 +21,25 @@ import { cn } from "../../../libs/utils";
 
 export function SelectInputProduct() {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
-  const [searchInputState, isLoading] = useProductsOfCotationStore((state) => [
-    state.searchInputState,
-    state.isLoading,
-  ]);
+  const [searchInputState, isLoading, value, setValue, setSelectedProduct] =
+    useProductsOfCotationStore((state) => [
+      state.searchInputState,
+      state.isLoading,
+      state.selectedProductId,
+      state.setSelectedProductId,
+      state.setSelectedProduct,
+    ]);
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
+      <label className="label w-[300px]">
+        <span className="label-text">Escolha um Produto</span>
+      </label>
+      <PopoverTrigger asChild className="w-full">
         <Button
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-[300px] justify-between"
         >
           {value
             ? searchInputState.find((product) => product.id == value)?.nome
@@ -42,11 +48,11 @@ export function SelectInputProduct() {
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
-        <Command>
-          <InputToAddProductOnCotation setValue={setValue} />
-          <CommandEmpty>
-            <div className="py-2">
+      <PopoverContent className="bg-neutral w-[300px]">
+        <Command className="w-full">
+          <InputToAddProductOnCotation />
+          <CommandEmpty className="w-full">
+            <div className="w-full py-2">
               {isLoading ? (
                 <button className={`btn btn-square btn-xs ${isLoading}`} />
               ) : (
@@ -65,6 +71,7 @@ export function SelectInputProduct() {
                   onSelect={(currentValue: string) => {
                     setValue(currentValue === value ? "" : currentValue);
                     setOpen(false);
+                    setSelectedProduct();
                   }}
                 >
                   <Check

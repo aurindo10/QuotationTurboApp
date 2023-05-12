@@ -75,7 +75,7 @@ export const productRouter = router({
         cotacaoId: z.string(),
       }),
     )
-    .query(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       const foundProducts = await ctx.prisma.produtosDaCotacao.findMany({
         where: {
           empresaId: input.idEmpresa,
@@ -83,6 +83,7 @@ export const productRouter = router({
         },
         select: {
           produto: true,
+          id: true,
         },
       });
       return foundProducts;

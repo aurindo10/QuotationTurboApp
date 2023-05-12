@@ -75,4 +75,6 @@ model ProdutosDaCotacao {
   produto Product @relation(fields: [produtoId], references: [id])
   whoCreated String
   empresaId String
+  quantidade Float?
+  code String?
 }

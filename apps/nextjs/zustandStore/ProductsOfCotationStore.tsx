@@ -13,14 +13,19 @@ type Store = {
   addProductToSearchState: (products: getProductByNameType) => void;
   setIsLoading: (sate: string) => void;
   isLoading: string;
-  //   deleteProduct: (id: string) => void;
-  //   updateProduct: (product: GetAllProducts[0]) => void;
+  selectedProductId: string;
+  setSelectedProductId: (productId: string) => void;
+  selectedProduct: getProductByNameType[0];
+  setSelectedProduct: () => void;
+  deleteProduct: (id: string) => void;
+  resetSelectedProduct: () => void;
 };
 
 export const useProductsOfCotationStore = create(
-  immer<Store>((set) => ({
+  immer<Store>((set, get) => ({
     allProducts: [
       {
+        id: "",
         produto: {
           id: "",
           descricao: "",
@@ -34,9 +39,20 @@ export const useProductsOfCotationStore = create(
         },
       },
     ],
+    selectedProduct: {
+      id: "",
+      descricao: "",
+      unit: "",
+      brand: "",
+      nome: "",
+      createdAt: null,
+      updatedAt: null,
+      empresaId: "",
+      whoCreated: "",
+    },
     searchInputState: [],
     isLoading: "",
-
+    selectedProductId: "",
     addManyProducts: (cotacoes) =>
       set((state) => {
         state.allProducts = cotacoes;
@@ -56,23 +72,55 @@ export const useProductsOfCotationStore = create(
         state.isLoading = loading;
       });
     },
-    // addProduct: (descricao) =>
-    //   set((state) => {
-    //     state.allPrducts.push(descricao);
-    //   }),
-    // deleteProduct: (id) => {
-    //   set((state) => {
-    //     state.allPrducts = state.allPrducts.filter(
-    //       (product) => product.id !== id,
-    //     );
-    //   });
-    // },
-    // updateProduct: (product) => {
-    //   set((state) => {
-    //     state.allPrducts = state.allPrducts.map((p) =>
-    //       p.id === product.id ? product : p,
-    //     );
-    //   });
-    // },
+    setSelectedProductId: (product) => {
+      set((state) => {
+        state.selectedProductId = product;
+      });
+    },
+    setSelectedProduct: () => {
+      const currentState = get();
+      const foundProduct = currentState.searchInputState.find(
+        (product) => product.id === currentState.selectedProductId,
+      );
+      set((state) => {
+        if (foundProduct) {
+          state.selectedProduct = foundProduct;
+        } else {
+          state.selectedProduct = {
+            id: "",
+            descricao: "",
+            unit: "",
+            brand: "",
+            nome: "",
+            createdAt: null,
+            updatedAt: null,
+            empresaId: "",
+            whoCreated: "",
+          };
+        }
+      });
+    },
+    deleteProduct: (id) => {
+      set((state) => {
+        state.allProducts = state.allProducts.filter(
+          (product) => product.id != id,
+        );
+      });
+    },
+    resetSelectedProduct: () => {
+      set((state) => {
+        state.selectedProduct = {
+          id: "",
+          descricao: "",
+          unit: "",
+          brand: "",
+          nome: "",
+          createdAt: null,
+          updatedAt: null,
+          empresaId: "",
+          whoCreated: "",
+        };
+      });
+    },
   })),
 );

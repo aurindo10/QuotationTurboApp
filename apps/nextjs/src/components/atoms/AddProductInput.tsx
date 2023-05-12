@@ -9,16 +9,17 @@ type getProductByNameType = RouterOutputs["product"]["getProductByName"];
 interface InputToAddProductOnCotationProps {
   setValue: React.Dispatch<React.SetStateAction<string>>;
 }
-export const InputToAddProductOnCotation = ({
-  setValue,
-}: InputToAddProductOnCotationProps) => {
+export const InputToAddProductOnCotation = () => {
   const [inputValue, setInputValue] = useState("");
   const { user } = useUser();
   const { mutateAsync: getProductByName } =
     trpc.product.getProductByName.useMutation();
-  const [addProductToSearchState, setIsLoading] = useProductsOfCotationStore(
-    (state) => [state.addProductToSearchState, state.setIsLoading],
-  );
+  const [addProductToSearchState, setIsLoading, setValue] =
+    useProductsOfCotationStore((state) => [
+      state.addProductToSearchState,
+      state.setIsLoading,
+      state.setSelectedProductId,
+    ]);
 
   const handleSearch = async (value: string) => {
     setIsLoading("loading");
@@ -47,7 +48,7 @@ export const InputToAddProductOnCotation = ({
   return (
     <input
       type="text"
-      className="bg-slate-900 px-2 py-2"
+      className="bg-neutral w-full px-2 py-2"
       placeholder="Digite aqui"
       value={inputValue}
       onChange={handleChange}

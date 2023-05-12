@@ -16,6 +16,7 @@ export const columns: ColumnDef<ProductType>[] = [
     accessorKey: "descricao",
     header: "Descrição",
   },
+
   {
     accessorKey: "brand",
     header: "Marca",
