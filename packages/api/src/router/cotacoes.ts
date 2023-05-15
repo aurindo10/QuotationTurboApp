@@ -78,4 +78,25 @@ export const cotacoesRouter = router({
       });
       return deletedProduct;
     }),
+  getProductsFromOneCotacao: publicProcedure
+    .input(
+      z.object({
+        idCotacao: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const foundCotacao = await ctx.prisma.cotacoes.findUnique({
+        where: {
+          id: input.idCotacao,
+        },
+        include: {
+          produtos: {
+            include: {
+              produto: true,
+            },
+          },
+        },
+      });
+      return foundCotacao;
+    }),
 });

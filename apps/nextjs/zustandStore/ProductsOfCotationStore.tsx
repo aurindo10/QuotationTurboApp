@@ -36,6 +36,7 @@ export const useProductsOfCotationStore = create(
           updatedAt: null,
           empresaId: "",
           whoCreated: "",
+          code: "",
         },
       },
     ],
@@ -49,6 +50,7 @@ export const useProductsOfCotationStore = create(
       updatedAt: null,
       empresaId: "",
       whoCreated: "",
+      code: "",
     },
     searchInputState: [],
     isLoading: "",
@@ -96,6 +98,7 @@ export const useProductsOfCotationStore = create(
             updatedAt: null,
             empresaId: "",
             whoCreated: "",
+            code: "",
           };
         }
       });
@@ -119,6 +122,7 @@ export const useProductsOfCotationStore = create(
           updatedAt: null,
           empresaId: "",
           whoCreated: "",
+          code: "",
         };
       });
     },

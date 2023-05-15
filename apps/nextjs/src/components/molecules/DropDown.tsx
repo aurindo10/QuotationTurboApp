@@ -44,7 +44,10 @@ const DropdownMenuDemo = ({ id }: Props) => {
             <DropdownMenu.Item className="btn  btn-xs w-full">
               Editar
             </DropdownMenu.Item>
-            <DropdownMenu.Item className="btn btn-xs w-full">
+            <DropdownMenu.Item
+              className="btn btn-xs w-full"
+              onClick={() => router.push(`/register/${id}`)}
+            >
               Compartilhar
             </DropdownMenu.Item>
           </div>

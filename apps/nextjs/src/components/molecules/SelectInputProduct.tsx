@@ -80,7 +80,7 @@ export function SelectInputProduct() {
                       value === product.id ? "opacity-100" : "opacity-0",
                     )}
                   />
-                  {product.nome}
+                  {`${product.nome}/ ${product.code}`}
                 </CommandItem>
                 <div className="h-[0.1px] w-full bg-white"></div>
               </div>

@@ -30,6 +30,7 @@ model Empresa {
   linkOrders LinkOrders[]
   products Product[]
   Cotacoes Cotacoes[]
+  Representante Representante[]
 }
 
 model LinkOrders {
@@ -52,6 +53,7 @@ model Product {
   empresaId String
   empresa Empresa @relation(fields: [empresaId], references: [id])
   ProdutosDaCotacao ProdutosDaCotacao[]
+  code String?
 }
 
 model Cotacoes {
@@ -64,6 +66,8 @@ model Cotacoes {
   whoCreated String
   produtos ProdutosDaCotacao[]
   ammountOfTradeRepresentative Float?
+  Representante Representante[]
+  ProdutoCotado ProdutoCotado[]
 }
 model ProdutosDaCotacao {
   id String @id @default(cuid())
@@ -77,4 +81,30 @@ model ProdutosDaCotacao {
   empresaId String
   quantidade Float?
   code String?
+  produtoCotado ProdutoCotado[]
+
+}
+model Representante {
+  id String @id @default(cuid())
+  nome String
+  createdAt DateTime? @default(now())
+  empresaId String
+  empresa Empresa @relation(fields: [empresaId], references: [id])
+  cotacaoId String
+  cotacao Cotacoes @relation(fields: [cotacaoId], references: [id])
+  produtoCotado ProdutoCotado[]
+  empresaName String?
+}
+
+model ProdutoCotado {
+  id  String @id @default(cuid())
+  createdAt DateTime? @default(now())
+  cotacaoId String
+  cotacao Cotacoes @relation(fields: [cotacaoId], references: [id])
+  representanteId String
+  representante Representante @relation(fields: [representanteId], references: [id])
+  valor Float?
+  produtoDaCotacaoId String
+  produtoDaCotacao ProdutosDaCotacao @relation(fields: [produtoDaCotacaoId], references: [id])
+  quantidadeMinima Float?
 }
