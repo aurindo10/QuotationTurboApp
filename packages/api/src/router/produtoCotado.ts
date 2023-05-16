@@ -10,6 +10,7 @@ export const produtoCotadoRouter = router({
         representanteId: z.string(),
         quantidadeMinima: z.number(),
         produtoDaCotacaoId: z.string(),
+        code: z.string(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -21,6 +22,7 @@ export const produtoCotadoRouter = router({
           representanteId: input.representanteId,
           quantidadeMinima: input.quantidadeMinima,
           produtoDaCotacaoId: input.produtoDaCotacaoId,
+          code: input.code,
         },
       });
       return createdProductCotado;

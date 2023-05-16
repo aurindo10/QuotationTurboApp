@@ -107,4 +107,5 @@ model ProdutoCotado {
   produtoDaCotacaoId String
   produtoDaCotacao ProdutosDaCotacao @relation(fields: [produtoDaCotacaoId], references: [id])
   quantidadeMinima Float?
+  code String?
 }
