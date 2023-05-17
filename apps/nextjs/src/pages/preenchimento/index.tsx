@@ -13,6 +13,8 @@ const FormSchema = z.object({
 });
 type FormData = z.infer<typeof FormSchema>;
 export default function Page() {
+  const { mutateAsync: sendProposta } =
+    trpc.produCotado.addManyProductsCotados.useMutation();
   const [valor, setValor] = useState(0);
   const [valorDisplay, setValorDisplay] = useState("");
 
@@ -29,16 +31,19 @@ export default function Page() {
     setValor(parseFloat(floatNum));
   };
   const handleValorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const onlyNums = e.target.value.replace(/[^0-9]/g, "");
-    const floatNum = parseFloat((parseInt(onlyNums) / 100).toString()).toFixed(
-      2,
-    );
-    const formatted = new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    }).format(parseFloat(floatNum));
-    setValorDisplay(formatted);
-    setValor(parseFloat(floatNum)); // Convert floatNum to a number before setting the state.
+    const input = e.target.value;
+    const onlyNums = input.replace(/[^0-9]/g, "");
+    const parsedNum = parseFloat(onlyNums) / 100;
+
+    if (!isNaN(parsedNum)) {
+      const formatted = new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      }).format(parsedNum);
+
+      setValorDisplay(formatted);
+      setValor(parsedNum);
+    }
   };
 
   const router = useRouter();
@@ -58,7 +63,6 @@ export default function Page() {
     state.updateProdutoCotado,
     state.produtoCotado,
   ]);
-  const [navigateToNextStep, setNavigateToNextStep] = useState(true);
   const { data: oneCotacao, status } =
     trpc.cotacoes.getProductsFromOneCotacao.useQuery({
       idCotacao: representanteInfo.idCotacao as string,
@@ -68,6 +72,7 @@ export default function Page() {
     control,
     reset,
     setValue,
+    getValues,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(FormSchema),
@@ -82,7 +87,10 @@ export default function Page() {
   useEffect(() => {
     if (oneCotacao) {
       if (!allProductsCotados[step]) {
-        setAllProductCotados(oneCotacao);
+        setAllProductCotados(
+          oneCotacao,
+          representanteInfo.idRepresentante as string,
+        );
       }
     }
   }, [oneCotacao, status]);
@@ -98,27 +106,34 @@ export default function Page() {
       );
       setValue("code", allProductsCotados[step - 1]!.code ?? "");
     }
-  }, [allProductsCotados, step, allProductsCotados[step]?.valor, localStep]);
+  }, [step, localStep]);
   useEffect(() => {
     setLocalStep(step);
   }, [step]);
-  const onSubmit = async (data: FormData) => {
+  const HandleNext = () => {
+    if (localStep < lengthOfProducts) setStep(localStep + 1);
+  };
+  const HandleBack = () => {
+    if (localStep > 1) setStep(localStep - 1);
+  };
+  const onSubmit = async () => {
     updateProdutoCotado({
-      ...data,
       valor: valor,
+      code: getValues("code"),
+      quantidadeMinima: getValues("quantidadeMinima"),
     });
-
-    if (navigateToNextStep) {
-      if (localStep < lengthOfProducts) setStep(localStep + 1);
-    }
-    if (!navigateToNextStep) {
-      if (localStep > 1) setStep(localStep - 1);
-    }
   };
 
   if (status === "loading") return <div>loading</div>;
+  const handleSendProposta = async () => {
+    console.log(allProductsCotados);
+    const res = await sendProposta({
+      products: allProductsCotados,
+    });
+    console.log(res);
+  };
   return (
-    <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
+    <form className="w-full" onChange={() => onSubmit()}>
       <div className="flex w-full flex-col items-center justify-center">
         <div className="produto text-white">Produto:</div>
         <div className="">
@@ -194,11 +209,11 @@ export default function Page() {
       </div>
       <div className="buttons my-4 flex justify-around">
         <button
-          className="btn btn-primary btn-sm"
-          type="submit"
+          className="btn btn-secondary btn-sm"
           disabled={localStep === 1 ? true : false}
           onClick={(e) => {
-            setNavigateToNextStep(false);
+            e.preventDefault();
+            HandleBack();
           }}
         >
           Anterior
@@ -206,15 +221,29 @@ export default function Page() {
 
         <span>{`${localStep}/${lengthOfProducts}`}</span>
         <button
-          className={`btn btn-primary btn-sm `}
-          type="submit"
+          className={`btn btn-secondary btn-sm `}
           disabled={localStep === lengthOfProducts ? true : false}
           onClick={(e) => {
-            setNavigateToNextStep(true);
+            e.preventDefault();
+            HandleNext();
           }}
         >
           Próximo
         </button>
+      </div>
+      <div className="flex w-full justify-center">
+        {localStep === lengthOfProducts ? (
+          <button
+            onClick={(e) => {
+              e.preventDefault(), handleSendProposta();
+            }}
+            className={`btn btn-primary`}
+          >
+            Enviar orçamento
+          </button>
+        ) : (
+          ""
+        )}
       </div>
     </form>
   );

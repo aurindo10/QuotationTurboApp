@@ -5,7 +5,10 @@ type allProducts = RouterOutputs["cotacoes"]["getProductsFromOneCotacao"];
 type produtosCotado = RouterInputs["produCotado"]["addProductCotado"];
 
 type Store = {
-  setAllProductCotados: (allProducts: allProducts) => void;
+  setAllProductCotados: (
+    allProducts: allProducts,
+    representanteId: string,
+  ) => void;
   step: number;
   setStep: (step: number) => void;
   produtoCotado: produtosCotado[];
@@ -19,15 +22,15 @@ type Store = {
 export const usePreenchimentoStore = create(
   immer<Store>((set) => ({
     produtoCotado: [],
-    setAllProductCotados: (allProducts) => {
+    setAllProductCotados: (allProducts, representanteId) => {
       const produtoCotado = allProducts
         ? allProducts.produtos.map((produto) => {
             return {
               valor: 0,
               cotacaoId: produto.cotacaoId,
-              representanteId: "",
+              representanteId: representanteId,
               quantidadeMinima: 0,
-              produtoDaCotacaoId: allProducts.id,
+              produtoDaCotacaoId: produto.id,
               code: "",
             };
           })

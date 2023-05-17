@@ -14,7 +14,7 @@ export const produtoCotadoRouter = router({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const createdProductCotado = await ctx.prisma.produtoCotado.create({
+      const createdProductCotado = await ctx.prisma.produtoCotado.createMany({
         data: {
           valor: input.valor,
           cotacaoId: input.cotacaoId,
@@ -26,5 +26,26 @@ export const produtoCotadoRouter = router({
         },
       });
       return createdProductCotado;
+    }),
+  addManyProductsCotados: publicProcedure
+    .input(
+      z.object({
+        products: z.array(
+          z.object({
+            valor: z.number(),
+            cotacaoId: z.string(),
+            representanteId: z.string(),
+            quantidadeMinima: z.number(),
+            produtoDaCotacaoId: z.string(),
+            code: z.string(),
+          }),
+        ),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const addedProdutosCotados = await ctx.prisma.produtoCotado.createMany({
+        data: input.products,
+      });
+      return { message: "Produtos enviado com sucesso", status: 200 };
     }),
 });
