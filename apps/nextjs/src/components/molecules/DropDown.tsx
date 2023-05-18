@@ -42,7 +42,7 @@ const DropdownMenuDemo = ({ id }: Props) => {
           <div className="w-32 space-y-1">
             <DropdownMenu.Item
               className="btn  btn-sm w-full"
-              onClick={() => router.push(`/cotacoes/products/${id}`)}
+              onClick={() => router.push(`/cotacoes/sentprices/${id}`)}
             >
               Abrir
             </DropdownMenu.Item>

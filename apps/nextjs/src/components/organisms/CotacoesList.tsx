@@ -24,7 +24,7 @@ export const CotacoesList = () => {
     return <div>loading</div>;
   }
   return (
-    <div className="flex w-full flex-col items-center ">
+    <div className="flex w-full flex-col items-center gap-3">
       {allCotacoes?.map((cotacao) => {
         const zonedDate = utcToZonedTime(cotacao.createdAt!, timeZone);
         const formattedDate = format(zonedDate, "dd/MM/yyyy");

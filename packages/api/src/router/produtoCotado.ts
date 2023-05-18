@@ -48,4 +48,36 @@ export const produtoCotadoRouter = router({
       });
       return { message: "Produtos enviado com sucesso", status: 200 };
     }),
+  getListOfPricesByCotationId: protectedProcedure
+    .input(
+      z.object({
+        cotacaoId: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const prices = await ctx.prisma.representante.findMany({
+        where: {
+          cotacaoId: input.cotacaoId,
+        },
+        include: {
+          produtoCotado: {
+            include: {
+              produtoDaCotacao: {
+                select: {
+                  produto: {
+                    select: {
+                      nome: true,
+                      brand: true,
+                      unit: true,
+                      descricao: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      });
+      return prices;
+    }),
 });
