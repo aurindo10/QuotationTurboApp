@@ -4,13 +4,14 @@ import { trpc } from "../../utils/trpc";
 import DropdownMenuDemo from "../molecules/DropDown";
 import { useCotacoesStore } from "../../../zustandStore/CotacoesStore";
 import { useEffect } from "react";
+import { zonedTimeToUtc, utcToZonedTime, format } from "date-fns-tz";
+const timeZone = "America/Sao_Paulo";
 export const CotacoesList = () => {
   const { user } = useUser();
   const [allCotacoes, addManyCotacoes] = useCotacoesStore((state) => [
     state.allCotacoes,
     state.addManyCotacoes,
   ]);
-
   const { data, status } = trpc.cotacoes.getCotacoes.useQuery({
     empresaId: user?.publicMetadata.idEmpresa as string,
   });
@@ -25,6 +26,8 @@ export const CotacoesList = () => {
   return (
     <div className="flex w-full flex-col items-center ">
       {allCotacoes?.map((cotacao) => {
+        const zonedDate = utcToZonedTime(cotacao.createdAt!, timeZone);
+        const formattedDate = format(zonedDate, "dd/MM/yyyy");
         return (
           <div
             className="card card-compact bg-base-100 w-full max-w-xl shadow-xl"
@@ -33,8 +36,8 @@ export const CotacoesList = () => {
             <div className="card-body grid grid-cols-3">
               <div className="col-span-2">
                 <h2 className="card-title">{cotacao.nome}</h2>
-                <h3>{`Enviados: 01/03`}</h3>
-                <h3>Criado: 04/03/2023</h3>
+                <h3>{`Enviados: ${cotacao.Representante.length}/${cotacao.ammountOfTradeRepresentative}`}</h3>
+                <h3>{`Criado em: ${formattedDate}`}</h3>
               </div>
               <div className="card-actions justify-end">
                 <DropdownMenuDemo id={cotacao.id}></DropdownMenuDemo>

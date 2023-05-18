@@ -32,6 +32,12 @@ export const cotacoesRouter = router({
         where: {
           empresaId: input.empresaId,
         },
+        include: {
+          Representante: true,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
       });
       return allCotacoes;
     }),
@@ -98,5 +104,20 @@ export const cotacoesRouter = router({
         },
       });
       return foundCotacao;
+    }),
+  getNumberOfCotacoesCotadasEnviadas: protectedProcedure
+    .input(
+      z.object({
+        cotacaoId: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const numberOfCotacoesCotadasEnviadas =
+        await ctx.prisma.produtoCotado.count({
+          where: {
+            cotacaoId: input.cotacaoId,
+          },
+        });
+      return numberOfCotacoesCotadasEnviadas;
     }),
 });

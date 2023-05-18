@@ -122,6 +122,8 @@ importers:
       clsx: ^1.2.1
       cmdk: ^0.2.0
       daisyui: ^2.51.6
+      date-fns: ^2.30.0
+      date-fns-tz: ^2.0.0
       eslint: ^8.28.0
       eslint-config-next: 13.1.6
       immer: ^10.0.1
@@ -164,6 +166,8 @@ importers:
       clsx: 1.2.1
       cmdk: 0.2.0_ib3m5ricvtkl2cll7qpr2f6lvq
       daisyui: 2.51.6_r4gnkvssmvyxmi2wmat5xbx36a
+      date-fns: 2.30.0
+      date-fns-tz: 2.0.0_date-fns@2.30.0
       immer: 10.0.1
       lodash: 4.17.21
       lucide-react: 0.211.0_react@18.2.0
@@ -5399,6 +5403,21 @@ packages:
   /damerau-levenshtein/1.0.8:
     resolution: {integrity: sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==}
     dev: true
+
+  /date-fns-tz/2.0.0_date-fns@2.30.0:
+    resolution: {integrity: sha512-OAtcLdB9vxSXTWHdT8b398ARImVwQMyjfYGkKD2zaGpHseG2UPHbHjXELReErZFxWdSLph3c2zOaaTyHfOhERQ==}
+    peerDependencies:
+      date-fns: '>=2.0.0'
+    dependencies:
+      date-fns: 2.30.0
+    dev: false
+
+  /date-fns/2.30.0:
+    resolution: {integrity: sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==}
+    engines: {node: '>=0.11'}
+    dependencies:
+      '@babel/runtime': 7.21.0
+    dev: false
 
   /dayjs/1.11.7:
     resolution: {integrity: sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==}

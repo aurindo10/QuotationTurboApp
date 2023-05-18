@@ -16,8 +16,12 @@ const Page: NextPageWithLayout = () => {
     router.push("/criarempresa");
   }
   return (
-    <div className="w-full">
-      <AddCotacaoModal></AddCotacaoModal>
+    <div className="py-4 px-2 ">
+      <div className="flex justify-center">
+        <div className="flex w-full max-w-xl justify-end">
+          <AddCotacaoModal></AddCotacaoModal>
+        </div>
+      </div>
       <CotacoesList></CotacoesList>
     </div>
   );

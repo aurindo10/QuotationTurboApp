@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import { RouterInputs, RouterOutputs } from "../src/utils/trpc";
 
+type GetAllCotacoes = RouterOutputs["cotacoes"]["getCotacoes"];
 type CotacaoType = {
   id: string;
   nome: string;
@@ -9,9 +10,9 @@ type CotacaoType = {
   empresaId: string;
 };
 type Store = {
-  allCotacoes: CotacaoType[];
-  addCotacao: (product: CotacaoType) => void;
-  addManyCotacoes: (products: CotacaoType[]) => void;
+  allCotacoes: GetAllCotacoes;
+  addCotacao: (product: GetAllCotacoes[0]) => void;
+  addManyCotacoes: (products: GetAllCotacoes) => void;
   //   deleteProduct: (id: string) => void;
   //   updateProduct: (product: GetAllProducts[0]) => void;
 };
@@ -24,6 +25,10 @@ export const useCotacoesStore = create(
         nome: "",
         ammountOfTradeRepresentative: 0,
         empresaId: "",
+        Representante: [],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        whoCreated: "",
       },
     ],
     addManyCotacoes: (cotacoes) =>
