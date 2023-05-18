@@ -47,14 +47,18 @@ const DropdownMenuDemo = ({ id }: Props) => {
               Abrir
             </DropdownMenu.Item>
             <DropdownMenu.Item
+              className="btn  btn-xs w-full"
+              onClick={() => router.push(`/cotacoes/products/${id}`)}
+            >
+              Editar
+            </DropdownMenu.Item>
+            <DropdownMenu.Item
               className="btn  btn-sm w-full"
               onClick={HandleCompareProductsCotados}
             >
-              Criar
+              Gerar
             </DropdownMenu.Item>
-            <DropdownMenu.Item className="btn  btn-xs w-full">
-              Editar
-            </DropdownMenu.Item>
+
             <DropdownMenu.Item
               className="btn btn-xs w-full"
               onClick={() => router.push(`/register/${id}`)}

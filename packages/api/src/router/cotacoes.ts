@@ -120,4 +120,14 @@ export const cotacoesRouter = router({
         });
       return numberOfCotacoesCotadasEnviadas;
     }),
+  deleteCotacao: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const deletedCotacao = await ctx.prisma.cotacoes.delete({
+        where: {
+          id: input.id,
+        },
+      });
+      return deletedCotacao;
+    }),
 });

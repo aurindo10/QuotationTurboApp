@@ -119,15 +119,6 @@ export const ProductsTableCotation = () => {
                 );
               })}
             </tbody>
-            <tfoot>
-              <tr>
-                <th>Nome</th>
-                <th>Descrição</th>
-                <th>Marca</th>
-                <th>Unidade</th>
-                <th className="w-8 text-center">Ações</th>
-              </tr>
-            </tfoot>
           </table>
         </div>
       )}

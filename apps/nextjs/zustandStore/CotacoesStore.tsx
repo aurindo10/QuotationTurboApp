@@ -13,6 +13,7 @@ type Store = {
   allCotacoes: GetAllCotacoes;
   addCotacao: (product: GetAllCotacoes[0]) => void;
   addManyCotacoes: (products: GetAllCotacoes) => void;
+  deleteCotacao: (id: string) => void;
   //   deleteProduct: (id: string) => void;
   //   updateProduct: (product: GetAllProducts[0]) => void;
 };
@@ -25,7 +26,16 @@ export const useCotacoesStore = create(
         nome: "",
         ammountOfTradeRepresentative: 0,
         empresaId: "",
-        Representante: [],
+        Representante: [
+          {
+            cotacaoId: "",
+            empresaName: "",
+            createdAt: new Date(),
+            empresaId: "",
+            id: "",
+            nome: "",
+          },
+        ],
         createdAt: new Date(),
         updatedAt: new Date(),
         whoCreated: "",
@@ -44,13 +54,13 @@ export const useCotacoesStore = create(
     //   set((state) => {
     //     state.allPrducts.push(descricao);
     //   }),
-    // deleteProduct: (id) => {
-    //   set((state) => {
-    //     state.allPrducts = state.allPrducts.filter(
-    //       (product) => product.id !== id,
-    //     );
-    //   });
-    // },
+    deleteCotacao: (id) => {
+      set((state) => {
+        state.allCotacoes = state.allCotacoes.filter(
+          (cotacao) => cotacao.id !== id,
+        );
+      });
+    },
     // updateProduct: (product) => {
     //   set((state) => {
     //     state.allPrducts = state.allPrducts.map((p) =>

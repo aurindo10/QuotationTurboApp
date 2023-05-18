@@ -1,12 +1,15 @@
 import { useUser } from "@clerk/nextjs";
-import { DotsThreeOutlineVertical } from "@phosphor-icons/react";
+import { DotsThreeOutlineVertical, Trash } from "@phosphor-icons/react";
 import { trpc } from "../../utils/trpc";
 import DropdownMenuDemo from "../molecules/DropDown";
 import { useCotacoesStore } from "../../../zustandStore/CotacoesStore";
 import { useEffect } from "react";
 import { zonedTimeToUtc, utcToZonedTime, format } from "date-fns-tz";
+import { DeleteCotacaoModal } from "./DeleteCotacaoModal";
+import React from "react";
 const timeZone = "America/Sao_Paulo";
 export const CotacoesList = () => {
+  const [open, setOpen] = React.useState(false);
   const { user } = useUser();
   const [allCotacoes, addManyCotacoes] = useCotacoesStore((state) => [
     state.allCotacoes,
@@ -36,12 +39,28 @@ export const CotacoesList = () => {
             <div className="card-body grid grid-cols-3">
               <div className="col-span-2">
                 <h2 className="card-title">{cotacao.nome}</h2>
-                <h3>{`Enviados: ${cotacao.Representante.length}/${cotacao.ammountOfTradeRepresentative}`}</h3>
+                <h3>{`Enviados: ${
+                  cotacao.Representante ? cotacao.Representante.length : 0
+                }/${cotacao.ammountOfTradeRepresentative}`}</h3>
                 <h3>{`Criado em: ${formattedDate}`}</h3>
               </div>
               <div className="card-actions justify-end">
-                <DropdownMenuDemo id={cotacao.id}></DropdownMenuDemo>
+                <div className="flex flex-col items-center justify-center gap-5">
+                  <DropdownMenuDemo id={cotacao.id}></DropdownMenuDemo>
+                  <button
+                    className="btn btn-square btn-sm btn-accent"
+                    onClick={() => setOpen(true)}
+                  >
+                    <Trash size={18} />
+                  </button>
+                </div>
               </div>
+              <DeleteCotacaoModal
+                cotacaoId={cotacao.id}
+                cotacaoName={cotacao.nome}
+                open={open}
+                setOpen={setOpen}
+              ></DeleteCotacaoModal>
             </div>
           </div>
         );

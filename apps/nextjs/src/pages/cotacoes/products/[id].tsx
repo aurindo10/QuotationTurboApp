@@ -13,7 +13,7 @@ import { NextPageWithLayout } from "../../_app";
 
 const Page: NextPageWithLayout = () => {
   return (
-    <div className="w-full">
+    <div className="w-full px-2">
       <SubHeaderProductsCotacao></SubHeaderProductsCotacao>
       <ProductsTableCotation></ProductsTableCotation>
     </div>

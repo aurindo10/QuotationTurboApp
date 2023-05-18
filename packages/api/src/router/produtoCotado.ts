@@ -80,4 +80,18 @@ export const produtoCotadoRouter = router({
       });
       return prices;
     }),
+  deleteProdutosCotados: protectedProcedure
+    .input(
+      z.object({
+        representanteId: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const deleteProdutosCotados = await ctx.prisma.representante.deleteMany({
+        where: {
+          id: input.representanteId,
+        },
+      });
+      return deleteProdutosCotados;
+    }),
 });

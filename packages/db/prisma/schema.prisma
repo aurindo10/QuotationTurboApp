@@ -39,7 +39,7 @@ model LinkOrders {
   aproved Boolean? @default(false)
   createdAt DateTime? @default(now())
   empresaId String
-  empresa Empresa @relation(fields: [empresaId], references: [id])
+  empresa Empresa @relation(fields: [empresaId], references: [id], onDelete: Cascade)
 }
 model Product {
   id  String @id @default(cuid())
@@ -51,7 +51,7 @@ model Product {
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
   empresaId String
-  empresa Empresa @relation(fields: [empresaId], references: [id])
+  empresa Empresa @relation(fields: [empresaId], references: [id], onDelete: Cascade)
   ProdutosDaCotacao ProdutosDaCotacao[]
   code String?
 }
@@ -62,7 +62,7 @@ model Cotacoes {
   nome  String
   updatedAt DateTime? @updatedAt
   empresaId String
-  empresa Empresa @relation(fields: [empresaId], references: [id])
+  empresa Empresa @relation(fields: [empresaId], references: [id], onDelete: Cascade)
   whoCreated String
   produtos ProdutosDaCotacao[]
   ammountOfTradeRepresentative Float?
@@ -75,24 +75,23 @@ model ProdutosDaCotacao {
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
   cotacaoId String
-  cotacao Cotacoes @relation(fields: [cotacaoId], references: [id])
+  cotacao Cotacoes @relation(fields: [cotacaoId], references: [id], onDelete: Cascade)
   produtoId String
-  produto Product @relation(fields: [produtoId], references: [id])
+  produto Product @relation(fields: [produtoId], references: [id], onDelete: Cascade)
   whoCreated String
   empresaId String
   quantidade Float?
   code String?
   produtoCotado ProdutoCotado[]
-
 }
 model Representante {
   id String @id @default(cuid())
   nome String
   createdAt DateTime? @default(now())
   empresaId String
-  empresa Empresa @relation(fields: [empresaId], references: [id])
+  empresa Empresa @relation(fields: [empresaId], references: [id], onDelete: Cascade)
   cotacaoId String
-  cotacao Cotacoes @relation(fields: [cotacaoId], references: [id])
+  cotacao Cotacoes @relation(fields: [cotacaoId], references: [id], onDelete: Cascade )
   produtoCotado ProdutoCotado[]
   empresaName String?
   buyList BuyList[]
@@ -102,12 +101,12 @@ model ProdutoCotado {
   id  String @id @default(cuid())
   createdAt DateTime? @default(now())
   cotacaoId String
-  cotacao Cotacoes @relation(fields: [cotacaoId], references: [id])
+  cotacao Cotacoes @relation(fields: [cotacaoId], references: [id], onDelete: Cascade)
   representanteId String
-  representante Representante @relation(fields: [representanteId], references: [id])
+  representante Representante @relation(fields: [representanteId], references: [id], onDelete: Cascade)
   valor Float?
   produtoDaCotacaoId String
-  produtoDaCotacao ProdutosDaCotacao @relation(fields: [produtoDaCotacaoId], references: [id])
+  produtoDaCotacao ProdutosDaCotacao @relation(fields: [produtoDaCotacaoId], references: [id], onDelete: Cascade)
   quantidadeMinima Float?
   code String?
   buyList BuyList[]
@@ -117,9 +116,9 @@ model BuyList {
   id String @id @default(cuid())
   createdAt DateTime? @default(now())
   produtoCotadoId String
-  produtoCotado ProdutoCotado @relation(fields: [produtoCotadoId], references: [id])
+  produtoCotado ProdutoCotado @relation(fields: [produtoCotadoId], references: [id], onDelete: Cascade)
   cotacaoId String?
-  cotacao Cotacoes? @relation(fields: [cotacaoId], references: [id])
+  cotacao Cotacoes? @relation(fields: [cotacaoId], references: [id], onDelete: Cascade)
   representanteId String?
-  representante Representante? @relation(fields: [representanteId], references: [id])
+  representante Representante? @relation(fields: [representanteId], references: [id], onDelete: Cascade)
 }
