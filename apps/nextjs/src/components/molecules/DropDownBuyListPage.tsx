@@ -11,7 +11,7 @@ import { trpc } from "../../utils/trpc";
 interface Props {
   id: string;
 }
-const DropdownMenuDemo = ({ id }: Props) => {
+const DropdownMenuBuyList = ({ id }: Props) => {
   const [bookmarksChecked, setBookmarksChecked] = React.useState(true);
   const [urlsChecked, setUrlsChecked] = React.useState(false);
   const [person, setPerson] = React.useState("pedro");
@@ -42,24 +42,9 @@ const DropdownMenuDemo = ({ id }: Props) => {
           <div className="w-32 space-y-1">
             <DropdownMenu.Item
               className="btn  btn-sm w-full"
-              onClick={() => router.push(`/cotacoes/products/${id}`)}
+              onClick={() => router.push(`/buylist/products/${id}`)}
             >
               Abrir
-            </DropdownMenu.Item>
-            <DropdownMenu.Item
-              className="btn  btn-sm w-full"
-              onClick={HandleCompareProductsCotados}
-            >
-              Criar
-            </DropdownMenu.Item>
-            <DropdownMenu.Item className="btn  btn-xs w-full">
-              Editar
-            </DropdownMenu.Item>
-            <DropdownMenu.Item
-              className="btn btn-xs w-full"
-              onClick={() => router.push(`/register/${id}`)}
-            >
-              Compartilhar
             </DropdownMenu.Item>
           </div>
         </DropdownMenu.Content>
@@ -68,4 +53,4 @@ const DropdownMenuDemo = ({ id }: Props) => {
   );
 };
 
-export default DropdownMenuDemo;
+export default DropdownMenuBuyList;

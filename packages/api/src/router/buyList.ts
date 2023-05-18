@@ -18,6 +18,7 @@ export const buyListRouter = router({
             produtoCotado: true,
           },
         });
+
       const productsCompared = allProductsFromCotacao.map(
         (produtoDaCotacao) => {
           const cheapestProduct = produtoDaCotacao.produtoCotado.reduce(
@@ -33,9 +34,51 @@ export const buyListRouter = router({
           };
         },
       );
+
       const createdBuyList = await ctx.prisma.buyList.createMany({
         data: productsCompared,
       });
       return createdBuyList;
+    }),
+  getBuyListByCotation: protectedProcedure
+    .input(
+      z.object({
+        cotacaoId: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const buyList = await ctx.prisma.representante.findMany({
+        where: {
+          cotacaoId: input.cotacaoId,
+        },
+        select: {
+          nome: true,
+          id: true,
+          buyList: {
+            select: {
+              produtoCotado: {
+                select: {
+                  id: true,
+                  valor: true,
+                  produtoDaCotacao: {
+                    select: {
+                      produto: {
+                        select: {
+                          nome: true,
+                          code: true,
+                          descricao: true,
+                          unit: true,
+                          brand: true,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      });
+      return buyList;
     }),
 });

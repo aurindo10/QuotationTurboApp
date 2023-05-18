@@ -1,4 +1,5 @@
 import { UserButton } from "@clerk/nextjs";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ToastInfo } from "../atoms/Toast";
 
@@ -61,13 +62,19 @@ export const Drawer = () => {
                 className="menu menu-compact dropdown-content  bg-neutral rounded-box mt-3 w-52 p-2 shadow"
               >
                 <li>
-                  <a onClick={closeDropdown}>Homepage</a>
+                  <Link href={"/cotacoes"} onClick={closeDropdown}>
+                    Homepage
+                  </Link>
                 </li>
                 <li>
-                  <a onClick={closeDropdown}>Portfolio</a>
+                  <Link href={"/products"} onClick={closeDropdown}>
+                    Produtos
+                  </Link>
                 </li>
                 <li>
-                  <a onClick={closeDropdown}>About</a>
+                  <Link href={"/buylist"} onClick={closeDropdown}>
+                    Lista de compras
+                  </Link>
                 </li>
               </ul>
             )}
