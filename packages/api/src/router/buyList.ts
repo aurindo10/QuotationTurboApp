@@ -1,6 +1,8 @@
 import { protectedProcedure, publicProcedure, router } from "../trpc";
 import { z } from "zod";
 import { clerkClient } from "@clerk/nextjs/server";
+import { TRPCError } from "@trpc/server";
+import { TRPCClientError } from "@trpc/client";
 export const buyListRouter = router({
   compareProductsCotados: protectedProcedure
     .input(
@@ -18,27 +20,34 @@ export const buyListRouter = router({
             produtoCotado: true,
           },
         });
+      if (allProductsFromCotacao[0]) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Não há produtos cotados para essa cotação",
+          cause: "sdasd",
+        });
+      } else {
+        const productsCompared = allProductsFromCotacao.map(
+          (produtoDaCotacao) => {
+            const cheapestProduct = produtoDaCotacao.produtoCotado.reduce(
+              (prev, current) =>
+                (prev.valor === 0 ? 99999999 : prev.valor! < current.valor!)
+                  ? prev
+                  : current,
+            );
+            return {
+              produtoCotadoId: cheapestProduct.id,
+              cotacaoId: produtoDaCotacao.cotacaoId,
+              representanteId: cheapestProduct.representanteId,
+            };
+          },
+        );
 
-      const productsCompared = allProductsFromCotacao.map(
-        (produtoDaCotacao) => {
-          const cheapestProduct = produtoDaCotacao.produtoCotado.reduce(
-            (prev, current) =>
-              (prev.valor === 0 ? 99999999 : prev.valor! < current.valor!)
-                ? prev
-                : current,
-          );
-          return {
-            produtoCotadoId: cheapestProduct.id,
-            cotacaoId: produtoDaCotacao.cotacaoId,
-            representanteId: cheapestProduct.representanteId,
-          };
-        },
-      );
-
-      const createdBuyList = await ctx.prisma.buyList.createMany({
-        data: productsCompared,
-      });
-      return createdBuyList;
+        const createdBuyList = await ctx.prisma.buyList.createMany({
+          data: productsCompared,
+        });
+        return createdBuyList;
+      }
     }),
   getBuyListByCotation: protectedProcedure
     .input(
