@@ -9,11 +9,13 @@ import {
 import { useRouter } from "next/router";
 import { trpc } from "../../utils/trpc";
 import Link from "next/link";
+import { CopyAndPasteModal } from "../organisms/CopyPasteModal";
 interface Props {
   id: string;
 }
 const DropdownMenuDemo = ({ id }: Props) => {
   const [bookmarksChecked, setBookmarksChecked] = React.useState(true);
+  const [isOpen, setIsOpen] = React.useState(false);
   const [urlsChecked, setUrlsChecked] = React.useState(false);
   const [person, setPerson] = React.useState("pedro");
   const { mutateAsync: compareProductsCotados } =
@@ -72,7 +74,7 @@ const DropdownMenuDemo = ({ id }: Props) => {
               </DropdownMenu.Item>
               <DropdownMenu.Item
                 className="btn btn-xs w-full"
-                onClick={() => router.push(`/register/${id}`)}
+                onClick={() => setIsOpen(true)}
               >
                 Compartilhar
               </DropdownMenu.Item>
@@ -80,8 +82,14 @@ const DropdownMenuDemo = ({ id }: Props) => {
           </DropdownMenu.Content>
         </DropdownMenu.Portal>
       </DropdownMenu.Root>
+      <CopyAndPasteModal
+        cotacaoId={id}
+        open={isOpen}
+        setOpen={setIsOpen}
+      ></CopyAndPasteModal>
     </div>
   );
 };
 
 export default DropdownMenuDemo;
+// router.push(`/register/${id}`)
