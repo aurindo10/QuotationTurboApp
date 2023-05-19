@@ -24,6 +24,7 @@ export const ProductsTabe = () => {
       descricao: "",
       brand: "",
       unit: "",
+      code: "",
     });
 
   const [clickedProduct, setClickedProduct] = React.useState<ClickedProduct>({
@@ -54,6 +55,7 @@ export const ProductsTabe = () => {
                 <th>Nome</th>
                 <th>Descrição</th>
                 <th>Marca</th>
+                <th>Código</th>
                 <th>Unidade</th>
                 <th className="w-8 text-center">Ações</th>
               </tr>
@@ -76,6 +78,9 @@ export const ProductsTabe = () => {
                       <label>{product.brand}</label>
                     </td>
                     <td>
+                      <label>{product.code}</label>
+                    </td>
+                    <td>
                       <label>{product.unit}</label>
                     </td>
                     <th className="space-x-3">
@@ -95,7 +100,10 @@ export const ProductsTabe = () => {
                         className="btn btn-warning  btn-square"
                         onClick={() => {
                           setEditModalOpen(true);
-                          setInfoModalOpen(product);
+                          setInfoModalOpen({
+                            ...product,
+                            code: product.code ?? "",
+                          });
                         }}
                       >
                         <PencilSimple size={24} />
@@ -105,15 +113,6 @@ export const ProductsTabe = () => {
                 );
               })}
             </tbody>
-            <tfoot>
-              <tr>
-                <th>Nome</th>
-                <th>Descrição</th>
-                <th>Marca</th>
-                <th>Unidade</th>
-                <th className="w-8 text-center">Ações</th>
-              </tr>
-            </tfoot>
           </table>
         </div>
       )}

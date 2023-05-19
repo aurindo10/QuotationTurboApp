@@ -34,6 +34,7 @@ export const ProductsTableCotation = () => {
       descricao: "",
       brand: "",
       unit: "",
+      code: "",
     });
 
   const [clickedProduct, setClickedProduct] = React.useState<ClickedProduct>({
@@ -77,6 +78,7 @@ export const ProductsTableCotation = () => {
                 <th>Nome</th>
                 <th>Descrição</th>
                 <th>Marca</th>
+                <th>Código</th>
                 <th>Unidade</th>
                 <th className="w-8 text-center">Ações</th>
               </tr>
@@ -97,6 +99,9 @@ export const ProductsTableCotation = () => {
                     </td>
                     <td>
                       <label>{product.produto.brand}</label>
+                    </td>
+                    <td>
+                      <label>{product.produto.code}</label>
                     </td>
                     <td>
                       <label>{product.produto.unit}</label>

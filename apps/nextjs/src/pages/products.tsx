@@ -24,7 +24,11 @@ const Page: NextPageWithLayout = () => {
           <SearchInput></SearchInput>
         </div>
       </div>
-      <ProductsTabe></ProductsTabe>
+      <div className="flex w-full justify-center">
+        <div className="w-full max-w-7xl">
+          <ProductsTabe></ProductsTabe>
+        </div>
+      </div>
     </div>
   );
 };

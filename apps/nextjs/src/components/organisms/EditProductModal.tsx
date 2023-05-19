@@ -17,6 +17,7 @@ const FormSchema = z.object({
   descricao: z.string().min(1, "Consumo é obrigatório e deve ser maior que 0"),
   brand: z.string().min(1, "Marca é obrigatório"),
   unit: z.string().min(1, "Unidade é obrigatório"),
+  code: z.string().min(1, "Código é obrigatório"),
 });
 type FormData = z.infer<typeof FormSchema>;
 type RouterOutput = inferRouterOutputs<AppRouter>;
@@ -60,6 +61,7 @@ export const EditProductModal = ({
     setValue("descricao", product.descricao);
     setValue("brand", product.brand);
     setValue("unit", product.unit);
+    setValue("code", product.code);
   }, [product]);
 
   const { mutateAsync: updateOneProduct } =
@@ -156,6 +158,24 @@ export const EditProductModal = ({
                 </label>
                 <Controller
                   name="unit"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <input
+                      {...field}
+                      type="text"
+                      placeholder="Digite aqui.."
+                      className="input input-bordered w-full max-w-xs"
+                    />
+                  )}
+                />
+              </div>
+              <div className="form-control w-full max-w-xs">
+                <label className="label">
+                  <span className="label-text">Código</span>
+                </label>
+                <Controller
+                  name="code"
                   control={control}
                   defaultValue=""
                   render={({ field }) => (
