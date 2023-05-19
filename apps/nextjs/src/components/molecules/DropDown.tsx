@@ -8,6 +8,7 @@ import {
 } from "@radix-ui/react-icons";
 import { useRouter } from "next/router";
 import { trpc } from "../../utils/trpc";
+import Link from "next/link";
 interface Props {
   id: string;
 }
@@ -40,25 +41,22 @@ const DropdownMenuDemo = ({ id }: Props) => {
           align={"end"}
         >
           <div className="w-32 space-y-1">
-            <DropdownMenu.Item
-              className="btn  btn-sm w-full"
-              onClick={() => router.push(`/cotacoes/sentprices/${id}`)}
-            >
-              Abrir
-            </DropdownMenu.Item>
-            <DropdownMenu.Item
-              className="btn  btn-xs w-full"
-              onClick={() => router.push(`/cotacoes/products/${id}`)}
-            >
-              Editar
-            </DropdownMenu.Item>
+            <Link href={`/cotacoes/sentprices/${id}`}>
+              <DropdownMenu.Item className="btn  btn-sm w-full">
+                Abrir
+              </DropdownMenu.Item>
+            </Link>
+            <Link href={`/cotacoes/products/${id}`}>
+              <DropdownMenu.Item className="btn  btn-xs w-full">
+                Editar
+              </DropdownMenu.Item>
+            </Link>
             <DropdownMenu.Item
               className="btn  btn-sm w-full"
               onClick={HandleCompareProductsCotados}
             >
               Gerar
             </DropdownMenu.Item>
-
             <DropdownMenu.Item
               className="btn btn-xs w-full"
               onClick={() => router.push(`/register/${id}`)}

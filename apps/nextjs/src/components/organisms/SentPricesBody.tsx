@@ -1,25 +1,35 @@
 import { PencilSimple, Trash } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
 import { useRouter as pastUseRouter } from "next/router";
+import React from "react";
+import { useEffect } from "react";
+import { useSentPricesStore } from "../../../zustandStore/SentPrices";
 
 import { trpc } from "../../utils/trpc";
+import { DeletePriceListCotado } from "./DeletePriceListCotado";
 
 export const SentPricesBody = () => {
+  const [open, setOpen] = React.useState(false);
+  const [representanteInfo, setRepresentanteInfo] = React.useState({
+    representanteId: "",
+    representanteName: "",
+  });
   const router = useRouter();
   const pastRouter = pastUseRouter();
-  const { mutateAsync: deleteProdutosCotados } =
-    trpc.produCotado.deleteProdutosCotados.useMutation();
-  const HandledeleteProdutosCotados = async (id: string) => {
-    const deletedProdutosCotados = await deleteProdutosCotados({
-      representanteId: id,
-    });
-    if (deletedProdutosCotados) {
-    }
-  };
+  const [sentPrices, setSentPrices] = useSentPricesStore((state) => [
+    state.sentPrices,
+    state.setSentPrices,
+  ]);
+
   const { data, status } =
     trpc.produCotado.getListOfPricesByCotationId.useQuery({
       cotacaoId: pastRouter.query.id as string,
     });
+  useEffect(() => {
+    if (data) {
+      setSentPrices(data);
+    }
+  }, [data, status]);
   if (status === "loading") {
     return <div className="">loading</div>;
   }
@@ -32,7 +42,7 @@ export const SentPricesBody = () => {
   return (
     <div className="py-4 px-2 ">
       <div className="space-y-4">
-        {data?.map((seller) => {
+        {sentPrices?.map((seller) => {
           return (
             <div key={seller.id}>
               <div className="flex items-center gap-4">
@@ -44,7 +54,11 @@ export const SentPricesBody = () => {
                 </div>
                 <button
                   onClick={() => {
-                    HandledeleteProdutosCotados(seller.id);
+                    setRepresentanteInfo({
+                      representanteId: seller.id,
+                      representanteName: seller.nome,
+                    });
+                    setOpen(true);
                   }}
                   className="btn btn-square btn-accent btn-sm"
                 >
@@ -109,6 +123,12 @@ export const SentPricesBody = () => {
             </div>
           );
         })}
+        <DeletePriceListCotado
+          open={open}
+          setOpen={setOpen}
+          representanteId={representanteInfo.representanteId}
+          representanteName={representanteInfo.representanteName}
+        ></DeletePriceListCotado>
       </div>
     </div>
   );
