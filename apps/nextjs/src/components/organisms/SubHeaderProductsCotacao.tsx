@@ -117,9 +117,9 @@ export const SubHeaderProductsCotacao = () => {
             </span>
             <button
               type="submit"
-              className={`btn btn-primary btn-sm ${isLoading}`}
+              className={`btn btn-primary btn ${isLoading}`}
             >
-              Add
+              Adicionar
             </button>
           </div>
         </div>
