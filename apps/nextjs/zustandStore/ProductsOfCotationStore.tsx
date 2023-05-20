@@ -7,6 +7,8 @@ type getProductsByCotationType =
 type getProductByNameType = RouterOutputs["product"]["getProductByName"];
 type Store = {
   allProducts: getProductsByCotationType;
+  productName: string;
+  setProductName: (name: string) => void;
   searchInputState: getProductByNameType;
   addManyProducts: (product: getProductsByCotationType) => void;
   addProduct: (products: getProductsByCotationType[0]) => void;
@@ -40,6 +42,12 @@ export const useProductsOfCotationStore = create(
         },
       },
     ],
+    productName: "",
+    setProductName: (name) => {
+      set((state) => {
+        state.productName = name;
+      });
+    },
     selectedProduct: {
       id: "",
       descricao: "",

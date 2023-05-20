@@ -18,6 +18,7 @@ import {
 import { InputToAddProductOnCotation } from "../atoms/AddProductInput";
 import { useProductsOfCotationStore } from "../../../zustandStore/ProductsOfCotationStore";
 import { cn } from "../../../libs/utils";
+import { AddProductModalFromCotation } from "../organisms/AddProductModalFromSelectProduct";
 
 export function SelectInputProduct() {
   const [open, setOpen] = React.useState(false);
@@ -56,9 +57,7 @@ export function SelectInputProduct() {
               {isLoading ? (
                 <button className={`btn btn-square btn-xs ${isLoading}`} />
               ) : (
-                <label className="text-white">
-                  Não foi encontrado nenhum produto
-                </label>
+                <AddProductModalFromCotation></AddProductModalFromCotation>
               )}
             </div>
           </CommandEmpty>

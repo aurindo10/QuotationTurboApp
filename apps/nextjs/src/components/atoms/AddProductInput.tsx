@@ -10,16 +10,22 @@ interface InputToAddProductOnCotationProps {
   setValue: React.Dispatch<React.SetStateAction<string>>;
 }
 export const InputToAddProductOnCotation = () => {
-  const [inputValue, setInputValue] = useState("");
   const { user } = useUser();
   const { mutateAsync: getProductByName } =
     trpc.product.getProductByName.useMutation();
-  const [addProductToSearchState, setIsLoading, setValue] =
-    useProductsOfCotationStore((state) => [
-      state.addProductToSearchState,
-      state.setIsLoading,
-      state.setSelectedProductId,
-    ]);
+  const [
+    addProductToSearchState,
+    setIsLoading,
+    setValue,
+    inputValue,
+    setInputValue,
+  ] = useProductsOfCotationStore((state) => [
+    state.addProductToSearchState,
+    state.setIsLoading,
+    state.setSelectedProductId,
+    state.productName,
+    state.setProductName,
+  ]);
 
   const handleSearch = async (value: string) => {
     setIsLoading("loading");

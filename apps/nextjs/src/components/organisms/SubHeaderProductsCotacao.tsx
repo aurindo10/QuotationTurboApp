@@ -115,10 +115,7 @@ export const SubHeaderProductsCotacao = () => {
             <span className="text-center text-xs text-red-600">
               {errors.quantidade?.message}
             </span>
-            <button
-              type="submit"
-              className={`btn btn-primary btn ${isLoading}`}
-            >
+            <button type="submit" className={`btn btn-primary ${isLoading}`}>
               Adicionar
             </button>
           </div>
