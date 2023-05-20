@@ -53,25 +53,37 @@ export const SubHeaderProductsCotacao = () => {
   });
   const onSubmit = async (data: FormData) => {
     setIsloanding("loading");
-    const createdProduct = await addProductToCotacao({
-      ...data,
-      cotacaoId: (idCotacao as string) ?? "",
-      empresaId: user?.publicMetadata.idEmpresa as string,
-      produtoId: selectedProduct.id,
-    });
-    if (createdProduct) {
-      addProduct(createdProduct);
+    if (selectedProduct.id) {
+      const createdProduct = await addProductToCotacao({
+        ...data,
+        cotacaoId: (idCotacao as string) ?? "",
+        empresaId: user?.publicMetadata.idEmpresa as string,
+        produtoId: selectedProduct.id,
+      });
+
+      if (createdProduct) {
+        addProduct(createdProduct);
+        setIsloanding("");
+        reset();
+        setToastOpen();
+        resetSelectedProduct();
+        addProductToSearchState([]);
+        setSelectedProduct();
+        setSelectedProductId("");
+        setContent({
+          title: "Produto adicionado",
+          description: `O produto foi adicionado com sucesso`,
+          type: "success",
+        });
+      }
+    }
+    if (!selectedProduct.id) {
       setIsloanding("");
-      reset();
       setToastOpen();
-      resetSelectedProduct();
-      addProductToSearchState([]);
-      setSelectedProduct();
-      setSelectedProductId("");
       setContent({
-        title: "Produto adicionado",
-        description: `O produto foi adicionado com sucesso`,
-        type: "success",
+        title: "Selecione um produto",
+        description: `Você deve selecionar um produto para adicionar a cotação`,
+        type: "error",
       });
     }
   };

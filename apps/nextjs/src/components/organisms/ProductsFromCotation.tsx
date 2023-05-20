@@ -69,7 +69,7 @@ export const ProductsTableCotation = () => {
     <div>
       {isLoading ? (
         <ProductsTableSkeleton />
-      ) : (
+      ) : allProducts.length > 0 ? (
         <div className="w-full overflow-x-auto">
           <table className="table-zebra table w-full ">
             {/* head */}
@@ -125,6 +125,10 @@ export const ProductsTableCotation = () => {
               })}
             </tbody>
           </table>
+        </div>
+      ) : (
+        <div className="w-full text-center text-[30px]">
+          Você ainda não adicionou produtos a esta cotação
         </div>
       )}
       <DeleteProductCotationModal
