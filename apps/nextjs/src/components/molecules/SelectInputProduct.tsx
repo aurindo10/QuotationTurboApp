@@ -49,7 +49,7 @@ export function SelectInputProduct() {
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="bg-neutral w-[300px]">
+      <PopoverContent className="w-[300px] bg-slate-900">
         <Command className="w-full">
           <InputToAddProductOnCotation />
           <CommandEmpty className="w-full">
@@ -61,11 +61,12 @@ export function SelectInputProduct() {
               )}
             </div>
           </CommandEmpty>
-          <CommandGroup>
+          <CommandGroup className="">
             {searchInputState.map((product) => (
               <div key={product.id}>
                 <CommandItem
                   key={product.id}
+                  className="my-2 rounded-lg bg-slate-800"
                   value={product.id}
                   onSelect={(currentValue: string) => {
                     setValue(currentValue === value ? "" : currentValue);
@@ -81,7 +82,6 @@ export function SelectInputProduct() {
                   />
                   {`${product.nome}/ ${product.code}`}
                 </CommandItem>
-                <div className="h-[0.1px] w-full bg-white"></div>
               </div>
             ))}
           </CommandGroup>

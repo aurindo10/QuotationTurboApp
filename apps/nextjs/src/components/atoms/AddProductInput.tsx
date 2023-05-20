@@ -52,12 +52,14 @@ export const InputToAddProductOnCotation = () => {
     debouncedHandleSearch(value);
   };
   return (
-    <input
-      type="text"
-      className="bg-neutral w-full px-2 py-2"
-      placeholder="Digite aqui"
-      value={inputValue}
-      onChange={handleChange}
-    />
+    <div className="px-1 py-1">
+      <input
+        type="text"
+        className="input input-bordered input-warning w-full bg-slate-900 px-2 py-2"
+        placeholder="Digite aqui"
+        value={inputValue}
+        onChange={handleChange}
+      />
+    </div>
   );
 };
