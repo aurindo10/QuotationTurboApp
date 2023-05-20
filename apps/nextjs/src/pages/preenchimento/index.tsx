@@ -178,6 +178,7 @@ export default function Page() {
             render={({ field }) => (
               <input
                 {...field}
+                min={0}
                 onChange={(e) => {
                   if (e.target.value === "") return field.onChange("");
                   field.onChange(parseInt(e.target.value));

@@ -106,6 +106,7 @@ export const SubHeaderProductsCotacao = () => {
                 <input
                   {...field}
                   type="number"
+                  min={0}
                   onChange={(e) => {
                     if (e.target.value === "") return field.onChange("");
                     field.onChange(parseInt(e.target.value));
