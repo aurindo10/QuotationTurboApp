@@ -19,8 +19,10 @@ export const CopyAndPasteModal = ({ cotacaoId, setOpen, open }: Props) => {
   const [deleteCotacaoState] = useCotacoesStore((state) => [
     state.deleteCotacao,
   ]);
+  const { data } = trpc.cotacoes.getProductsFromOneCotacao.useQuery({
+    idCotacao: cotacaoId,
+  });
   const [isLoading, setIsLoading] = React.useState("");
-  const [] = React.useState(false);
   const { user } = useUser();
 
   const handleCopyToClipboard = async () => {
@@ -44,6 +46,7 @@ export const CopyAndPasteModal = ({ cotacaoId, setOpen, open }: Props) => {
       setToastOpen();
     }
   };
+  if (!data) return null;
   return (
     <Dialog.Root open={open} onOpenChange={() => setOpen(!open)}>
       <Dialog.Portal>
@@ -59,22 +62,28 @@ export const CopyAndPasteModal = ({ cotacaoId, setOpen, open }: Props) => {
             Compartilhe este link com os seus representantes para que eles
             possam inserir os valores dos produtos
           </Dialog.Description>
-          <div className="form-control">
-            <div className="input-group">
-              <input
-                type="text"
-                placeholder="Search…"
-                className="input input-bordered w-full"
-                defaultValue={`localhost:3000/register/${cotacaoId}`}
-              />
-              <button
-                className="btn btn-square btn-secondary"
-                onClick={handleCopyToClipboard}
-              >
-                <CopySimple size={27} />
-              </button>
+          {data?.produtos.length > 0 ? (
+            <div className="form-control">
+              <div className="input-group">
+                <input
+                  type="text"
+                  placeholder="Search…"
+                  className="input input-bordered w-full"
+                  defaultValue={`localhost:3000/register/${cotacaoId}`}
+                />
+                <button
+                  className="btn btn-square btn-secondary"
+                  onClick={handleCopyToClipboard}
+                >
+                  <CopySimple size={27} />
+                </button>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="text-[30px]">
+              Adicione produtos a esta cotação para compartilha-la
+            </div>
+          )}
           <div className="flex justify-end gap-6">
             <button
               className={`btn btn-accent mt-4 ${isLoading}`}
