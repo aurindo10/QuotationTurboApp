@@ -63,7 +63,7 @@ export const Drawer = () => {
               >
                 <li>
                   <Link href={"/cotacoes"} onClick={closeDropdown}>
-                    Homepage
+                    Cotações
                   </Link>
                 </li>
                 <li>

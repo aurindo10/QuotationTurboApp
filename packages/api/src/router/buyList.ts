@@ -25,11 +25,21 @@ export const buyListRouter = router({
           cotacaoId: input.cotacaoId,
         },
       });
+      const isThereBuyList = await ctx.prisma.buyList.findMany({
+        where: {
+          cotacaoId: input.cotacaoId,
+        },
+      });
+      if (isThereBuyList[0]) {
+        throw new TRPCError({
+          code: "CONFLICT",
+          message: "Já existe uma lista de compras para essa cotação",
+        });
+      }
       if (!isThereProdutoCotado[0]) {
         throw new TRPCError({
           code: "NOT_FOUND",
           message: "Não há produtos cotados para essa cotação",
-          cause: "sdasd",
         });
       } else {
         const productsCompared = allProductsFromCotacao.map(
@@ -95,5 +105,19 @@ export const buyListRouter = router({
         },
       });
       return buyList;
+    }),
+  deleteBuyList: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const deletedBuyList = await ctx.prisma.buyList.deleteMany({
+        where: {
+          cotacaoId: input.id,
+        },
+      });
+      return deletedBuyList;
     }),
 });

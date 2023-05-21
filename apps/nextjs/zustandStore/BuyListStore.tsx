@@ -7,9 +7,7 @@ type BuyList =
 type Store = {
   allBuiesList: BuyList;
   addManyBuyList: (product: BuyList) => void;
-  //   deleteCotacao: (id: string) => void;
-  //   deleteProduct: (id: string) => void;
-  //   updateProduct: (product: GetAllProducts[0]) => void;
+  deleteBuyList: (id: string) => void;
 };
 
 export const useBuyListsStore = create(
@@ -18,6 +16,13 @@ export const useBuyListsStore = create(
     addManyBuyList: (buyList) => {
       set((state) => {
         state.allBuiesList = buyList;
+      });
+    },
+    deleteBuyList: (id) => {
+      set((state) => {
+        state.allBuiesList = state.allBuiesList.filter(
+          (buyList) => buyList.id !== id,
+        );
       });
     },
   })),

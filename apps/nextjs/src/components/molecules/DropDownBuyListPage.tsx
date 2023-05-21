@@ -12,16 +12,6 @@ interface Props {
   id: string;
 }
 const DropdownMenuBuyList = ({ id }: Props) => {
-  const [bookmarksChecked, setBookmarksChecked] = React.useState(true);
-  const [urlsChecked, setUrlsChecked] = React.useState(false);
-  const [person, setPerson] = React.useState("pedro");
-  const { mutateAsync: compareProductsCotados } =
-    trpc.buyList.compareProductsCotados.useMutation();
-
-  const HandleCompareProductsCotados = async () => {
-    const comparedProducts = await compareProductsCotados({ cotacaoId: id });
-    if (comparedProducts) alert("Lista cadastrada com sucesso");
-  };
   const router = useRouter();
   return (
     <DropdownMenu.Root>

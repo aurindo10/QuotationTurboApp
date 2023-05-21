@@ -1,12 +1,14 @@
 import { useUser } from "@clerk/nextjs";
-import { DotsThreeOutlineVertical } from "@phosphor-icons/react";
+import { DotsThreeOutlineVertical, Trash } from "@phosphor-icons/react";
 import { trpc } from "../../utils/trpc";
 import DropdownMenuDemo from "../molecules/DropDown";
 import { useCotacoesStore } from "../../../zustandStore/CotacoesStore";
 import { useEffect, useState } from "react";
 import DropdownMenuBuyList from "../molecules/DropDownBuyListPage";
 import { useBuyListsStore } from "../../../zustandStore/BuyListStore";
+import { DeleteBuyListmodal } from "./DeleteBuyListModal";
 export const CotationBuyListPage = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const { user } = useUser();
   const { data, status } =
     trpc.cotacoes.getCotacoesWithProductsCotadosInside.useQuery({
@@ -42,11 +44,25 @@ export const CotationBuyListPage = () => {
                 <h3>{`Enviados: 01/03`}</h3>
               </div>
               <div className="card-actions justify-end">
-                <DropdownMenuBuyList id={buyList.id}></DropdownMenuBuyList>
+                <div className="flex flex-col items-center justify-center gap-2">
+                  <DropdownMenuBuyList id={buyList.id}></DropdownMenuBuyList>
+                  <button
+                    className="btn btn-square btn-accent btn-sm"
+                    onClick={() => setIsOpen(true)}
+                  >
+                    <Trash size={22}></Trash>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         ) : null}
+        <DeleteBuyListmodal
+          open={isOpen}
+          setOpen={setIsOpen}
+          cotacaoId={buyList.id}
+          cotacaoName={buyList.nome}
+        ></DeleteBuyListmodal>
       </div>
     );
   });
