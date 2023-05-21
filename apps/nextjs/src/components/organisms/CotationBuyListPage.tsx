@@ -8,6 +8,8 @@ import DropdownMenuBuyList from "../molecules/DropDownBuyListPage";
 import { useBuyListsStore } from "../../../zustandStore/BuyListStore";
 import { DeleteBuyListmodal } from "./DeleteBuyListModal";
 import { string } from "zod";
+import { zonedTimeToUtc, utcToZonedTime, format } from "date-fns-tz";
+const timeZone = "America/Sao_Paulo";
 export const CotationBuyListPage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [infoToDeleteModal, setInfoToDeleteModal] = useState({
@@ -33,6 +35,8 @@ export const CotationBuyListPage = () => {
   }
   let buyListCount = 0;
   const buyListElement = allBuiesList?.map((buyList) => {
+    const zonedDate = utcToZonedTime(buyList.createdAt!, timeZone);
+    const formattedDate = format(zonedDate, "dd/MM/yyyy");
     if (buyList.BuyList.length > 0) {
       buyListCount++;
     }
@@ -46,7 +50,7 @@ export const CotationBuyListPage = () => {
             <div className="card-body grid grid-cols-3">
               <div className="col-span-2">
                 <h2 className="card-title">{buyList.nome}</h2>
-                <h3>{`Enviados: 01/03`}</h3>
+                <h3>{`Criado em: ${formattedDate}`}</h3>
               </div>
               <div className="card-actions justify-end">
                 <div className="flex flex-col items-center justify-center gap-2">

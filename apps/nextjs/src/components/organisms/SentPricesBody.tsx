@@ -74,6 +74,7 @@ export const SentPricesBody = () => {
                         <th className="w-56">Nome</th>
                         <th className="w-56">Descrição</th>
                         <th className="w-56">Marca</th>
+                        <th className="w-56">Código</th>
                         <th className="w-56">Unidade</th>
                         <th>Valor</th>
                       </tr>
@@ -102,6 +103,9 @@ export const SentPricesBody = () => {
                               <label>
                                 {product.produtoDaCotacao.produto.brand}
                               </label>
+                            </td>
+                            <td>
+                              <label>{product.code}</label>
                             </td>
                             <td>
                               <label>

@@ -29,6 +29,7 @@ export const BuyListTableBody = () => {
                       <th className="w-56">Nome</th>
                       <th className="w-56">Descrição</th>
                       <th className="w-56">Marca</th>
+                      <th className="w-56">Código</th>
                       <th className="w-56">Unidade</th>
                       <th>Valor</th>
                     </tr>
@@ -60,6 +61,9 @@ export const BuyListTableBody = () => {
                                   .brand
                               }
                             </label>
+                          </td>
+                          <td>
+                            <label>{product.produtoCotado.code}</label>
                           </td>
                           <td>
                             <label>
