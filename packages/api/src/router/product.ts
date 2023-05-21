@@ -28,10 +28,20 @@ export const productRouter = router({
       });
       return createdEmpresa;
     }),
-  getAllProducts: protectedProcedure.query(async ({ ctx }) => {
-    const allProducts = await ctx.prisma.product.findMany({});
-    return allProducts;
-  }),
+  getAllProducts: protectedProcedure
+    .input(
+      z.object({
+        empresaId: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const allProducts = await ctx.prisma.product.findMany({
+        where: {
+          empresaId: input.empresaId,
+        },
+      });
+      return allProducts;
+    }),
   deleteOneProduct: protectedProcedure
     .input(
       z.object({

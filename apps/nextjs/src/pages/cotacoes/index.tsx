@@ -1,20 +1,13 @@
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/router";
 import { ReactElement, useContext, useEffect } from "react";
+import useProtectedRoute from "../../components/atoms/protectedHook";
 import { AddCotacaoModal } from "../../components/organisms/AddCotacaoModal";
 import { CotacoesList } from "../../components/organisms/CotacoesList";
 import { Drawer } from "../../components/template/Drawer";
 import { NextPageWithLayout } from "../_app";
 
 const Page: NextPageWithLayout = () => {
-  const router = useRouter();
-  const { user, isLoaded } = useUser();
-  if (!isLoaded) {
-    return <div className="text-slate-50">loading</div>;
-  }
-  if (!user!.publicMetadata.nomeEmpresa) {
-    router.push("/criarempresa");
-  }
   return (
     <div className="py-4 px-2 ">
       <div className="flex justify-center">

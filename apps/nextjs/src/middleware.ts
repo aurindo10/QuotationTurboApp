@@ -1,11 +1,14 @@
-import { withClerkMiddleware } from "@clerk/nextjs/server";
+import { getAuth, withClerkMiddleware } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export default withClerkMiddleware((_req: NextRequest) => {
-  return NextResponse.next();
+export default withClerkMiddleware((req: NextRequest) => {
+  const { userId, user } = getAuth(req);
+  if (!userId) {
+    const signInUrl = new URL("/sign-in", req.url);
+    return NextResponse.redirect(signInUrl);
+  }
 });
-
 // Stop Middleware running on static files
 export const config = {
   matcher: [
@@ -17,6 +20,6 @@ export const config = {
      *
      * This includes images, and requests from TRPC.
      */
-    "/(.*?trpc.*?|(?!static|.*\\..*|_next|favicon.ico).*)",
+    "/(.*?trpc.*?|(?!static|.*\\..*|_next|favicon.ico|sign-in|preenchimento).*)",
   ],
 };

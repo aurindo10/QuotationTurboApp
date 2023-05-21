@@ -1,4 +1,5 @@
 import { AppRouter } from "@acme/api";
+import { useUser } from "@clerk/nextjs";
 import { PencilSimple, Trash } from "@phosphor-icons/react";
 import { inferRouterInputs } from "@trpc/server";
 import React from "react";
@@ -31,8 +32,10 @@ export const ProductsTabe = () => {
     id: "",
     nome: "",
   });
-
-  const { data, status } = trpc.product.getAllProducts.useQuery();
+  const user = useUser();
+  const { data, status } = trpc.product.getAllProducts.useQuery({
+    empresaId: user?.user?.publicMetadata.idEmpresa as string,
+  });
   const [allPrducts, addManyProducts] = useProductsStore((state) => [
     state.allPrducts,
     state.addManyProducts,

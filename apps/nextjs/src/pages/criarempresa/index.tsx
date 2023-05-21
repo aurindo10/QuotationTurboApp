@@ -1,9 +1,9 @@
 import { ReactElement, useContext, useEffect } from "react";
-import { Alert } from "../components/molecules/Alert";
-import { CreateEmpresaForm } from "../components/organisms/CreateEmpresaForm";
-import { CreateEmpresaHeader } from "../components/organisms/CreateEmpresaHeader";
-import { Drawer } from "../components/template/Drawer";
-import { NextPageWithLayout } from "./_app";
+import { Alert } from "../../components/molecules/Alert";
+import { CreateEmpresaForm } from "../../components/organisms/CreateEmpresaForm";
+import { CreateEmpresaHeader } from "../../components/organisms/CreateEmpresaHeader";
+import { Drawer } from "../../components/template/Drawer";
+import { NextPageWithLayout } from "../_app";
 
 const Page = () => {
   return (
