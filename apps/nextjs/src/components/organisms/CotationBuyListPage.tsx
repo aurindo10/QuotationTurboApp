@@ -41,7 +41,7 @@ export const CotationBuyListPage = () => {
       buyListCount++;
     }
     return (
-      <div className="w-full">
+      <div className="w-full" key={buyList.id}>
         {buyList.BuyList.length > 0 ? (
           <div
             className="card card-compact bg-base-100 w-full max-w-xl shadow-xl"

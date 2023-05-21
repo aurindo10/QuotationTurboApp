@@ -15,7 +15,7 @@ export const BuyListTableBody = () => {
     <div className="space-y-2">
       {allProductsByCotation?.map((seller) => {
         return (
-          <div>
+          <div key={seller.id}>
             <div className="flex justify-start gap-6 py-4 px-2">
               <label>{`Vendedor: ${seller.nome}`}</label>
               <label>{` Empresa: ${seller.empresaName}`}</label>
@@ -36,7 +36,7 @@ export const BuyListTableBody = () => {
                   </thead>
                   {seller.buyList.map((product) => {
                     return (
-                      <tbody>
+                      <tbody key={product.produtoCotado.id}>
                         <tr key={product.produtoCotado.id}>
                           <th>
                             <div className="w-32 whitespace-normal md:w-full">

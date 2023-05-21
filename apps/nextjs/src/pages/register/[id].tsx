@@ -33,7 +33,6 @@ export default function Register() {
   const cotacaoId = router.query.id as string;
   const onSubmit = async (data: FormData) => {
     if (!isLoading) {
-      console.log("okok");
       setIsLoading("loading");
       const createdRepresentante = await createRepresentante({
         ...data,

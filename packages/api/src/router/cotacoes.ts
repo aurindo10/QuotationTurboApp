@@ -51,7 +51,6 @@ export const cotacoesRouter = router({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      console.log(input);
       const createdProductOnCotation =
         await ctx.prisma.produtosDaCotacao.create({
           data: {
@@ -76,7 +75,6 @@ export const cotacoesRouter = router({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      console.log(input);
       const deletedProduct = await ctx.prisma.produtosDaCotacao.delete({
         where: {
           id: input.id,

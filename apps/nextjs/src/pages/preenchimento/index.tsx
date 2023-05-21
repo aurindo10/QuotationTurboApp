@@ -129,7 +129,6 @@ export default function Page() {
   if (status === "loading") return <div>loading</div>;
   const handleSendProposta = async () => {
     setLoading("loading");
-    console.log(allProductsCotados);
     const res = await sendProposta({
       products: allProductsCotados,
     });

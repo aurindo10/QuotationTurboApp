@@ -10,7 +10,6 @@ export const PreenchimentoPage = ({
   oneCotacao,
   localStep,
 }: HeaderPreenchimentoPageProps) => {
-  console.log(oneCotacao?.produtos[localStep - 1]);
   return (
     <div className="py-2">
       <div className="flex w-full flex-col items-center justify-center">
