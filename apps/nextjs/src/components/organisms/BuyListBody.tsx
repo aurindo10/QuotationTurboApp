@@ -16,8 +16,9 @@ export const BuyListTableBody = () => {
       {allProductsByCotation?.map((seller) => {
         return (
           <div>
-            <div className="card card-compact bg-base-100 w-full max-w-xl shadow-xl">
-              {seller.nome}
+            <div className="flex justify-start gap-6 py-4 px-2">
+              <label>{`Vendedor: ${seller.nome}`}</label>
+              <label>{` Empresa: ${seller.empresaName}`}</label>
             </div>
             <div className="space-y-2">
               <div className="w-full overflow-x-auto">
@@ -30,7 +31,6 @@ export const BuyListTableBody = () => {
                       <th className="w-56">Marca</th>
                       <th className="w-56">Unidade</th>
                       <th>Valor</th>
-                      <th className="w-8 text-center">Ações</th>
                     </tr>
                   </thead>
                   {seller.buyList.map((product) => {
@@ -72,14 +72,6 @@ export const BuyListTableBody = () => {
                           <td>
                             <label>{product.produtoCotado.valor}</label>
                           </td>
-                          <th className="space-x-3">
-                            <button className="btn btn-accent  btn-square">
-                              <Trash size={24} />
-                            </button>
-                            <button className="btn btn-warning  btn-square">
-                              <PencilSimple size={24} />
-                            </button>
-                          </th>
                         </tr>
                       </tbody>
                     );

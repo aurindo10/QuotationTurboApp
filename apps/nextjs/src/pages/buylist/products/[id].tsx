@@ -12,7 +12,7 @@ const Page: NextPageWithLayout = () => {
     return <div className="text-slate-50">loading</div>;
   }
   return (
-    <div className="w-full">
+    <div className="w-full px-2 py-2 md:px-4">
       <BuyListTableBody></BuyListTableBody>
     </div>
   );

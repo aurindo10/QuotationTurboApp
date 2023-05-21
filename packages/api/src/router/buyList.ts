@@ -68,6 +68,7 @@ export const buyListRouter = router({
         select: {
           nome: true,
           id: true,
+          empresaName: true,
           buyList: {
             select: {
               produtoCotado: {
