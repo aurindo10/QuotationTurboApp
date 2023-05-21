@@ -20,7 +20,12 @@ export const buyListRouter = router({
             produtoCotado: true,
           },
         });
-      if (allProductsFromCotacao[0]) {
+      const isThereProdutoCotado = await ctx.prisma.produtoCotado.findMany({
+        where: {
+          cotacaoId: input.cotacaoId,
+        },
+      });
+      if (!isThereProdutoCotado[0]) {
         throw new TRPCError({
           code: "NOT_FOUND",
           message: "Não há produtos cotados para essa cotação",

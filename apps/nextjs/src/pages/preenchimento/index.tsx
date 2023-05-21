@@ -130,7 +130,14 @@ export default function Page() {
     const res = await sendProposta({
       products: allProductsCotados,
     });
-    console.log(res);
+    if (res) {
+      router.replace({
+        pathname: `/preenchimento/confirmacao`,
+        query: {
+          enviado: true,
+        },
+      });
+    }
   };
   return (
     <form className="w-full" onChange={() => onSubmit()}>

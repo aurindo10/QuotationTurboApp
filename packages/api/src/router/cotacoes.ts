@@ -130,4 +130,25 @@ export const cotacoesRouter = router({
       });
       return deletedCotacao;
     }),
+  getCotacoesWithProductsCotadosInside: protectedProcedure
+    .input(
+      z.object({
+        empresaId: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const allCotacoes = await ctx.prisma.cotacoes.findMany({
+        where: {
+          empresaId: input.empresaId,
+        },
+        include: {
+          Representante: true,
+          BuyList: true,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
+      return allCotacoes;
+    }),
 });
