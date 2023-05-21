@@ -13,6 +13,7 @@ const FormSchema = z.object({
 });
 type FormData = z.infer<typeof FormSchema>;
 export default function Page() {
+  const [loading, setLoading] = useState("");
   const { mutateAsync: sendProposta } =
     trpc.produCotado.addManyProductsCotados.useMutation();
   const [valor, setValor] = useState(0);
@@ -126,11 +127,13 @@ export default function Page() {
 
   if (status === "loading") return <div>loading</div>;
   const handleSendProposta = async () => {
+    setLoading("loading");
     console.log(allProductsCotados);
     const res = await sendProposta({
       products: allProductsCotados,
     });
     if (res) {
+      setLoading("");
       router.replace({
         pathname: `/preenchimento/confirmacao`,
         query: {
@@ -245,7 +248,9 @@ export default function Page() {
             onClick={(e) => {
               e.preventDefault(), handleSendProposta();
             }}
-            className={`btn btn-primary`}
+            className={`btn btn-primary ${loading} ${
+              loading === "loading" ? "cursor-not-allowed" : ""
+            }}`}
           >
             Enviar orçamento
           </button>

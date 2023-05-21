@@ -7,8 +7,13 @@ import { useEffect, useState } from "react";
 import DropdownMenuBuyList from "../molecules/DropDownBuyListPage";
 import { useBuyListsStore } from "../../../zustandStore/BuyListStore";
 import { DeleteBuyListmodal } from "./DeleteBuyListModal";
+import { string } from "zod";
 export const CotationBuyListPage = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [infoToDeleteModal, setInfoToDeleteModal] = useState({
+    cotacaoId: "",
+    cotacaoName: "",
+  });
   const { user } = useUser();
   const { data, status } =
     trpc.cotacoes.getCotacoesWithProductsCotadosInside.useQuery({
@@ -48,7 +53,13 @@ export const CotationBuyListPage = () => {
                   <DropdownMenuBuyList id={buyList.id}></DropdownMenuBuyList>
                   <button
                     className="btn btn-square btn-accent btn-sm"
-                    onClick={() => setIsOpen(true)}
+                    onClick={() => {
+                      setIsOpen(true);
+                      setInfoToDeleteModal({
+                        cotacaoId: buyList.id,
+                        cotacaoName: buyList.nome,
+                      });
+                    }}
                   >
                     <Trash size={22}></Trash>
                   </button>
@@ -57,12 +68,6 @@ export const CotationBuyListPage = () => {
             </div>
           </div>
         ) : null}
-        <DeleteBuyListmodal
-          open={isOpen}
-          setOpen={setIsOpen}
-          cotacaoId={buyList.id}
-          cotacaoName={buyList.nome}
-        ></DeleteBuyListmodal>
       </div>
     );
   });
@@ -74,6 +79,14 @@ export const CotationBuyListPage = () => {
     );
   }
   return (
-    <div className="flex w-full flex-col items-center ">{buyListElement}</div>
+    <div className="flex w-full flex-col items-center ">
+      {buyListElement}
+      <DeleteBuyListmodal
+        open={isOpen}
+        setOpen={setIsOpen}
+        cotacaoId={infoToDeleteModal.cotacaoId}
+        cotacaoName={infoToDeleteModal.cotacaoName}
+      ></DeleteBuyListmodal>
+    </div>
   );
 };

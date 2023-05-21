@@ -8,6 +8,7 @@ import {
 } from "@radix-ui/react-icons";
 import { useRouter } from "next/router";
 import { trpc } from "../../utils/trpc";
+import Link from "next/link";
 interface Props {
   id: string;
 }
@@ -30,12 +31,11 @@ const DropdownMenuBuyList = ({ id }: Props) => {
           align={"end"}
         >
           <div className="w-32 space-y-1">
-            <DropdownMenu.Item
-              className="btn  btn-sm w-full"
-              onClick={() => router.push(`/buylist/products/${id}`)}
-            >
-              Abrir
-            </DropdownMenu.Item>
+            <Link href={`/buylist/products/${id}`}>
+              <DropdownMenu.Item className="btn  btn-sm w-full">
+                Abrir
+              </DropdownMenu.Item>
+            </Link>
           </div>
         </DropdownMenu.Content>
       </DropdownMenu.Portal>

@@ -46,7 +46,7 @@ export const buyListRouter = router({
           (produtoDaCotacao) => {
             const cheapestProduct = produtoDaCotacao.produtoCotado.reduce(
               (prev, current) =>
-                (prev.valor === 0 ? 99999999 : prev.valor! < current.valor!)
+                (prev.valor! > 0 ? prev.valor! : 99999999 < current.valor!)
                   ? prev
                   : current,
             );
