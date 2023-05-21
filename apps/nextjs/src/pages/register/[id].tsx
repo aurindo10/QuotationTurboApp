@@ -32,23 +32,26 @@ export default function Register() {
   const empresaId = user?.publicMetadata.idEmpresa as string;
   const cotacaoId = router.query.id as string;
   const onSubmit = async (data: FormData) => {
-    setIsLoading("loading");
-    const createdRepresentante = await createRepresentante({
-      ...data,
-      empresaId: empresaId,
-      cotacaoId: cotacaoId,
-    });
-    if (createdRepresentante) {
-      router.push({
-        pathname: "/preenchimento/",
-        query: {
-          idRepresentante: createdRepresentante.id,
-          idCotacao: cotacaoId,
-          empresaId: empresaId,
-        },
+    if (!isLoading) {
+      console.log("okok");
+      setIsLoading("loading");
+      const createdRepresentante = await createRepresentante({
+        ...data,
+        empresaId: empresaId,
+        cotacaoId: cotacaoId,
       });
+      if (createdRepresentante) {
+        router.push({
+          pathname: "/preenchimento/",
+          query: {
+            idRepresentante: createdRepresentante.id,
+            idCotacao: cotacaoId,
+            empresaId: empresaId,
+          },
+        });
+      }
+      return createdRepresentante;
     }
-    return createdRepresentante;
   };
   return (
     <form

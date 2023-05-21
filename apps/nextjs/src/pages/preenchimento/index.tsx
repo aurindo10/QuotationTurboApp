@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { usePreenchimentoStore } from "../../../zustandStore/PreenchimentoStore";
+import { PreenchimentoPage } from "../../components/organisms/HeaderPreenchimentoPage";
 import { trpc } from "../../utils/trpc";
 
 const FormSchema = z.object({
@@ -133,7 +134,6 @@ export default function Page() {
       products: allProductsCotados,
     });
     if (res) {
-      setLoading("");
       router.replace({
         pathname: `/preenchimento/confirmacao`,
         query: {
@@ -144,18 +144,11 @@ export default function Page() {
   };
   return (
     <form className="w-full" onChange={() => onSubmit()}>
-      <div className="flex w-full flex-col items-center justify-center">
-        <div className="produto text-white">Produto:</div>
-        <div className="">
-          {oneCotacao?.produtos[localStep - 1]?.produto.nome}
-        </div>
-        <div className="">{`${
-          oneCotacao?.produtos[localStep - 1]?.quantidade
-        }  ${oneCotacao?.produtos[localStep - 1]?.produto.unit}`}</div>
-        <div className="">
-          {oneCotacao?.produtos[localStep - 1]?.produto.brand}
-          <span> </span>
-        </div>
+      <div className="w-full">
+        <PreenchimentoPage
+          oneCotacao={oneCotacao!}
+          localStep={localStep}
+        ></PreenchimentoPage>
       </div>
       <div className="flex w-full flex-col items-center">
         <div className="form-control w-full max-w-xs">
@@ -218,39 +211,51 @@ export default function Page() {
           />
         </div>
       </div>
-      <div className="buttons my-4 flex justify-around">
-        <button
-          className="btn btn-secondary btn-sm"
-          disabled={localStep === 1 ? true : false}
-          onClick={(e) => {
-            e.preventDefault();
-            HandleBack();
-          }}
-        >
-          Anterior
-        </button>
+      <div className="flex w-full justify-center">
+        <div className="buttons my-4 flex w-full max-w-xs justify-between">
+          <button
+            className="btn btn-error btn-sm"
+            disabled={localStep === 1 || loading === "loading" ? true : false}
+            onClick={(e) => {
+              if (loading === "") {
+                e.preventDefault();
+                HandleBack();
+              }
+            }}
+          >
+            Anterior
+          </button>
 
-        <span>{`${localStep}/${lengthOfProducts}`}</span>
-        <button
-          className={`btn btn-secondary btn-sm `}
-          disabled={localStep === lengthOfProducts ? true : false}
-          onClick={(e) => {
-            e.preventDefault();
-            HandleNext();
-          }}
-        >
-          Próximo
-        </button>
+          <span>{`${localStep}/${lengthOfProducts}`}</span>
+          <button
+            className={`btn btn-error btn-sm `}
+            disabled={
+              localStep === lengthOfProducts || loading === "loading"
+                ? true
+                : false
+            }
+            onClick={(e) => {
+              if (loading === "") {
+                e.preventDefault();
+                HandleNext();
+              }
+            }}
+          >
+            Próximo
+          </button>
+        </div>
       </div>
       <div className="flex w-full justify-center">
         {localStep === lengthOfProducts ? (
           <button
             onClick={(e) => {
-              e.preventDefault(), handleSendProposta();
+              if (loading === "") {
+                e.preventDefault(), handleSendProposta();
+              }
             }}
-            className={`btn btn-primary ${loading} ${
+            className={`btn btn-primary  ${loading} ${
               loading === "loading" ? "cursor-not-allowed" : ""
-            }}`}
+            }} `}
           >
             Enviar orçamento
           </button>
