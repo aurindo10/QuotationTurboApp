@@ -18,6 +18,9 @@ export const cotacoesRouter = router({
           empresaId: input.empresaId,
           ammountOfTradeRepresentative: input.ammountOfTradeRepresentative,
         },
+        include: {
+          Representante: true,
+        },
       });
       return createdCotacao;
     }),

@@ -28,6 +28,14 @@ export const CotacoesList = () => {
   }
   return (
     <div className="flex w-full flex-col items-center gap-3">
+      {allCotacoes?.length === 0 ? (
+        <div className="flex flex-col">
+          <label className="text-[30px] font-bold">
+            Nenhuma cotação cadastrada
+          </label>
+          <label>Clique no botão de adicionar para adicionar uma cotação</label>
+        </div>
+      ) : null}
       {allCotacoes?.map((cotacao) => {
         const zonedDate = utcToZonedTime(cotacao.createdAt!, timeZone);
         const formattedDate = format(zonedDate, "dd/MM/yyyy");
