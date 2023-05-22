@@ -4,6 +4,7 @@ import { z } from "zod";
 import { trpc } from "../../utils/trpc";
 import { Alert } from "../molecules/Alert";
 import { useState } from "react";
+import { useRouter } from "next/router";
 const FormSchemaToCreateEmpresa = z.object({
   nome: z.string().min(5, "Este campo deve ter no mínimo 5 caracteres").max(50),
   cnpj: z.string().min(18, "Preencha todos os dígitos do CNPJ").max(50),
@@ -15,6 +16,7 @@ const FormSchemaToCreateEmpresa = z.object({
 type FormData = z.infer<typeof FormSchemaToCreateEmpresa>;
 type alertMessage = "success" | "warning" | "error" | null;
 export const CreateEmpresaForm = () => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState("");
   const [alertMessage, setAlertMessage] = useState<alertMessage>(null);
   const {
@@ -34,14 +36,13 @@ export const CreateEmpresaForm = () => {
     setAlertMessage("success");
     const createdEmpresa = await createEmpresa(data);
     if (createdEmpresa) {
-      setIsLoading("");
+      router.replace("/cotacoes");
       const userupdated = await insertIdEmpresaIntoMetaData({
         active: createdEmpresa.active!,
         idEmpresa: createdEmpresa.id,
         nomeEmpresa: createdEmpresa.nome,
       });
     }
-    reset();
   };
   const formatCNPJ = (value: string) => {
     const cleaned = value.replace(/\D/g, "");
@@ -141,13 +142,21 @@ export const CreateEmpresaForm = () => {
             errors.apelido?.message}
         </span>
       </div>
-      <div className=" w-full md:max-w-md">
+      <div className="flex w-full flex-col items-center justify-center md:max-w-md">
         <button
           type="submit"
-          className={`btn btn-primary my-2 w-full md:max-w-md ${isLoading}`}
+          disabled={isLoading === "loading" ? true : false}
+          className={`btn btn-primary my-2 w-full md:max-w-md `}
         >
           Criar Empresa
         </button>
+        <div className="h-20">
+          <button
+            className={`btn btn-square my-2 ${isLoading} ${
+              isLoading ? "" : "hidden"
+            }`}
+          ></button>
+        </div>
       </div>
     </form>
   );
