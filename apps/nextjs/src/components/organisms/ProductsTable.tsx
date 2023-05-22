@@ -49,10 +49,11 @@ export const ProductsTabe = () => {
     <div>
       {status === "loading" ? (
         <ProductsTableSkeleton />
+      ) : allPrducts.length === 0 ? (
+        <div className="text-[30px]">Cadastre um produto</div>
       ) : (
         <div className="w-full overflow-x-auto">
           <table className="table-zebra table w-full ">
-            {/* head */}
             <thead>
               <tr>
                 <th>Nome</th>
