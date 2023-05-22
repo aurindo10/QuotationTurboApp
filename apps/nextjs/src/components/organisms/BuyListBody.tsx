@@ -3,6 +3,12 @@ import { useRouter } from "next/router";
 import { trpc } from "../../utils/trpc";
 
 export const BuyListTableBody = () => {
+  function formatarParaReal(numero: number): string {
+    return numero.toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    });
+  }
   const router = useRouter();
   const { data: allProductsByCotation, status } =
     trpc.buyList.getBuyListByCotation.useQuery({
@@ -74,7 +80,11 @@ export const BuyListTableBody = () => {
                             </label>
                           </td>
                           <td>
-                            <label>{product.produtoCotado.valor}</label>
+                            <label>
+                              {formatarParaReal(
+                                product.produtoCotado.valor ?? 0,
+                              )}
+                            </label>
                           </td>
                         </tr>
                       </tbody>
