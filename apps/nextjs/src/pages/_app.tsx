@@ -5,6 +5,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { trpc } from "../utils/trpc";
 import { ReactElement, ReactNode } from "react";
 import { NextPage } from "next";
+import { ptBR } from "@clerk/localizations";
 export type NextPageWithLayout<P = Record<string, unknown>, IP = P> = NextPage<
   P,
   IP
@@ -20,7 +21,11 @@ const MyApp: AppType = ({
 }: AppPropsWithLayout) => {
   const getLayout = Component.getLayout ?? ((page) => page);
   const layout = getLayout(<Component {...pageProps} />);
-  return <ClerkProvider {...pageProps}>{layout}</ClerkProvider>;
+  return (
+    <ClerkProvider localization={ptBR} {...pageProps}>
+      {layout}
+    </ClerkProvider>
+  );
 };
 
 export default trpc.withTRPC(MyApp);

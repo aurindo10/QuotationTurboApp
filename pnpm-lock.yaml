@@ -95,6 +95,7 @@ importers:
       '@acme/api': '*'
       '@acme/db': '*'
       '@acme/tailwind-config': '*'
+      '@clerk/localizations': ^1.15.1
       '@clerk/nextjs': ^4.18.2
       '@emotion/react': ^11.10.8
       '@emotion/styled': ^11.10.8
@@ -145,6 +146,7 @@ importers:
       '@acme/api': link:../../packages/api
       '@acme/db': link:../../packages/db
       '@acme/tailwind-config': link:../../packages/config/tailwind
+      '@clerk/localizations': 1.15.1_react@18.2.0
       '@clerk/nextjs': 4.18.2_o6dt4yn4syzkhlixdxt4y57rzi
       '@emotion/react': 11.10.8_kzbn2opkn2327fwg5yzwzya5o4
       '@emotion/styled': 11.10.8_vhuzp5zsq3xam5xs7eocdfx54a
@@ -1622,6 +1624,16 @@ packages:
       react: 18.2.0
     dev: false
 
+  /@clerk/localizations/1.15.1_react@18.2.0:
+    resolution: {integrity: sha512-9w75a1ePvYF6+GlPuoqUiLo8zkT0P6z4eVvNARFVlgTuoJFjm0YNul6QogBOE4zkHHsTn9J8esCrqu8krq0N7Q==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      react: '>=16'
+    dependencies:
+      '@clerk/types': 3.39.0
+      react: 18.2.0
+    dev: false
+
   /@clerk/nextjs/4.18.2_o6dt4yn4syzkhlixdxt4y57rzi:
     resolution: {integrity: sha512-m0cXwAPhT3yUJsNyl1leAUMu/AoX46cEx/FADU/tX/D4Vf68YuB8uCivTrPSO4luASIVi/noLFQYJIo3W96qhQ==}
     engines: {node: '>=14'}
@@ -1667,6 +1679,13 @@ packages:
 
   /@clerk/types/3.38.1:
     resolution: {integrity: sha512-/gBeFp3f7r23uU0ag5qxmwGKUc222YokgiPCusU8NE+AFbg1PIfudrw/0eKRbSZbz6DI7E+mxVz4M3mVkTJVlQ==}
+    engines: {node: '>=14'}
+    dependencies:
+      csstype: 3.1.1
+    dev: false
+
+  /@clerk/types/3.39.0:
+    resolution: {integrity: sha512-8kQnRIrGgaR6p3cl/iX9FPuCX/J5h2aANploQx4acKAPhJEEOOpfGO1Ba4+NIAFKHYC0zf6rwuveGTzERWeFpQ==}
     engines: {node: '>=14'}
     dependencies:
       csstype: 3.1.1
