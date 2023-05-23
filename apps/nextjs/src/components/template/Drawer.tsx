@@ -1,13 +1,11 @@
 import { UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import useProtectedRoute from "../atoms/protectedHook";
 import { ToastInfo } from "../atoms/Toast";
 
 export const Drawer = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
-  const { user, isLoaded } = useProtectedRoute();
 
   const handleDropdownClick = () => {
     setIsOpen(!isOpen);
@@ -32,9 +30,7 @@ export const Drawer = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  if (!isLoaded || user?.publicMetadata.idEmpresa === undefined) {
-    return <div className="text-slate-50">Carregando...</div>;
-  }
+
   return (
     <div data-theme="mytheme">
       <div className="navbar bg-neutral">

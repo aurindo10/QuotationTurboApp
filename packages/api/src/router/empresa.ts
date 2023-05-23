@@ -6,15 +6,16 @@ export const empresaRouter = router({
     .input(
       z.object({
         nome: z.string(),
-        cnpj: z.string(),
+        numero: z.string(),
         apelido: z.string(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      console.log(input);
       const createdEmpresa = await ctx.prisma.empresa.create({
         data: {
           nome: input.nome,
-          cnpj: input.cnpj,
+          cnpj: input.numero,
           apelido: input.apelido,
           whoCreated: ctx.auth.userId,
           createdAt: new Date(),
@@ -43,5 +44,21 @@ export const empresaRouter = router({
         },
       );
       return updatedUser;
+    }),
+  insertClerkIdIntoEmpresa: protectedProcedure
+    .input(
+      z.object({
+        orgId: z.string(),
+        empresaId: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const updatedEmpresa = await ctx.prisma.empresa.update({
+        where: { id: input.empresaId },
+        data: {
+          clerkId: input.orgId,
+        },
+      });
+      return updatedEmpresa;
     }),
 });

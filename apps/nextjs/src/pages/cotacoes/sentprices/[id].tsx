@@ -1,7 +1,6 @@
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/router";
 import { ReactElement, useContext, useEffect } from "react";
-import useProtectedRoute from "../../../components/atoms/protectedHook";
 import { SentPricesBody } from "../../../components/organisms/SentPricesBody";
 import { Drawer } from "../../../components/template/Drawer";
 import { NextPageWithLayout } from "../../_app";

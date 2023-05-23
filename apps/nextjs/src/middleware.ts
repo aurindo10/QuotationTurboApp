@@ -1,25 +1,43 @@
-import { getAuth, withClerkMiddleware } from "@clerk/nextjs/server";
+import { authMiddleware } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 
-export default withClerkMiddleware((req: NextRequest) => {
-  const { userId, user } = getAuth(req);
-  if (!userId) {
-    const signInUrl = new URL("/sign-in", req.url);
-    return NextResponse.redirect(signInUrl);
-  }
+export default authMiddleware({
+  afterAuth(auth, req, evt) {
+    if (!auth.userId && !auth.isPublicRoute) {
+      const signInUrl = new URL("/sign-in", req.url);
+      signInUrl.searchParams.set("redirect_url", req.url);
+      return NextResponse.redirect(signInUrl);
+    }
+    // rededirect them to organization selection page
+    if (
+      !auth.orgId &&
+      req.nextUrl.pathname !== "/criarempresa" &&
+      auth.userId &&
+      req.nextUrl.pathname !== "/api/trpc/empresa.createEmpresa" &&
+      req.nextUrl.pathname !== "/api/trpc/empresa.insertClerkIdIntoEmpresa"
+    ) {
+      console.log("sdas");
+      console.log(req.nextUrl.pathname);
+      const orgSelection = new URL("/criarempresa", req.url);
+      return NextResponse.redirect(orgSelection);
+    }
+  },
 });
 // Stop Middleware running on static files
 export const config = {
   matcher: [
     /*
-     * Match request paths except for the ones starting with:
-     * - _next
-     * - static (static files)
+     * Match all request paths except for the ones starting with:
+     * - _next/image (image optimization files)
+     * - _next/static (static files)
      * - favicon.ico (favicon file)
-     *
-     * This includes images, and requests from TRPC.
+     * - public /images folder
+     * - public /assets folder
      */
-    "/(.*?trpc.*?|(?!static|.*\\..*|_next|favicon.ico|sign-in|preenchimento).*)",
+    "/(.*?trpc.*?|(?!static|.*\\..*|_next|favicon.ico).*)",
+    "/",
+    "/(.*?trpc.*?)",
+    "/(.*?api.*?)",
+    "/(.*?api.*?trpc.*?)",
   ],
 };

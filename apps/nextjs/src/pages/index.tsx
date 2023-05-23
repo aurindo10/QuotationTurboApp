@@ -1,7 +1,6 @@
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/router";
 import { ReactElement, useContext, useEffect } from "react";
-import useProtectedRoute from "../components/atoms/protectedHook";
 import { SearchInput } from "../components/molecules/SearchInput";
 import { ProductsHeader } from "../components/organisms/ProductsHeader";
 import { ProductsTabe } from "../components/organisms/ProductsTable";

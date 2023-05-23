@@ -1,10 +1,5 @@
-import { useUser } from "@clerk/nextjs";
-import { useRouter } from "next/router";
-import { ReactElement, useContext, useEffect } from "react";
-import { useProductsOfCotationStore } from "../../../../zustandStore/ProductsOfCotationStore";
-import { InputToAddProductOnCotation } from "../../../components/atoms/AddProductInput";
-import useProtectedRoute from "../../../components/atoms/protectedHook";
-import { columns } from "../../../components/organisms/columns";
+import { ReactElement } from "react";
+
 import { ProductsTableCotation } from "../../../components/organisms/ProductsFromCotation";
 import { SubHeaderProductsCotacao } from "../../../components/organisms/SubHeaderProductsCotacao";
 import { DataTable } from "../../../components/template/data-table";

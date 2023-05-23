@@ -1,7 +1,4 @@
-import { useUser } from "@clerk/nextjs";
-import { useRouter } from "next/router";
 import { ReactElement } from "react";
-import useProtectedRoute from "../../../components/atoms/protectedHook";
 import { BuyListTableBody } from "../../../components/organisms/BuyListBody";
 import { Drawer } from "../../../components/template/Drawer";
 import { NextPageWithLayout } from "../../_app";

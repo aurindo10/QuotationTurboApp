@@ -5,6 +5,7 @@ import { trpc } from "../../utils/trpc";
 import { Alert } from "../molecules/Alert";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { useOrganizationList, useUser } from "@clerk/nextjs";
 const FormSchemaToCreateEmpresa = z.object({
   nome: z.string().min(5, "Este campo deve ter no mínimo 5 caracteres").max(50),
   cnpj: z.string().min(18, "Preencha todos os dígitos do CNPJ").max(50),
@@ -16,9 +17,14 @@ const FormSchemaToCreateEmpresa = z.object({
 type FormData = z.infer<typeof FormSchemaToCreateEmpresa>;
 type alertMessage = "success" | "warning" | "error" | null;
 export const CreateEmpresaForm = () => {
+  const { createOrganization } = useOrganizationList();
   const router = useRouter();
+  const { mutateAsync: createEmpresa } =
+    trpc.empresa.createEmpresa.useMutation();
   const [isLoading, setIsLoading] = useState("");
   const [alertMessage, setAlertMessage] = useState<alertMessage>(null);
+  const { mutateAsync: insertClerkIdIntoEmpresas } =
+    trpc.empresa.insertClerkIdIntoEmpresa.useMutation();
   const {
     handleSubmit,
     control,
@@ -27,23 +33,42 @@ export const CreateEmpresaForm = () => {
   } = useForm<FormData>({
     resolver: zodResolver(FormSchemaToCreateEmpresa),
   });
-  const { mutateAsync: createEmpresa } =
-    trpc.empresa.createEmpresa.useMutation();
+
   const { mutateAsync: insertIdEmpresaIntoMetaData } =
     trpc.empresa.insertIdEmpresaIntoMetaData.useMutation();
+  const { setActive, organizationList, isLoaded } = useOrganizationList();
+
   const onSubmit = async (data: FormData) => {
+    console.log("sdasdas");
     setIsLoading("loading");
     setAlertMessage("success");
-    const createdEmpresa = await createEmpresa(data);
-    if (createdEmpresa) {
-      router.replace("/cotacoes");
-      const userupdated = await insertIdEmpresaIntoMetaData({
-        active: createdEmpresa.active!,
-        idEmpresa: createdEmpresa.id,
-        nomeEmpresa: createdEmpresa.nome,
+    console.log(data);
+    try {
+      const createdEmpresa = await createEmpresa({
+        nome: data.nome,
+        apelido: data.apelido,
+        numero: data.cnpj,
       });
+      if (createdEmpresa) {
+        console.log("sadkjasljdklasj");
+        createOrganization!({
+          name: createdEmpresa.nome,
+        }).then((res) => {
+          setActive!({
+            organization: res!.id,
+          });
+          insertClerkIdIntoEmpresas({
+            orgId: res!.id,
+            empresaId: createdEmpresa.id,
+          });
+        });
+        router.replace("/cotacoes");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
+
   const formatCNPJ = (value: string) => {
     const cleaned = value.replace(/\D/g, "");
 

@@ -5,7 +5,6 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { trpc } from "../utils/trpc";
 import { ReactElement, ReactNode } from "react";
 import { NextPage } from "next";
-
 export type NextPageWithLayout<P = Record<string, unknown>, IP = P> = NextPage<
   P,
   IP
