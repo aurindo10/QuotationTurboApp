@@ -17,6 +17,7 @@
     "@acme/tailwind-config": "*",
     "@clerk/localizations": "^1.15.1",
     "@clerk/nextjs": "^4.18.2",
+    "@clerk/themes": "^1.7.3",
     "@emotion/react": "^11.10.8",
     "@emotion/styled": "^11.10.8",
     "@hookform/resolvers": "^3.1.0",

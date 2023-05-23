@@ -1,6 +1,7 @@
 // src/pages/_app.tsx
 import "../styles/globals.css";
 import type { AppProps, AppType } from "next/app";
+import { dark } from "@clerk/themes";
 import { ClerkProvider } from "@clerk/nextjs";
 import { trpc } from "../utils/trpc";
 import { ReactElement, ReactNode } from "react";
@@ -22,7 +23,16 @@ const MyApp: AppType = ({
   const getLayout = Component.getLayout ?? ((page) => page);
   const layout = getLayout(<Component {...pageProps} />);
   return (
-    <ClerkProvider localization={ptBR} {...pageProps}>
+    <ClerkProvider
+      localization={ptBR}
+      {...pageProps}
+      appearance={{
+        baseTheme: dark,
+        variables: {
+          colorBackground: "#1F2937",
+        },
+      }}
+    >
       {layout}
     </ClerkProvider>
   );

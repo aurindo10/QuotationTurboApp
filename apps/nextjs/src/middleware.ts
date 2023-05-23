@@ -2,6 +2,7 @@ import { authMiddleware } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 export default authMiddleware({
+  publicRoutes: ["/register/(.*)", "/api/(.*)", "/preenchimento(.*)"],
   afterAuth(auth, req, evt) {
     if (!auth.userId && !auth.isPublicRoute) {
       const signInUrl = new URL("/sign-in", req.url);
@@ -9,6 +10,10 @@ export default authMiddleware({
       return NextResponse.redirect(signInUrl);
     }
     // rededirect them to organization selection page
+    if (req.nextUrl.pathname == "/criarempresa" && auth.orgId) {
+      const orgSelection = new URL("/", req.url);
+      return NextResponse.redirect(orgSelection);
+    }
     if (
       !auth.orgId &&
       req.nextUrl.pathname !== "/criarempresa" &&
