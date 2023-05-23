@@ -46,7 +46,12 @@ export const buyListRouter = router({
           (produtoDaCotacao) => {
             const cheapestProduct = produtoDaCotacao.produtoCotado.reduce(
               (prev, current) =>
-                (prev.valor! > 0 ? prev.valor! : 99999999 < current.valor!)
+                (
+                  prev.valor === 0
+                    ? 1000000000
+                    : prev.valor! <
+                      (current.valor === 0 ? 100000000 : current.valor!)
+                )
                   ? prev
                   : current,
             );
@@ -57,7 +62,6 @@ export const buyListRouter = router({
             };
           },
         );
-
         const createdBuyList = await ctx.prisma.buyList.createMany({
           data: productsCompared,
         });
