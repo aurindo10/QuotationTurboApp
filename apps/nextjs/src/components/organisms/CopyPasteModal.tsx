@@ -68,7 +68,7 @@ export const CopyAndPasteModal = ({ cotacaoId, setOpen, open }: Props) => {
                   type="text"
                   placeholder="Search…"
                   className="input input-bordered w-full"
-                  defaultValue={`localhost:3000/register/${cotacaoId}`}
+                  defaultValue={`https://www.cotacaoapp.com/register/${cotacaoId}`}
                 />
                 <button
                   className="btn btn-square btn-secondary"
