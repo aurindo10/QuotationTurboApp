@@ -27,7 +27,7 @@ export const CopyAndPasteModal = ({ cotacaoId, setOpen, open }: Props) => {
   const handleCopyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(
-        `localhost:3000/register/${cotacaoId}`,
+        `https://www.cotacaoapp.com/register/${cotacaoId}`,
       );
       setOpen(false);
       setContent({
