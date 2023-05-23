@@ -14,7 +14,6 @@ type FormData = z.infer<typeof FormSchema>;
 export default function Register() {
   const [isLoading, setIsLoading] = useState("");
   const router = useRouter();
-  const { user } = useUser();
   const { mutateAsync: createRepresentante } =
     trpc.representante.createRepresentante.useMutation();
   const {

@@ -27,7 +27,6 @@ export const DeleteBuyListmodal = ({
   ]);
   const [isLoading, setIsLoading] = React.useState("");
   const [] = React.useState(false);
-  const { user } = useUser();
 
   const { mutateAsync: deleteBuyList } =
     trpc.buyList.deleteBuyList.useMutation();

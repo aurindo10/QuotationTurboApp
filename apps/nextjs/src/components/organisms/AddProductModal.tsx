@@ -28,7 +28,6 @@ export const AddProductModal = () => {
   ]);
   const [isLoading, setIsLoading] = React.useState("");
   const [open, setOpen] = React.useState(false);
-  const { user } = useUser();
   const {
     handleSubmit,
     control,

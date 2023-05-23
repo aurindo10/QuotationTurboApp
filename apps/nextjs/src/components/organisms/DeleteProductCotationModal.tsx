@@ -27,7 +27,6 @@ export const DeleteProductCotationModal = ({
   ]);
   const [isLoading, setIsLoading] = React.useState("");
   const [] = React.useState(false);
-  const { user } = useUser();
 
   const { mutateAsync: deleteProduct } =
     trpc.cotacoes.deleteProductFromCotacao.useMutation();

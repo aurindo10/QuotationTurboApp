@@ -26,7 +26,6 @@ export const DeletePriceListCotado = ({
 
   const [isLoading, setIsLoading] = React.useState("");
   const [] = React.useState(false);
-  const { user } = useUser();
   const [deleteSentPrices] = useSentPricesStore((state) => [
     state.deleteSentPrices,
   ]);

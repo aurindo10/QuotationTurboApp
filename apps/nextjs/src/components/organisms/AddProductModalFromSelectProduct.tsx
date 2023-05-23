@@ -38,7 +38,6 @@ export const AddProductModalFromCotation = () => {
       state.productName,
     ]);
   const [open, setOpen] = React.useState(false);
-  const { user } = useUser();
   const {
     handleSubmit,
     control,

@@ -26,7 +26,6 @@ export const DeleteProductModal = ({
   ]);
   const [isLoading, setIsLoading] = React.useState("");
   const [] = React.useState(false);
-  const { user } = useUser();
 
   const { mutateAsync: deleteProduct } =
     trpc.product.deleteOneProduct.useMutation();

@@ -19,7 +19,6 @@ export const SubHeaderProductsCotacao = () => {
   ]);
   const [isLoading, setIsloanding] = useState("");
   const router = useRouter();
-  const { user } = useUser();
   const idCotacao = router.query.id;
 
   type FormData = z.infer<typeof formSchemaToAddProductToCotacao>;

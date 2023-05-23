@@ -10,7 +10,6 @@ interface InputToAddProductOnCotationProps {
   setValue: React.Dispatch<React.SetStateAction<string>>;
 }
 export const InputToAddProductOnCotation = () => {
-  const { user } = useUser();
   const { mutateAsync: getProductByName } =
     trpc.product.getProductByName.useMutation();
   const [

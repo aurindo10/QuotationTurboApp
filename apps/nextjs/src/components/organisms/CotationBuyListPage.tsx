@@ -16,7 +16,6 @@ export const CotationBuyListPage = () => {
     cotacaoId: "",
     cotacaoName: "",
   });
-  const { user } = useUser();
   const { data, status } =
     trpc.cotacoes.getCotacoesWithProductsCotadosInside.useQuery();
   const [allBuiesList, addManyBuyList] = useBuyListsStore((state) => [

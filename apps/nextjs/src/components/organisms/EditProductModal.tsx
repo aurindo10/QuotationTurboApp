@@ -40,7 +40,6 @@ export const EditProductModal = ({
     state.updateProduct,
   ]);
   const [isLoading, setIsLoading] = React.useState("");
-  const { user } = useUser();
   const {
     handleSubmit,
     control,

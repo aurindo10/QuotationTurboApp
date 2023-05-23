@@ -23,7 +23,6 @@ export const CopyAndPasteModal = ({ cotacaoId, setOpen, open }: Props) => {
     idCotacao: cotacaoId,
   });
   const [isLoading, setIsLoading] = React.useState("");
-  const { user } = useUser();
 
   const handleCopyToClipboard = async () => {
     try {

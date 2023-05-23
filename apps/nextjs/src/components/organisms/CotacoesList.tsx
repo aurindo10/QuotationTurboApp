@@ -10,7 +10,6 @@ import React from "react";
 const timeZone = "America/Sao_Paulo";
 export const CotacoesList = () => {
   const [open, setOpen] = React.useState(false);
-  const { user } = useUser();
   const [allCotacoes, addManyCotacoes] = useCotacoesStore((state) => [
     state.allCotacoes,
     state.addManyCotacoes,

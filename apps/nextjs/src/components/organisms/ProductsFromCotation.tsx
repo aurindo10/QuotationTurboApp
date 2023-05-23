@@ -24,7 +24,6 @@ export type UpdateOneProductType = RouterInput["product"]["updateOneProduct"];
 
 export const ProductsTableCotation = () => {
   const router = useRouter();
-  const { user } = useUser();
   const [open, setOpen] = React.useState(false);
   const [editModalOpen, setEditModalOpen] = React.useState(false);
   const [infoModalOpen, setInfoModalOpen] =
