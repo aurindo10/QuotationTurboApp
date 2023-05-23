@@ -86,9 +86,7 @@ export const Drawer = () => {
             )}
           </div>
         </div>
-        <div className="navbar-center">
-          <a className="btn text-xl normal-case">{orgSlug}</a>
-        </div>
+
         <div className="navbar-end">
           <button className="btn btn-circle"></button>
           <div className="px-2">
