@@ -33,9 +33,7 @@ export const ProductsTabe = () => {
     nome: "",
   });
   const user = useUser();
-  const { data, status } = trpc.product.getAllProducts.useQuery({
-    empresaId: user?.user?.publicMetadata.idEmpresa as string,
-  });
+  const { data, status } = trpc.product.getAllProducts.useQuery();
   const [allPrducts, addManyProducts] = useProductsStore((state) => [
     state.allPrducts,
     state.addManyProducts,

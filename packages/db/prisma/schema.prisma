@@ -12,35 +12,14 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
   shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING") // used for migrations
 }
-model Post {
-    id      String @id @default(cuid())
-    title   String
-    content String
-}
 
-model Empresa {
-  id   String @id @default(cuid())
-  nome String
-  apelido String
-  cnpj String
-  active Boolean? @default(true)
-  createdAt DateTime? @default(now())
-  whoCreated String
-  updatedAt DateTime? @updatedAt
-  linkOrders LinkOrders[]
-  products Product[]
-  Cotacoes Cotacoes[]
-  Representante Representante[]
-  clerkId String?
-}
 
 model LinkOrders {
   id  String @id @default(cuid())
   whoIsAsking String
   aproved Boolean? @default(false)
   createdAt DateTime? @default(now())
-  empresaId String
-  empresa Empresa @relation(fields: [empresaId], references: [id], onDelete: Cascade)
+  clerkIdOrg String?
 }
 model Product {
   id  String @id @default(cuid())
@@ -51,10 +30,9 @@ model Product {
   whoCreated String
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
-  empresaId String
-  empresa Empresa @relation(fields: [empresaId], references: [id], onDelete: Cascade)
   ProdutosDaCotacao ProdutosDaCotacao[]
   code String?
+  clerkIdOrg String?
 }
 
 model Cotacoes {
@@ -62,14 +40,13 @@ model Cotacoes {
   createdAt DateTime? @default(now())
   nome  String
   updatedAt DateTime? @updatedAt
-  empresaId String
-  empresa Empresa @relation(fields: [empresaId], references: [id], onDelete: Cascade)
   whoCreated String
   produtos ProdutosDaCotacao[]
   ammountOfTradeRepresentative Float?
   Representante Representante[]
   ProdutoCotado ProdutoCotado[]
   BuyList BuyList[]
+  clerkIdOrg String?
 }
 model ProdutosDaCotacao {
   id String @id @default(cuid())
@@ -80,22 +57,21 @@ model ProdutosDaCotacao {
   produtoId String
   produto Product @relation(fields: [produtoId], references: [id], onDelete: Cascade)
   whoCreated String
-  empresaId String
   quantidade Float?
   code String?
   produtoCotado ProdutoCotado[]
+  clerkIdOrg String?
 }
 model Representante {
   id String @id @default(cuid())
   nome String
   createdAt DateTime? @default(now())
-  empresaId String
-  empresa Empresa @relation(fields: [empresaId], references: [id], onDelete: Cascade)
   cotacaoId String
   cotacao Cotacoes @relation(fields: [cotacaoId], references: [id], onDelete: Cascade )
   produtoCotado ProdutoCotado[]
-  empresaName String?
   buyList BuyList[]
+  clerkIdOrg String?
+  empresaName  String?
 }
 
 model ProdutoCotado {
@@ -111,6 +87,7 @@ model ProdutoCotado {
   quantidadeMinima Float?
   code String?
   buyList BuyList[]
+  clerkIdOrg String?
 }
 
 model BuyList {
@@ -122,4 +99,5 @@ model BuyList {
   cotacao Cotacoes? @relation(fields: [cotacaoId], references: [id], onDelete: Cascade)
   representanteId String?
   representante Representante? @relation(fields: [representanteId], references: [id], onDelete: Cascade)
+  clerkIdOrg String?
 }

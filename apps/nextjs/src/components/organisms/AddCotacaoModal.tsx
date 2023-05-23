@@ -29,7 +29,6 @@ export const AddCotacaoModal = () => {
   const [isLoading, setIsLoading] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [addCotacao] = useCotacoesStore((state) => [state.addCotacao]);
-  const { user } = useUser();
   const {
     handleSubmit,
     control,
@@ -46,11 +45,7 @@ export const AddCotacaoModal = () => {
     trpc.cotacoes.createCotacao.useMutation();
   const onSubmit = async (data: FormData) => {
     setIsLoading("loading");
-    const empresaId = user?.publicMetadata.idEmpresa as string;
-    const createdCotacao = await createCotacao({
-      ...data,
-      empresaId: empresaId,
-    });
+    const createdCotacao = await createCotacao(data);
     if (createdCotacao) {
       addCotacao(createdCotacao);
       setToastOpen();

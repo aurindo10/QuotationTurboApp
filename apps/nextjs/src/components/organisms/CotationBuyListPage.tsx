@@ -18,9 +18,7 @@ export const CotationBuyListPage = () => {
   });
   const { user } = useUser();
   const { data, status } =
-    trpc.cotacoes.getCotacoesWithProductsCotadosInside.useQuery({
-      empresaId: user?.publicMetadata.idEmpresa as string,
-    });
+    trpc.cotacoes.getCotacoesWithProductsCotadosInside.useQuery();
   const [allBuiesList, addManyBuyList] = useBuyListsStore((state) => [
     state.allBuiesList,
     state.addManyBuyList,

@@ -48,11 +48,7 @@ export const AddProductModal = () => {
     trpc.product.createProduct.useMutation();
   const onSubmit = async (data: FormData) => {
     setIsLoading("loading");
-    const empresaId = user?.publicMetadata.idEmpresa as string;
-    const createdProduct = await createProduct({
-      ...data,
-      empresa: empresaId,
-    });
+    const createdProduct = await createProduct(data);
     if (createdProduct) {
       setToastOpen();
       setContent({

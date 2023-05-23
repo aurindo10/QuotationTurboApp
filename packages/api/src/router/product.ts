@@ -8,7 +8,6 @@ export const productRouter = router({
         nome: z.string(),
         brand: z.string(),
         unit: z.string(),
-        empresa: z.string(),
         descricao: z.string(),
         code: z.string(),
       }),
@@ -22,26 +21,20 @@ export const productRouter = router({
           descricao: input.descricao,
           brand: input.brand,
           unit: input.unit,
-          empresaId: input.empresa,
+          clerkIdOrg: ctx.auth.orgId,
           code: input.code,
         },
       });
       return createdEmpresa;
     }),
-  getAllProducts: protectedProcedure
-    .input(
-      z.object({
-        empresaId: z.string(),
-      }),
-    )
-    .query(async ({ ctx, input }) => {
-      const allProducts = await ctx.prisma.product.findMany({
-        where: {
-          empresaId: input.empresaId,
-        },
-      });
-      return allProducts;
-    }),
+  getAllProducts: protectedProcedure.query(async ({ ctx, input }) => {
+    const allProducts = await ctx.prisma.product.findMany({
+      where: {
+        clerkIdOrg: ctx.auth.orgId,
+      },
+    });
+    return allProducts;
+  }),
   deleteOneProduct: protectedProcedure
     .input(
       z.object({
@@ -85,14 +78,13 @@ export const productRouter = router({
   getProductsByCotation: protectedProcedure
     .input(
       z.object({
-        idEmpresa: z.string(),
         cotacaoId: z.string(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       const foundProducts = await ctx.prisma.produtosDaCotacao.findMany({
         where: {
-          empresaId: input.idEmpresa,
+          clerkIdOrg: ctx.auth.orgId,
           cotacaoId: input.cotacaoId,
         },
         select: {
@@ -106,13 +98,12 @@ export const productRouter = router({
     .input(
       z.object({
         nome: z.string(),
-        idEmpresa: z.string(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       const foundProduct = await ctx.prisma.product.findMany({
         where: {
-          empresaId: input.idEmpresa,
+          clerkIdOrg: ctx.auth.orgId,
           nome: {
             contains: input.nome,
           },

@@ -7,7 +7,6 @@ type CotacaoType = {
   id: string;
   nome: string;
   ammountOfTradeRepresentative: number | null;
-  empresaId: string;
 };
 type Store = {
   allCotacoes: GetAllCotacoes;
@@ -25,13 +24,13 @@ export const useCotacoesStore = create(
         id: "",
         nome: "",
         ammountOfTradeRepresentative: 0,
-        empresaId: "",
+        clerkIdOrg: "",
         Representante: [
           {
             cotacaoId: "",
             empresaName: "",
             createdAt: new Date(),
-            empresaId: "",
+            clerkIdOrg: "",
             id: "",
             nome: "",
           },

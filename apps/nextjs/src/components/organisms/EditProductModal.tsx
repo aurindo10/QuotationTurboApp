@@ -68,7 +68,6 @@ export const EditProductModal = ({
     trpc.product.updateOneProduct.useMutation();
   const onSubmit = async (data: FormData) => {
     setIsLoading("loading");
-    const empresaId = user?.publicMetadata.idEmpresa as string;
     const updatedProduct = await updateOneProduct({
       ...data,
       id: product.id,

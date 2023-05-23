@@ -6,7 +6,6 @@ export const cotacoesRouter = router({
     .input(
       z.object({
         nome: z.string(),
-        empresaId: z.string(),
         ammountOfTradeRepresentative: z.number(),
       }),
     )
@@ -15,7 +14,7 @@ export const cotacoesRouter = router({
         data: {
           nome: input.nome,
           whoCreated: ctx.auth.userId,
-          empresaId: input.empresaId,
+          clerkIdOrg: ctx.auth.orgId,
           ammountOfTradeRepresentative: input.ammountOfTradeRepresentative,
         },
         include: {
@@ -24,33 +23,26 @@ export const cotacoesRouter = router({
       });
       return createdCotacao;
     }),
-  getCotacoes: protectedProcedure
-    .input(
-      z.object({
-        empresaId: z.string(),
-      }),
-    )
-    .query(async ({ ctx, input }) => {
-      const allCotacoes = await ctx.prisma.cotacoes.findMany({
-        where: {
-          empresaId: input.empresaId,
-        },
-        include: {
-          Representante: true,
-        },
-        orderBy: {
-          createdAt: "desc",
-        },
-      });
-      return allCotacoes;
-    }),
+  getCotacoes: protectedProcedure.query(async ({ ctx, input }) => {
+    const allCotacoes = await ctx.prisma.cotacoes.findMany({
+      where: {
+        clerkIdOrg: ctx.auth.orgId,
+      },
+      include: {
+        Representante: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    return allCotacoes;
+  }),
   addProductToCotacao: protectedProcedure
     .input(
       z.object({
         cotacaoId: z.string(),
         produtoId: z.string(),
         quantidade: z.number(),
-        empresaId: z.string(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -61,7 +53,7 @@ export const cotacoesRouter = router({
             cotacaoId: input.cotacaoId,
             createdAt: new Date(),
             whoCreated: ctx.auth.userId,
-            empresaId: input.empresaId,
+            clerkIdOrg: ctx.auth.orgId,
             quantidade: input.quantidade,
           },
           select: {
@@ -131,16 +123,11 @@ export const cotacoesRouter = router({
       });
       return deletedCotacao;
     }),
-  getCotacoesWithProductsCotadosInside: protectedProcedure
-    .input(
-      z.object({
-        empresaId: z.string(),
-      }),
-    )
-    .query(async ({ ctx, input }) => {
+  getCotacoesWithProductsCotadosInside: protectedProcedure.query(
+    async ({ ctx, input }) => {
       const allCotacoes = await ctx.prisma.cotacoes.findMany({
         where: {
-          empresaId: input.empresaId,
+          clerkIdOrg: ctx.auth.orgId,
         },
         include: {
           Representante: true,
@@ -151,5 +138,6 @@ export const cotacoesRouter = router({
         },
       });
       return allCotacoes;
-    }),
+    },
+  ),
 });

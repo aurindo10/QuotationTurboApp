@@ -7,14 +7,13 @@ export const representanteRouter = router({
       z.object({
         nome: z.string(),
         empresaName: z.string(),
-        empresaId: z.string(),
         cotacaoId: z.string(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       const createdRepresentante = await ctx.prisma.representante.create({
         data: {
-          empresaId: input.empresaId,
+          clerkIdOrg: ctx.auth.orgId,
           empresaName: input.empresaName,
           nome: input.nome,
           cotacaoId: input.cotacaoId,

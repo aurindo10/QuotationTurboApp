@@ -44,7 +44,6 @@ export const ProductsTableCotation = () => {
 
   const idCotacao = router.query.id;
   const [isLoading, setIsloanding] = useState(true);
-  const idEmpresa = user?.publicMetadata.idEmpresa as string;
   const { mutateAsync: getProductsByCotation } =
     trpc.product.getProductsByCotation.useMutation();
   const [addManyProducts, allProducts] = useProductsOfCotationStore((state) => [
@@ -52,11 +51,10 @@ export const ProductsTableCotation = () => {
     state.allProducts,
   ]);
   useEffect(() => {
-    if (idEmpresa && idCotacao) {
+    if (idCotacao) {
       const productsFromCotation = async () => {
         return await getProductsByCotation({
           cotacaoId: (idCotacao as string) ?? "",
-          idEmpresa: idEmpresa,
         });
       };
       productsFromCotation().then((data) => {
@@ -64,7 +62,7 @@ export const ProductsTableCotation = () => {
         setIsloanding(false);
       });
     }
-  }, [idEmpresa, idCotacao, getProductsByCotation]);
+  }, [idCotacao, getProductsByCotation]);
   return (
     <div>
       {isLoading ? (

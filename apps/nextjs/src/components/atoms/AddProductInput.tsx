@@ -32,7 +32,6 @@ export const InputToAddProductOnCotation = () => {
     if (value.length > 3) {
       const productsFound = await getProductByName({
         nome: value,
-        idEmpresa: user?.publicMetadata.idEmpresa as string,
       });
       addProductToSearchState(productsFound);
     } else {

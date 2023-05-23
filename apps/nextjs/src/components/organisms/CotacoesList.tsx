@@ -15,9 +15,7 @@ export const CotacoesList = () => {
     state.allCotacoes,
     state.addManyCotacoes,
   ]);
-  const { data, status } = trpc.cotacoes.getCotacoes.useQuery({
-    empresaId: user?.publicMetadata.idEmpresa as string,
-  });
+  const { data, status } = trpc.cotacoes.getCotacoes.useQuery();
   useEffect(() => {
     if (status === "success") {
       addManyCotacoes(data);

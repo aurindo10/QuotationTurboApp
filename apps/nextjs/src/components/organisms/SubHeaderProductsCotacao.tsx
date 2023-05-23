@@ -57,7 +57,6 @@ export const SubHeaderProductsCotacao = () => {
       const createdProduct = await addProductToCotacao({
         ...data,
         cotacaoId: (idCotacao as string) ?? "",
-        empresaId: user?.publicMetadata.idEmpresa as string,
         produtoId: selectedProduct.id,
       });
 

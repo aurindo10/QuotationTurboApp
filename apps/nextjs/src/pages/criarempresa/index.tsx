@@ -1,4 +1,4 @@
-import { UserButton, useUser } from "@clerk/nextjs";
+import { CreateOrganization, UserButton, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/router";
 import { ReactElement, useContext, useEffect } from "react";
 import { Alert } from "../../components/molecules/Alert";
@@ -9,14 +9,8 @@ import { NextPageWithLayout } from "../_app";
 
 const Page = () => {
   return (
-    <div className="h-screen w-full px-2 md:px-4 ">
-      <div className="flex w-full justify-end px-2 py-2">
-        <UserButton />
-      </div>
-      <div className="flex h-full w-full flex-col items-center justify-center gap-4">
-        <CreateEmpresaHeader></CreateEmpresaHeader>
-        <CreateEmpresaForm></CreateEmpresaForm>
-      </div>
+    <div className="flex h-screen w-full items-center justify-center px-2 md:px-4 ">
+      <CreateOrganization />
     </div>
   );
 };

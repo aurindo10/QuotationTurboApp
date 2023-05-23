@@ -19,12 +19,10 @@ type alertMessage = "success" | "warning" | "error" | null;
 export const CreateEmpresaForm = () => {
   const { createOrganization } = useOrganizationList();
   const router = useRouter();
-  const { mutateAsync: createEmpresa } =
-    trpc.empresa.createEmpresa.useMutation();
+
   const [isLoading, setIsLoading] = useState("");
   const [alertMessage, setAlertMessage] = useState<alertMessage>(null);
-  const { mutateAsync: insertClerkIdIntoEmpresas } =
-    trpc.empresa.insertClerkIdIntoEmpresa.useMutation();
+
   const {
     handleSubmit,
     control,
@@ -34,39 +32,19 @@ export const CreateEmpresaForm = () => {
     resolver: zodResolver(FormSchemaToCreateEmpresa),
   });
 
-  const { mutateAsync: insertIdEmpresaIntoMetaData } =
-    trpc.empresa.insertIdEmpresaIntoMetaData.useMutation();
   const { setActive, organizationList, isLoaded } = useOrganizationList();
 
   const onSubmit = async (data: FormData) => {
-    console.log("sdasdas");
     setIsLoading("loading");
     setAlertMessage("success");
-    console.log(data);
-    try {
-      const createdEmpresa = await createEmpresa({
-        nome: data.nome,
-        apelido: data.apelido,
-        numero: data.cnpj,
+    createOrganization!({
+      name: data.nome,
+    }).then((res) => {
+      setActive!({
+        organization: res!.id,
       });
-      if (createdEmpresa) {
-        console.log("sadkjasljdklasj");
-        createOrganization!({
-          name: createdEmpresa.nome,
-        }).then((res) => {
-          setActive!({
-            organization: res!.id,
-          });
-          insertClerkIdIntoEmpresas({
-            orgId: res!.id,
-            empresaId: createdEmpresa.id,
-          });
-        });
-        router.replace("/cotacoes");
-      }
-    } catch (error) {
-      console.log(error);
-    }
+      router.replace("/cotacoes");
+    });
   };
 
   const formatCNPJ = (value: string) => {

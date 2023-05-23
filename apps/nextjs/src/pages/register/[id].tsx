@@ -29,14 +29,12 @@ export default function Register() {
       empresaName: "",
     },
   });
-  const empresaId = user?.publicMetadata.idEmpresa as string;
   const cotacaoId = router.query.id as string;
   const onSubmit = async (data: FormData) => {
     if (!isLoading) {
       setIsLoading("loading");
       const createdRepresentante = await createRepresentante({
         ...data,
-        empresaId: empresaId,
         cotacaoId: cotacaoId,
       });
       if (createdRepresentante) {
@@ -45,7 +43,6 @@ export default function Register() {
           query: {
             idRepresentante: createdRepresentante.id,
             idCotacao: cotacaoId,
-            empresaId: empresaId,
           },
         });
       }
