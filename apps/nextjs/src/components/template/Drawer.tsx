@@ -1,4 +1,9 @@
-import { UserButton } from "@clerk/nextjs";
+import {
+  OrganizationSwitcher,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/nextjs";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ToastInfo } from "../atoms/Toast";
@@ -103,8 +108,10 @@ export const Drawer = () => {
               <span className="badge badge-xs badge-primary indicator-item"></span>
             </div>
           </button>
+          <OrganizationSwitcher />
+
           <button className="btn  btn-circle">
-            <UserButton />
+            <UserButton afterSignOutUrl="/" />
           </button>
         </div>
       </div>

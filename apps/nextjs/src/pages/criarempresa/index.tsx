@@ -1,4 +1,9 @@
-import { CreateOrganization, UserButton, useUser } from "@clerk/nextjs";
+import {
+  CreateOrganization,
+  OrganizationSwitcher,
+  UserButton,
+  useUser,
+} from "@clerk/nextjs";
 import { useRouter } from "next/router";
 import { ReactElement, useContext, useEffect } from "react";
 import { Alert } from "../../components/molecules/Alert";
@@ -10,6 +15,7 @@ import { NextPageWithLayout } from "../_app";
 const Page = () => {
   return (
     <div className="flex h-screen w-full items-center justify-center px-2 md:px-4 ">
+      <OrganizationSwitcher />
       <CreateOrganization />
     </div>
   );
