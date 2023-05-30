@@ -70,61 +70,77 @@ export const ModalToTransferProduct = ({
         <Dialog.Overlay className="bg-blackA9 data-[state=open]:animate-overlayShow fixed inset-0 z-50" />
         <Dialog.Content
           onOpenAutoFocus={(event) => event.preventDefault()}
-          className="data-[state=open]:animate-contentShow bg-neutral fixed top-[50%] left-[50%] z-50 max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none"
+          className="data-[state=open]:animate-contentShow bg-neutral fixed top-[50%] left-[50%] z-50 max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] p-[10px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none"
         >
-          {allProductsByRepresentante?.map((representante) => {
-            return (
-              <div key={representante.id}>
-                {productFromBuyListId ===
-                representante.produtoCotado.find(
-                  (produtoCotado) =>
-                    produtoCotado.produtoDaCotacaoId === produtoDaCotacaoId,
-                )?.id ? (
-                  ""
-                ) : (
-                  <div className="card card-compact">
-                    <div className="card-title"> {representante.nome}</div>
-                    <div className="card-body">
-                      <div className="flex w-full items-center justify-between">
-                        <label className="">{productName}</label>
-                        <label>
-                          {
+          <div className="w-full overflow-x-auto">
+            <table className="table-zebra table w-full">
+              <thead>
+                <tr>
+                  <th>Representante</th>
+                  <th>Valor</th>
+                  <th>Ação</th>
+                </tr>
+              </thead>
+              {allProductsByRepresentante?.map((representante) => {
+                function formatarParaReal(numero: number): string {
+                  return numero.toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  });
+                }
+                return (
+                  <tbody key={representante.id}>
+                    {productFromBuyListId ===
+                    representante.produtoCotado.find(
+                      (produtoCotado) =>
+                        produtoCotado.produtoDaCotacaoId === produtoDaCotacaoId,
+                    )?.id ? (
+                      ""
+                    ) : (
+                      <tr key={representante.id}>
+                        <th className="w-32 whitespace-normal">
+                          {representante.nome}
+                        </th>
+                        <td>
+                          {formatarParaReal(
                             representante.produtoCotado.find(
                               (produtoCotado) =>
                                 produtoCotado.produtoDaCotacaoId ===
                                 produtoDaCotacaoId,
-                            )?.valor
-                          }
-                        </label>
-                        <button
-                          className={`btn btn-sm btn-warning`}
-                          onClick={() => {
-                            handleTransferProduct(
-                              cotacaoId,
-                              representante.produtoCotado.find(
-                                (produtoCotado) =>
-                                  produtoCotado.produtoDaCotacaoId ===
-                                  produtoDaCotacaoId,
-                              )?.id ?? "",
-                              representante.id,
-                              productFromBuyListId,
-                            );
-                          }}
-                        >
-                          Transferir
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            );
-          })}
-          <div
-            className={`btn btn-square ${isLoading}  ${
-              isLoading ? "" : "hidden"
-            }`}
-          ></div>
+                            )?.valor ?? 0,
+                          )}
+                        </td>
+                        <td>
+                          <button
+                            className={`btn btn-xs btn-warning`}
+                            onClick={() => {
+                              handleTransferProduct(
+                                cotacaoId,
+                                representante.produtoCotado.find(
+                                  (produtoCotado) =>
+                                    produtoCotado.produtoDaCotacaoId ===
+                                    produtoDaCotacaoId,
+                                )?.id ?? "",
+                                representante.id,
+                                productFromBuyListId,
+                              );
+                            }}
+                          >
+                            Mudar
+                          </button>
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                );
+              })}
+              <div
+                className={`btn btn-square ${isLoading}  ${
+                  isLoading ? "" : "hidden"
+                }`}
+              ></div>
+            </table>
+          </div>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
