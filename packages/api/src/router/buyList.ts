@@ -92,6 +92,7 @@ export const buyListRouter = router({
                   code: true,
                   produtoDaCotacao: {
                     select: {
+                      id: true,
                       produto: {
                         select: {
                           nome: true,
@@ -124,5 +125,91 @@ export const buyListRouter = router({
         },
       });
       return deletedBuyList;
+    }),
+  getPriceOfProductCotadoByProduct: protectedProcedure
+    .input(
+      z.object({
+        cotacaoId: z.string(),
+        produtoDaCotacaoId: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const foundProduct = await ctx.prisma.representante.findMany({
+        where: {
+          cotacaoId: input.cotacaoId,
+          produtoCotado: {
+            some: {
+              produtoDaCotacaoId: input.produtoDaCotacaoId,
+            },
+          },
+        },
+        include: {
+          produtoCotado: {
+            orderBy: {
+              valor: "asc",
+            },
+          },
+        },
+      });
+      return foundProduct;
+    }),
+  transferProduct: protectedProcedure
+    .input(
+      z.object({
+        productFromBuyListId: z.string(),
+        idProdutoCotadoToCreateProductFromBuyList: z.string(),
+        cotacaoId: z.string(),
+        representanteId: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const deletedProductFromBuyList = ctx.prisma.buyList.deleteMany({
+        where: {
+          produtoCotadoId: input.productFromBuyListId,
+        },
+      });
+      const createdProductBuyList = ctx.prisma.buyList.create({
+        data: {
+          clerkIdOrg: ctx.auth.orgId,
+          cotacaoId: input.cotacaoId,
+          produtoCotadoId: input.idProdutoCotadoToCreateProductFromBuyList,
+          representanteId: input.representanteId,
+        },
+        include: {
+          produtoCotado: {
+            select: {
+              id: true,
+              valor: true,
+              code: true,
+              produtoDaCotacao: {
+                select: {
+                  id: true,
+                  produto: {
+                    select: {
+                      nome: true,
+                      code: true,
+                      descricao: true,
+                      unit: true,
+                      brand: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      });
+      const [statte01, state02] = await ctx.prisma.$transaction([
+        deletedProductFromBuyList,
+        createdProductBuyList,
+      ]);
+      if (statte01 && state02) {
+        return state02;
+      } else {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          cause: "não foi possível transferir o produto",
+        });
+      }
     }),
 });

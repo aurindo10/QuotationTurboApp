@@ -1,8 +1,13 @@
-import { PencilSimple, Trash } from "@phosphor-icons/react";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { useBuyListsStore } from "../../../zustandStore/BuyListStore";
 import { trpc } from "../../utils/trpc";
+import { ModalToTransferProduct } from "./TransferProductModal";
 
 export const BuyListTableBody = () => {
+  const [allBuyListByCotation, setAllBuyListByCotation] = useBuyListsStore(
+    (state) => [state.allBuyListByCotation, state.setAllBuyListByCotation],
+  );
   function formatarParaReal(numero: number): string {
     return numero.toLocaleString("pt-BR", {
       style: "currency",
@@ -14,12 +19,17 @@ export const BuyListTableBody = () => {
     trpc.buyList.getBuyListByCotation.useQuery({
       cotacaoId: router.query.id as string,
     });
+  useEffect(() => {
+    if (allProductsByCotation && status === "success") {
+      setAllBuyListByCotation(allProductsByCotation);
+    }
+  }, [status, allProductsByCotation, setAllBuyListByCotation]);
   if (status === "loading") {
     return <div>loading</div>;
   }
   return (
     <div className="space-y-2">
-      {allProductsByCotation?.map((seller) => {
+      {allBuyListByCotation.map((seller) => {
         return (
           <div key={seller.id}>
             <div className="flex justify-start gap-6 py-4 px-2">
@@ -37,7 +47,8 @@ export const BuyListTableBody = () => {
                       <th className="w-56">Marca</th>
                       <th className="w-56">Código</th>
                       <th className="w-56">Unidade</th>
-                      <th>Valor</th>
+                      <th className="w-56">Valor</th>
+                      <th className="w-56">Ações</th>
                     </tr>
                   </thead>
                   {seller.buyList.map((product) => {
@@ -85,6 +96,20 @@ export const BuyListTableBody = () => {
                                 product.produtoCotado.valor ?? 0,
                               )}
                             </label>
+                          </td>
+                          <td>
+                            <ModalToTransferProduct
+                              key={product.produtoCotado.id}
+                              cotacaoId={router.query.id as string}
+                              produtoDaCotacaoId={
+                                product.produtoCotado.produtoDaCotacao.id
+                              }
+                              productName={
+                                product.produtoCotado.produtoDaCotacao.produto
+                                  .nome
+                              }
+                              productFromBuyListId={product.produtoCotado.id}
+                            ></ModalToTransferProduct>
                           </td>
                         </tr>
                       </tbody>
