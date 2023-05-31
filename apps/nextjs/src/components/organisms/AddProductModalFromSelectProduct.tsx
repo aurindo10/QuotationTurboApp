@@ -79,10 +79,7 @@ export const AddProductModalFromCotation = () => {
   return (
     <Dialog.Root open={open} onOpenChange={() => setOpen(!open)}>
       <div>
-        <button
-          onClick={() => setOpen(true)}
-          className="btn btn-primary w-full"
-        >
+        <button onClick={() => setOpen(true)} className="btn btn-info w-full">
           Produto não existente, você deseja adicionar?
         </button>
       </div>

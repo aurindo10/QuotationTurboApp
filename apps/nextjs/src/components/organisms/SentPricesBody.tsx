@@ -1,4 +1,4 @@
-import { PencilSimple, Trash } from "@phosphor-icons/react";
+import { Buildings, PencilSimple, Trash, User } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
 import { useRouter as pastUseRouter } from "next/router";
 import React from "react";
@@ -40,100 +40,101 @@ export const SentPricesBody = () => {
       </div>
     );
   return (
-    <div className="py-4 px-2 ">
-      <div className="space-y-4">
-        {sentPrices?.map((seller) => {
-          return (
-            <div key={seller.id}>
-              <div className="flex items-center gap-4">
-                <div className="badge badge-accent text-[18px]">
-                  {`${seller.nome}`}
-                </div>
-                <div className="badge badge-accent text-[18px]">
-                  {`${seller.empresaName}`}
-                </div>
-                <button
-                  onClick={() => {
-                    setRepresentanteInfo({
-                      representanteId: seller.id,
-                      representanteName: seller.nome,
-                    });
-                    setOpen(true);
-                  }}
-                  className="btn btn-square btn-accent btn-sm"
-                >
-                  <Trash></Trash>
-                </button>
+    <div className="space-y-4">
+      {sentPrices?.map((seller) => {
+        return (
+          <div key={seller.id}>
+            <div className="my-2 flex items-center gap-4">
+              <div className=" flex items-center gap-2 text-[18px]">
+                <User size={32} />
+                <label>{`${seller.nome}`}</label>
               </div>
-              <div className="space-y-2">
-                <div className="w-full overflow-x-auto">
-                  <table className="table-zebra table w-full ">
-                    {/* head */}
-                    <thead>
-                      <tr>
-                        <th className="w-56">Nome</th>
-                        <th className="w-56">Descrição</th>
-                        <th className="w-56">Marca</th>
-                        <th className="w-56">Código</th>
-                        <th className="w-56">Unidade</th>
-                        <th>Valor</th>
-                      </tr>
-                    </thead>
-                    {seller.produtoCotado.map((product) => {
-                      function formatarParaReal(numero: number): string {
-                        return numero.toLocaleString("pt-BR", {
-                          style: "currency",
-                          currency: "BRL",
-                        });
-                      }
-                      return (
-                        <tbody key={product.id}>
-                          <tr key={product.id}>
-                            <th>
-                              <div className="w-32 whitespace-normal md:w-full">
-                                {product.produtoDaCotacao.produto.nome}
-                              </div>
-                            </th>
-                            <td>
-                              <div className="w-40 whitespace-normal md:w-full">
-                                {product.produtoDaCotacao.produto.descricao}
-                              </div>
-                            </td>
-                            <td>
-                              <label>
-                                {product.produtoDaCotacao.produto.brand}
-                              </label>
-                            </td>
-                            <td>
-                              <label>{product.code}</label>
-                            </td>
-                            <td>
-                              <label>
-                                {product.produtoDaCotacao.produto.unit}
-                              </label>
-                            </td>
-                            <td>
-                              <label>
-                                {formatarParaReal(product.valor ?? 0)}
-                              </label>
-                            </td>
-                          </tr>
-                        </tbody>
-                      );
-                    })}
-                  </table>
-                </div>
+              <div className="flex items-center gap-2 text-[18px] ">
+                <Buildings size={32} />
+                <label>{`${seller.empresaName}`}</label>
+              </div>
+              <button
+                onClick={() => {
+                  setRepresentanteInfo({
+                    representanteId: seller.id,
+                    representanteName: seller.nome,
+                  });
+                  setOpen(true);
+                }}
+                className="btn btn-square btn-accent btn-sm"
+              >
+                <Trash></Trash>
+              </button>
+            </div>
+            <div className="space-y-2">
+              <div className="w-full overflow-x-auto">
+                <table className="table w-full ">
+                  {/* head */}
+                  <thead>
+                    <tr>
+                      <th className="w-56 bg-slate-700">Nome</th>
+                      <th className="bg-slate-700">Valor</th>
+                      <th className="w-56 bg-slate-700">Marca</th>
+                      <th className="w-56 bg-slate-700">Código</th>
+                      <th className="w-56 bg-slate-700">Unidade</th>
+                      <th className="w-56 bg-slate-700">Descrição</th>
+                    </tr>
+                  </thead>
+                  {seller.produtoCotado.map((product) => {
+                    function formatarParaReal(numero: number): string {
+                      return numero.toLocaleString("pt-BR", {
+                        style: "currency",
+                        currency: "BRL",
+                      });
+                    }
+                    return (
+                      <tbody key={product.id}>
+                        <tr key={product.id}>
+                          <th className="bg-slate-600">
+                            <div className="w-32 whitespace-normal md:w-full">
+                              {product.produtoDaCotacao.produto.nome}
+                            </div>
+                          </th>
+                          <td className="bg-slate-900">
+                            <label>
+                              {formatarParaReal(product.valor ?? 0)}
+                            </label>
+                          </td>
+
+                          <td className="bg-slate-900">
+                            <label>
+                              {product.produtoDaCotacao.produto.brand}
+                            </label>
+                          </td>
+                          <td className="bg-slate-900">
+                            <label>{product.code}</label>
+                          </td>
+                          <td className="bg-slate-900">
+                            <label>
+                              {product.produtoDaCotacao.produto.unit}
+                            </label>
+                          </td>
+                          <td className="bg-slate-900">
+                            <div className="w-40 whitespace-normal md:w-full">
+                              {product.produtoDaCotacao.produto.descricao}
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    );
+                  })}
+                </table>
               </div>
             </div>
-          );
-        })}
-        <DeletePriceListCotado
-          open={open}
-          setOpen={setOpen}
-          representanteId={representanteInfo.representanteId}
-          representanteName={representanteInfo.representanteName}
-        ></DeletePriceListCotado>
-      </div>
+          </div>
+        );
+      })}
+      <DeletePriceListCotado
+        open={open}
+        setOpen={setOpen}
+        representanteId={representanteInfo.representanteId}
+        representanteName={representanteInfo.representanteName}
+      ></DeletePriceListCotado>
     </div>
   );
 };

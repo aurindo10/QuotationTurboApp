@@ -68,44 +68,51 @@ export const ProductsTableCotation = () => {
         <ProductsTableSkeleton />
       ) : allProducts.length > 0 ? (
         <div className="w-full overflow-x-auto">
-          <table className="table-zebra table w-full ">
+          <table className="table w-full">
             {/* head */}
             <thead>
               <tr>
-                <th>Nome</th>
-                <th>Descrição</th>
-                <th>Marca</th>
-                <th>Código</th>
-                <th>Unidade</th>
-                <th className="w-8 text-center">Ações</th>
+                <th className=" bg-slate-700">Nome</th>
+                <th className=" bg-slate-700">QTD</th>
+                <th className=" bg-slate-700">Unidade</th>
+                <th className=" bg-slate-700">Descrição</th>
+                <th className=" bg-slate-700">Marca</th>
+                <th className=" bg-slate-700">Código</th>
+                <th className=" w-8 bg-slate-700 text-center">Ações</th>
               </tr>
             </thead>
             <tbody>
               {allProducts?.map((product) => {
                 return (
                   <tr key={product.id}>
-                    <th>
-                      <div className="w-32 whitespace-normal md:w-full">
+                    <th className="bg-slate-600">
+                      <div className=" whitespace-normal md:w-full">
                         {product.produto.nome}
                       </div>
                     </th>
-                    <td>
+                    <td className="bg-slate-900">
+                      <div className=" whitespace-normal md:w-full">
+                        {product.quantidade}
+                      </div>
+                    </td>
+                    <td className="bg-slate-900">
+                      <label>{product.produto.unit}</label>
+                    </td>
+                    <td className="bg-slate-900">
                       <div className="w-40 whitespace-normal md:w-full">
                         {product.produto.descricao}
                       </div>
                     </td>
-                    <td>
+                    <td className="bg-slate-900">
                       <label>{product.produto.brand}</label>
                     </td>
-                    <td>
+                    <td className="bg-slate-900">
                       <label>{product.produto.code}</label>
                     </td>
-                    <td>
-                      <label>{product.produto.unit}</label>
-                    </td>
-                    <th className="space-x-3">
+
+                    <th className="space-x-3 bg-slate-900">
                       <button
-                        className="btn btn-accent  btn-square"
+                        className="btn btn-accent btn-sm btn-square"
                         onClick={() => {
                           setOpen(true);
                           setClickedProduct({
@@ -114,7 +121,7 @@ export const ProductsTableCotation = () => {
                           });
                         }}
                       >
-                        <Trash size={24} />
+                        <Trash size={18} />
                       </button>
                     </th>
                   </tr>

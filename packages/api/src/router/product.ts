@@ -90,6 +90,7 @@ export const productRouter = router({
         select: {
           produto: true,
           id: true,
+          quantidade: true,
         },
       });
       return foundProducts;

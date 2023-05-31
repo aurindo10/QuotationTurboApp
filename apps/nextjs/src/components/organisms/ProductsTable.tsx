@@ -54,7 +54,7 @@ export const ProductsTabe = () => {
             <thead>
               <tr>
                 <th>Nome</th>
-                <th>Descrição</th>
+                <th>Descriçãoxx</th>
                 <th>Marca</th>
                 <th>Código</th>
                 <th>Unidade</th>

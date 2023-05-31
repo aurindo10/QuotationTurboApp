@@ -114,19 +114,19 @@ export const SubHeaderProductsCotacao = () => {
                 />
               )}
             />
-            <span>{selectedProduct.unit}</span>
+            <span>{selectedProduct.unit ? selectedProduct.unit : "Uni"}</span>
           </label>
           <div className="my-2 flex items-center justify-between">
             <div>
               <span className="text-[20px]">Marca: </span>
               <span className="text-accent text-[20px]">
-                {selectedProduct.brand}
+                {selectedProduct.brand ? selectedProduct.brand : "Marca"}
               </span>
             </div>
             <span className="text-center text-xs text-red-600">
               {errors.quantidade?.message}
             </span>
-            <button type="submit" className={`btn btn-primary ${isLoading}`}>
+            <button type="submit" className={`btn btn-secondary ${isLoading}`}>
               Adicionar
             </button>
           </div>

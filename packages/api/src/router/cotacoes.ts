@@ -59,6 +59,7 @@ export const cotacoesRouter = router({
           select: {
             produto: true,
             id: true,
+            quantidade: true,
           },
         });
       return createdProductOnCotation;

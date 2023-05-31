@@ -53,7 +53,7 @@ export const InputToAddProductOnCotation = () => {
     <div className="px-1 py-1">
       <input
         type="text"
-        className="input input-bordered input-warning w-full bg-slate-900 px-2 py-2"
+        className="input input-bordered input-success w-full bg-slate-700 px-2 py-2"
         placeholder="Digite aqui"
         value={inputValue}
         onChange={handleChange}
