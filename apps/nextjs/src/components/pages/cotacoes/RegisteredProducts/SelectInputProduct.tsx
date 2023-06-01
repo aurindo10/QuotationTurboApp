@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 
-import { Button } from "../../../components/ui/button";
+import { Button } from "../../../../../components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -9,27 +9,35 @@ import {
   CommandInput,
   CommandItem,
   CommandSeparator,
-} from "../../../components/ui/command";
+} from "../../../../../components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "../../../components/ui/popover";
-import { InputToAddProductOnCotation } from "../atoms/AddProductInput";
-import { useProductsOfCotationStore } from "../../../zustandStore/ProductsOfCotationStore";
-import { cn } from "../../../libs/utils";
-import { AddProductModalFromCotation } from "../organisms/AddProductModalFromSelectProduct";
+} from "../../../../../components/ui/popover";
+import { InputToAddProductOnCotation } from "./AddProductInput";
+import { useProductsOfCotationStore } from "../../../../../zustandStore/ProductsOfCotationStore";
+import { cn } from "../../../../../libs/utils";
+import { AddProductModalFromCotation } from "./AddProductModalFromSelectProduct";
 
 export function SelectInputProduct() {
-  const [open, setOpen] = React.useState(false);
-  const [searchInputState, isLoading, value, setValue, setSelectedProduct] =
-    useProductsOfCotationStore((state) => [
-      state.searchInputState,
-      state.isLoading,
-      state.selectedProductId,
-      state.setSelectedProductId,
-      state.setSelectedProduct,
-    ]);
+  const [
+    searchInputState,
+    isLoading,
+    value,
+    setValue,
+    setSelectedProduct,
+    open,
+    setOpen,
+  ] = useProductsOfCotationStore((state) => [
+    state.searchInputState,
+    state.isLoading,
+    state.selectedProductId,
+    state.setSelectedProductId,
+    state.setSelectedProduct,
+    state.open,
+    state.setOpen,
+  ]);
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <label className="label w-[300px]">

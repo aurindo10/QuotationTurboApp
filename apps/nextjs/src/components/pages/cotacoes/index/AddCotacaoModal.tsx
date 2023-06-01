@@ -5,10 +5,10 @@ import * as Dialog from "@radix-ui/react-dialog";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
-import { useCotacoesStore } from "../../../zustandStore/CotacoesStore";
-import { useProductsStore } from "../../../zustandStore/ProductStore";
-import { useToastStore } from "../../../zustandStore/ToastStore";
-import { trpc } from "../../utils/trpc";
+import { useCotacoesStore } from "../../../../../zustandStore/CotacoesStore";
+import { useProductsStore } from "../../../../../zustandStore/ProductStore";
+import { useToastStore } from "../../../../../zustandStore/ToastStore";
+import { trpc } from "../../../../utils/trpc";
 
 const FormSchema = z.object({
   nome: z.string().min(1, "Nome é obrigatório"),

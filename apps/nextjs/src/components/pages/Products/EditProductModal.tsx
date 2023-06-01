@@ -7,9 +7,9 @@ import { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
-import { useProductsStore } from "../../../zustandStore/ProductStore";
-import { useToastStore } from "../../../zustandStore/ToastStore";
-import { trpc } from "../../utils/trpc";
+import { useProductsStore } from "../../../../zustandStore/ProductStore";
+import { useToastStore } from "../../../../zustandStore/ToastStore";
+import { trpc } from "../../../utils/trpc";
 import { UpdateOneProductType } from "./ProductsTable";
 
 const FormSchema = z.object({

@@ -7,7 +7,7 @@ import {
   ChevronRightIcon,
 } from "@radix-ui/react-icons";
 import { useRouter } from "next/router";
-import { trpc } from "../../utils/trpc";
+import { trpc } from "../../../utils/trpc";
 import Link from "next/link";
 interface Props {
   id: string;

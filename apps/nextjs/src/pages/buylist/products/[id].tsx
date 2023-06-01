@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { BuyListTableBody } from "../../../components/organisms/BuyListBody";
+import { BuyListTableBody } from "../../../components/pages/buylist/BuyListBody";
 import { Drawer } from "../../../components/template/Drawer";
 import { NextPageWithLayout } from "../../_app";
 

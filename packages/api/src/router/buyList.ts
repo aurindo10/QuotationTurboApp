@@ -15,6 +15,9 @@ export const buyListRouter = router({
         await ctx.prisma.produtosDaCotacao.findMany({
           where: {
             cotacaoId: input.cotacaoId,
+            produtoCotado: {
+              some: {},
+            },
           },
           include: {
             produtoCotado: true,

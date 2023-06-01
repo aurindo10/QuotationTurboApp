@@ -1,8 +1,8 @@
 import { ArrowClockwise, Plus, Trash } from "@phosphor-icons/react";
 import * as Dialog from "@radix-ui/react-dialog";
 import React from "react";
-import { useBuyListsStore } from "../../../zustandStore/BuyListStore";
-import { trpc } from "../../utils/trpc";
+import { useBuyListsStore } from "../../../../zustandStore/BuyListStore";
+import { trpc } from "../../../utils/trpc";
 interface InfoModal {
   cotacaoId: string;
   produtoDaCotacaoId: string;

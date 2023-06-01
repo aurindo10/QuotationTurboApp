@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
 
-import { ProductsTableCotation } from "../../../components/organisms/ProductsFromCotation";
-import { SubHeaderProductsCotacao } from "../../../components/organisms/SubHeaderProductsCotacao";
+import { ProductsTableCotation } from "../../../components/pages/cotacoes/sentprices/ProductsFromCotation";
+import { SubHeaderProductsCotacao } from "../../../components/pages/cotacoes/RegisteredProducts/SubHeaderProductsCotacao";
 import { DataTable } from "../../../components/template/data-table";
 import { Drawer } from "../../../components/template/Drawer";
 import { trpc } from "../../../utils/trpc";

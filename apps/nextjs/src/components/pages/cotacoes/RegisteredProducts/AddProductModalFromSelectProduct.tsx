@@ -1,37 +1,51 @@
-import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Plus } from "@phosphor-icons/react";
 import * as Dialog from "@radix-ui/react-dialog";
-import React from "react";
+import router from "next/router";
+import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
-import { useProductsStore } from "../../../zustandStore/ProductStore";
-import { useToastStore } from "../../../zustandStore/ToastStore";
-import { trpc } from "../../utils/trpc";
+import { useProductsOfCotationStore } from "../../../../../zustandStore/ProductsOfCotationStore";
+import { useProductsStore } from "../../../../../zustandStore/ProductStore";
+import { useToastStore } from "../../../../../zustandStore/ToastStore";
+import { trpc } from "../../../../utils/trpc";
 
 const FormSchema = z.object({
   nome: z.string().min(1, "Nome é obrigatório"),
-  descricao: z.string().min(1, "Consumo é obrigatório e deve ser maior que 0"),
+  descricao: z.string().min(0, "Consumo é obrigatório e deve ser maior que 0"),
   brand: z.string().min(1, "Marca é obrigatório"),
   unit: z.string().min(1, "Unidade é obrigatório"),
   code: z.string().min(1, "Código é obrigatório"),
+  qtd: z.string().min(1),
 });
 type FormData = z.infer<typeof FormSchema>;
-export const AddProductModal = () => {
+export const AddProductModalFromCotation = () => {
+  const idCotacao = router.query.id;
+
   const [setToastOpen, setContent] = useToastStore((state) => [
     state.setOpenOnClique,
     state.setContent,
   ]);
-  const [allPrducts, addProduct] = useProductsStore((state) => [
-    state.allPrducts,
-    state.addProduct,
-  ]);
+  const [addProduct] = useProductsStore((state) => [state.addProduct]);
   const [isLoading, setIsLoading] = React.useState("");
+  const [
+    productName,
+    addProductSate,
+    setSelectedProductId,
+    setOpenPopoverInput,
+  ] = useProductsOfCotationStore((state) => [
+    state.productName,
+    state.addProduct,
+    state.setSelectedProductId,
+    state.setOpen,
+  ]);
   const [open, setOpen] = React.useState(false);
+  const { mutateAsync: addProductToCotacao } =
+    trpc.cotacoes.addProductToCotacao.useMutation();
   const {
     handleSubmit,
     control,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(FormSchema),
@@ -43,16 +57,27 @@ export const AddProductModal = () => {
       code: "",
     },
   });
+  useEffect(() => {
+    setValue("nome", productName);
+  }, [open, productName, setValue]);
   const { mutateAsync: createProduct } =
     trpc.product.createProduct.useMutation();
   const onSubmit = async (data: FormData) => {
     setIsLoading("loading");
     const createdProduct = await createProduct(data);
     if (createdProduct) {
+      const addedProductToCotacao = await addProductToCotacao({
+        cotacaoId: idCotacao as string,
+        produtoId: createdProduct.id,
+        quantidade: Number(data.qtd),
+      });
+      addProductSate(addedProductToCotacao);
+      setSelectedProductId("");
+      setOpenPopoverInput(false);
       setToastOpen();
       setContent({
-        title: "Produto criado com sucesso",
-        description: `O produto ${createdProduct.nome} foi criado com sucesso`,
+        title: "Produto criado e adicionado com sucesso",
+        description: `O produto ${createdProduct.nome} foi criado e adicionado a lista com sucesso`,
         type: "success",
       });
       reset();
@@ -64,11 +89,8 @@ export const AddProductModal = () => {
   return (
     <Dialog.Root open={open} onOpenChange={() => setOpen(!open)}>
       <div>
-        <button
-          onClick={() => setOpen(true)}
-          className="btn btn-primary btn-square"
-        >
-          <Plus size={32} />
+        <button onClick={() => setOpen(true)} className="btn btn-info w-full">
+          Produto não existente, você deseja adicionar?
         </button>
       </div>
       <Dialog.Portal>
@@ -99,22 +121,41 @@ export const AddProductModal = () => {
                 )}
               />
             </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Descrição do Produto</span>
-              </label>
-              <Controller
-                name="descricao"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <textarea
-                    {...field}
-                    className="textarea textarea-bordered h-24"
-                    placeholder="Descrição do produto..."
-                  ></textarea>
-                )}
-              />
+            <div className="flex w-full gap-2">
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Descrição</span>
+                </label>
+                <Controller
+                  name="descricao"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <textarea
+                      {...field}
+                      className="textarea textarea-bordered  textarea-xs h-12 w-full"
+                      placeholder="Descrição do produto..."
+                    ></textarea>
+                  )}
+                />
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Quantidade</span>
+                </label>
+                <Controller
+                  name="qtd"
+                  control={control}
+                  render={({ field }) => (
+                    <input
+                      {...field}
+                      type="number"
+                      placeholder="Quantidade do produto"
+                      className="input input-bordered w-full"
+                    />
+                  )}
+                />
+              </div>
             </div>
             <div className="flex gap-2">
               <div className="form-control w-full max-w-xs">

@@ -2,14 +2,12 @@ import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus } from "@phosphor-icons/react";
 import * as Dialog from "@radix-ui/react-dialog";
-import router from "next/router";
-import React, { useEffect } from "react";
+import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
-import { useProductsOfCotationStore } from "../../../zustandStore/ProductsOfCotationStore";
-import { useProductsStore } from "../../../zustandStore/ProductStore";
-import { useToastStore } from "../../../zustandStore/ToastStore";
-import { trpc } from "../../utils/trpc";
+import { useProductsStore } from "../../../../zustandStore/ProductStore";
+import { useToastStore } from "../../../../zustandStore/ToastStore";
+import { trpc } from "../../../utils/trpc";
 
 const FormSchema = z.object({
   nome: z.string().min(1, "Nome é obrigatório"),
@@ -19,9 +17,7 @@ const FormSchema = z.object({
   code: z.string().min(1, "Código é obrigatório"),
 });
 type FormData = z.infer<typeof FormSchema>;
-export const AddProductModalFromCotation = () => {
-  const idCotacao = router.query.id;
-
+export const AddProductModal = () => {
   const [setToastOpen, setContent] = useToastStore((state) => [
     state.setOpenOnClique,
     state.setContent,
@@ -31,18 +27,11 @@ export const AddProductModalFromCotation = () => {
     state.addProduct,
   ]);
   const [isLoading, setIsLoading] = React.useState("");
-  const [addProductToSearchState, setIsLoadingInput, productName] =
-    useProductsOfCotationStore((state) => [
-      state.addProductToSearchState,
-      state.setIsLoading,
-      state.productName,
-    ]);
   const [open, setOpen] = React.useState(false);
   const {
     handleSubmit,
     control,
     reset,
-    setValue,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(FormSchema),
@@ -54,16 +43,12 @@ export const AddProductModalFromCotation = () => {
       code: "",
     },
   });
-  useEffect(() => {
-    setValue("nome", productName);
-  }, []);
   const { mutateAsync: createProduct } =
     trpc.product.createProduct.useMutation();
   const onSubmit = async (data: FormData) => {
     setIsLoading("loading");
     const createdProduct = await createProduct(data);
     if (createdProduct) {
-      addProductToSearchState([createdProduct]);
       setToastOpen();
       setContent({
         title: "Produto criado com sucesso",
@@ -79,8 +64,11 @@ export const AddProductModalFromCotation = () => {
   return (
     <Dialog.Root open={open} onOpenChange={() => setOpen(!open)}>
       <div>
-        <button onClick={() => setOpen(true)} className="btn btn-info w-full">
-          Produto não existente, você deseja adicionar?
+        <button
+          onClick={() => setOpen(true)}
+          className="btn btn-primary btn-square"
+        >
+          <Plus size={32} />
         </button>
       </div>
       <Dialog.Portal>

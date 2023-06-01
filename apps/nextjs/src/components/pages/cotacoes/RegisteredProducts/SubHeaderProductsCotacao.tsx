@@ -4,10 +4,10 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
-import { useProductsOfCotationStore } from "../../../zustandStore/ProductsOfCotationStore";
-import { useToastStore } from "../../../zustandStore/ToastStore";
-import { trpc } from "../../utils/trpc";
-import { SelectInputProduct } from "../molecules/SelectInputProduct";
+import { useProductsOfCotationStore } from "../../../../../zustandStore/ProductsOfCotationStore";
+import { useToastStore } from "../../../../../zustandStore/ToastStore";
+import { trpc } from "../../../../utils/trpc";
+import { SelectInputProduct } from "./SelectInputProduct";
 
 const formSchemaToAddProductToCotacao = z.object({
   quantidade: z.number().min(0.01, "Este campo deve ter no mínimo 0.01"),
@@ -123,13 +123,14 @@ export const SubHeaderProductsCotacao = () => {
                 {selectedProduct.brand ? selectedProduct.brand : "Marca"}
               </span>
             </div>
-            <span className="text-center text-xs text-red-600">
-              {errors.quantidade?.message}
-            </span>
+
             <button type="submit" className={`btn btn-secondary ${isLoading}`}>
               Adicionar
             </button>
           </div>
+          <span className="mt-[-4px] h-4 text-center text-xs text-red-600">
+            {errors.quantidade?.message}
+          </span>
         </div>
       </form>
     </div>

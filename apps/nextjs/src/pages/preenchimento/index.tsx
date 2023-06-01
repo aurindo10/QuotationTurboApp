@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { usePreenchimentoStore } from "../../../zustandStore/PreenchimentoStore";
-import { PreenchimentoPage } from "../../components/organisms/HeaderPreenchimentoPage";
+import { PreenchimentoPage } from "../../components/preenchimento/HeaderPreenchimentoPage";
 import { trpc } from "../../utils/trpc";
 
 const FormSchema = z.object({

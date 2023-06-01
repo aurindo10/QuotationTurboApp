@@ -1,11 +1,11 @@
 import { useUser } from "@clerk/nextjs";
 import { DotsThreeOutlineVertical, Trash } from "@phosphor-icons/react";
-import { trpc } from "../../utils/trpc";
-import DropdownMenuDemo from "../molecules/DropDown";
-import { useCotacoesStore } from "../../../zustandStore/CotacoesStore";
+import { trpc } from "../../../utils/trpc";
+import DropdownMenuDemo from "../cotacoes/index/DropDown";
+import { useCotacoesStore } from "../../../../zustandStore/CotacoesStore";
 import { useEffect, useState } from "react";
-import DropdownMenuBuyList from "../molecules/DropDownBuyListPage";
-import { useBuyListsStore } from "../../../zustandStore/BuyListStore";
+import DropdownMenuBuyList from "./DropDownBuyListPage";
+import { useBuyListsStore } from "../../../../zustandStore/BuyListStore";
 import { DeleteBuyListmodal } from "./DeleteBuyListModal";
 import { string } from "zod";
 import { zonedTimeToUtc, utcToZonedTime, format } from "date-fns-tz";

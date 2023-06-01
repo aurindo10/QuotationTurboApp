@@ -2,10 +2,10 @@ import { useUser } from "@clerk/nextjs";
 import { Plus } from "@phosphor-icons/react";
 import * as Dialog from "@radix-ui/react-dialog";
 import React from "react";
-import { useBuyListsStore } from "../../../zustandStore/BuyListStore";
-import { useProductsStore } from "../../../zustandStore/ProductStore";
-import { useToastStore } from "../../../zustandStore/ToastStore";
-import { trpc } from "../../utils/trpc";
+import { useBuyListsStore } from "../../../../zustandStore/BuyListStore";
+import { useProductsStore } from "../../../../zustandStore/ProductStore";
+import { useToastStore } from "../../../../zustandStore/ToastStore";
+import { trpc } from "../../../utils/trpc";
 interface Props {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;

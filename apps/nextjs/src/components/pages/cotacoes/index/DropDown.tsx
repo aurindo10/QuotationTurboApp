@@ -7,9 +7,9 @@ import {
   ChevronRightIcon,
 } from "@radix-ui/react-icons";
 import { useRouter } from "next/router";
-import { trpc } from "../../utils/trpc";
+import { trpc } from "../../../../utils/trpc";
 import Link from "next/link";
-import { CopyAndPasteModal } from "../organisms/CopyPasteModal";
+import { CopyAndPasteModal } from "./CopyPasteModal";
 interface Props {
   id: string;
 }
@@ -56,7 +56,7 @@ const DropdownMenuDemo = ({ id }: Props) => {
             align={"end"}
           >
             <div className="w-32 space-y-1">
-              <Link href={`/cotacoes/sentprices/${id}`}>
+              <Link href={`/cotacoes/onecotacao/${id}`}>
                 <DropdownMenu.Item className="btn  btn-sm w-full">
                   Abrir
                 </DropdownMenu.Item>

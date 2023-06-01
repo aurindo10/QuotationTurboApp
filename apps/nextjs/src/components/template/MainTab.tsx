@@ -1,9 +1,31 @@
 import * as Tabs from "@radix-ui/react-tabs";
-import { ProductsTableCotation } from "../organisms/ProductsFromCotation";
-import { SentPricesBody } from "../organisms/SentPricesBody";
-import { SubHeaderProductsCotacao } from "../organisms/SubHeaderProductsCotacao";
+import { ProductsTableCotation } from "../pages/cotacoes/sentprices/ProductsFromCotation";
+import { SentPricesBody } from "../pages/cotacoes/sentprices/SentPricesBody";
+import { SubHeaderProductsCotacao } from "../pages/cotacoes/RegisteredProducts/SubHeaderProductsCotacao";
+import { trpc } from "../../utils/trpc";
+import { useRouter } from "next/router";
+import React from "react";
 
 export function MainTab() {
+  const { mutateAsync: compareProductsCotados } =
+    trpc.buyList.compareProductsCotados.useMutation();
+  const [isLoading, setIsLoading] = React.useState("");
+  const router = useRouter();
+  const HandleCompareProductsCotados = async () => {
+    try {
+      setIsLoading("loading");
+      console.log(router.query.id as string);
+      const comparedProducts = await compareProductsCotados({
+        cotacaoId: router.query.id as string,
+      });
+      router.push(`/buylist/products/${router.query.id as string}`);
+      setIsLoading("");
+      alert("Lista de compras gerada com sucesso");
+    } catch ({ message }) {
+      setIsLoading("");
+      alert(message);
+    }
+  };
   return (
     <Tabs.Root
       defaultValue="tab1"
@@ -43,6 +65,14 @@ export function MainTab() {
         className="grow rounded-b-md bg-slate-800 p-3 outline-none focus:shadow-[0_0_0_2px] focus:shadow-slate-50 md:p-5"
         value="tab2"
       >
+        <div className="flex w-full justify-end">
+          <button
+            className={`btn btn-warning ${isLoading}`}
+            onClick={HandleCompareProductsCotados}
+          >
+            Comparar estes preços
+          </button>
+        </div>
         <SentPricesBody></SentPricesBody>
       </Tabs.Content>
     </Tabs.Root>

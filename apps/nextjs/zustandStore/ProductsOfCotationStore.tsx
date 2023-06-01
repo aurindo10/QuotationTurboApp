@@ -21,13 +21,22 @@ type Store = {
   setSelectedProduct: () => void;
   deleteProduct: (id: string) => void;
   resetSelectedProduct: () => void;
+  open: boolean;
+  setOpen: (state: boolean) => void;
 };
 
 export const useProductsOfCotationStore = create(
   immer<Store>((set, get) => ({
+    open: false,
+    setOpen: (isOpen) => {
+      set((state) => {
+        state.open = isOpen;
+      });
+    },
     allProducts: [
       {
         id: "",
+        quantidade: 0,
         produto: {
           id: "",
           descricao: "",

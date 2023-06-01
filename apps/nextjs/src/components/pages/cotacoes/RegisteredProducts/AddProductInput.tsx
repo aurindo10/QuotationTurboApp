@@ -1,9 +1,9 @@
 import { useUser } from "@clerk/nextjs";
 import React, { ChangeEvent, useCallback, useRef, useState } from "react";
-import { useProductsOfCotationStore } from "../../../zustandStore/ProductsOfCotationStore";
-import { RouterOutputs, trpc } from "../../utils/trpc";
+import { useProductsOfCotationStore } from "../../../../../zustandStore/ProductsOfCotationStore";
+import { RouterOutputs, trpc } from "../../../../utils/trpc";
 import _ from "lodash";
-import { CommandInput } from "../../../components/ui/command";
+import { CommandInput } from "../../../../../components/ui/command";
 
 type getProductByNameType = RouterOutputs["product"]["getProductByName"];
 interface InputToAddProductOnCotationProps {

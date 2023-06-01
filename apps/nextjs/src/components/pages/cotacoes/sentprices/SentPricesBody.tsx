@@ -3,10 +3,10 @@ import { useRouter } from "next/navigation";
 import { useRouter as pastUseRouter } from "next/router";
 import React from "react";
 import { useEffect } from "react";
-import { useSentPricesStore } from "../../../zustandStore/SentPrices";
+import { useSentPricesStore } from "../../../../../zustandStore/SentPrices";
 
-import { trpc } from "../../utils/trpc";
-import { DeletePriceListCotado } from "./DeletePriceListCotado";
+import { trpc } from "../../../../utils/trpc";
+import { DeletePriceListCotado } from "../RegisteredProducts/DeletePriceListCotado";
 
 export const SentPricesBody = () => {
   const [open, setOpen] = React.useState(false);

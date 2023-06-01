@@ -4,9 +4,9 @@ import { PencilSimple, Trash } from "@phosphor-icons/react";
 import { inferRouterInputs } from "@trpc/server";
 import React from "react";
 import { useEffect } from "react";
-import { useProductsStore } from "../../../zustandStore/ProductStore";
-import { trpc } from "../../utils/trpc";
-import { ProductsTableSkeleton } from "../SkeletonPages/ProductPageSkeleton";
+import { useProductsStore } from "../../../../zustandStore/ProductStore";
+import { trpc } from "../../../utils/trpc";
+import { ProductsTableSkeleton } from "../../SkeletonPages/ProductPageSkeleton";
 import { DeleteProductModal } from "./DeleteProductModal";
 import { EditProductModal } from "./EditProductModal";
 interface ClickedProduct {

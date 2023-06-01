@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useBuyListsStore } from "../../../zustandStore/BuyListStore";
-import { trpc } from "../../utils/trpc";
+import { useBuyListsStore } from "../../../../zustandStore/BuyListStore";
+import { trpc } from "../../../utils/trpc";
 import { ModalToTransferProduct } from "./TransferProductModal";
 
 export const BuyListTableBody = () => {
