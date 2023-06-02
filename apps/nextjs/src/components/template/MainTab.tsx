@@ -68,7 +68,7 @@ export function MainTab() {
           value="tab2"
         >
           <div className="fixed bottom-4 right-4 z-50 flex items-end gap-4">
-            <label className="text-slate-50 ">Comparar estes preços</label>
+            <label className="text-slate-400 ">Comparar estes preços</label>
             <button
               className={`btn btn-warning btn-circle ${isLoading}`}
               onClick={HandleCompareProductsCotados}

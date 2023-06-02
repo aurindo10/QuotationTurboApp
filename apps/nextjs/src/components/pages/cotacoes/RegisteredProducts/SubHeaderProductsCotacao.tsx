@@ -99,14 +99,14 @@ export const SubHeaderProductsCotacao = () => {
       >
         <div className="fixed bottom-4 right-4 z-50 flex items-end gap-2 text-center">
           <label
-            className="text-[15px] font-bold text-slate-50"
+            className="text-[15px] font-bold text-slate-400"
             onClick={() => buttonSendRef.current?.click()}
           >
             Compartilhar
           </label>
           <button
             ref={buttonSendRef}
-            className="btn btn-square btn-warning flex flex-col items-center text-center"
+            className="btn btn-circle btn-warning flex flex-col items-center text-center"
             onClick={() => {
               setOpenCopyAndPasteModal(true);
             }}
