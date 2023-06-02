@@ -1,8 +1,9 @@
 import { AppRouter } from "@acme/api";
 import { useUser } from "@clerk/nextjs";
 import { PencilSimple, Trash } from "@phosphor-icons/react";
+import { Item } from "@radix-ui/react-dropdown-menu";
 import { inferRouterInputs } from "@trpc/server";
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import { useProductsStore } from "../../../../zustandStore/ProductStore";
 import { trpc } from "../../../utils/trpc";
@@ -32,19 +33,33 @@ export const ProductsTabe = () => {
     id: "",
     nome: "",
   });
-  const { data, status } = trpc.product.getAllProducts.useQuery();
+  const { data: numberOfProducts, status: loadingNumbersOfProducts } =
+    trpc.product.getNumberOfProducts.useQuery();
+  const { mutateAsync: getAllProducts, status } =
+    trpc.product.getAllProducts.useMutation();
   const [allPrducts, addManyProducts] = useProductsStore((state) => [
     state.allPrducts,
     state.addManyProducts,
   ]);
+  const productsPerPage = 6;
+  const numberOfPaginations = Math.ceil(
+    (numberOfProducts ?? 0) / productsPerPage,
+  );
+  const [currentPage, setCurrentPage] = useState(1);
+
   useEffect(() => {
-    if (status === "success") {
+    const handleGetAllProducts = async () => {
+      const data = await getAllProducts({
+        skip: (currentPage - 1) * productsPerPage,
+        take: productsPerPage,
+      });
       addManyProducts(data);
-    }
-  }, [data, status]);
+    };
+    handleGetAllProducts();
+  }, [currentPage]);
   return (
-    <div>
-      {status === "loading" ? (
+    <div className="pb-16">
+      {status === "loading" && loadingNumbersOfProducts === "loading" ? (
         <ProductsTableSkeleton />
       ) : allPrducts.length === 0 ? (
         <div className="text-[30px]">Cadastre um produto</div>
@@ -54,7 +69,7 @@ export const ProductsTabe = () => {
             <thead>
               <tr>
                 <th className="bg-slate-700">Nome</th>
-                <th className="bg-slate-700">Descriçãoxx</th>
+                <th className="bg-slate-700">Descrição</th>
                 <th className="bg-slate-700">Marca</th>
                 <th className="bg-slate-700">Código</th>
                 <th className="bg-slate-700">Unidade</th>
@@ -128,6 +143,23 @@ export const ProductsTabe = () => {
         setOpen={setEditModalOpen}
         open={editModalOpen}
       ></EditProductModal>
+      <div className="join flex justify-end">
+        {Array.from(Array(numberOfPaginations), (item, index) => {
+          return (
+            <button
+              className="join-item btn btn-square"
+              name="options"
+              aria-label="4"
+              key={index}
+              onClick={() => {
+                setCurrentPage(index + 1);
+              }}
+            >
+              {index + 1}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 };

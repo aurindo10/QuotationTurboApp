@@ -40,7 +40,15 @@ export const ProductsTableCotation = () => {
     id: "",
     nome: "",
   });
-
+  const { data: numberOfProducts, status: loadingNumbersOfProducts } =
+    trpc.product.getNumberOfProductsByCotation.useQuery({
+      cotacaoId: router.query.id as string,
+    });
+  const productsPerPage = 4;
+  const numberOfPaginations = Math.ceil(
+    (numberOfProducts ?? 0) / productsPerPage,
+  );
+  const [currentPage, setCurrentPage] = useState(1);
   const idCotacao = router.query.id;
   const [isLoading, setIsloanding] = useState(true);
   const { mutateAsync: getProductsByCotation } =
@@ -54,6 +62,8 @@ export const ProductsTableCotation = () => {
       const productsFromCotation = async () => {
         return await getProductsByCotation({
           cotacaoId: (idCotacao as string) ?? "",
+          skip: (currentPage - 1) * productsPerPage,
+          take: productsPerPage,
         });
       };
       productsFromCotation().then((data) => {
@@ -61,10 +71,10 @@ export const ProductsTableCotation = () => {
         setIsloanding(false);
       });
     }
-  }, [idCotacao, getProductsByCotation]);
+  }, [idCotacao, getProductsByCotation, currentPage]);
   return (
     <div>
-      {isLoading ? (
+      {isLoading && loadingNumbersOfProducts === "loading" ? (
         <ProductsTableSkeleton />
       ) : allProducts.length > 0 ? (
         <div className="w-full overflow-x-auto">
@@ -146,6 +156,23 @@ export const ProductsTableCotation = () => {
         setOpen={setEditModalOpen}
         open={editModalOpen}
       ></EditProductModal>
+      <div className="join mt-2 flex justify-end">
+        {Array.from(Array(numberOfPaginations), (item, index) => {
+          return (
+            <button
+              className="join-item btn btn-square"
+              name="options"
+              aria-label="4"
+              key={index}
+              onClick={() => {
+                setCurrentPage(index + 1);
+              }}
+            >
+              {index + 1}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 };

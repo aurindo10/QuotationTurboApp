@@ -55,30 +55,15 @@ export const produtoCotadoRouter = router({
       }),
     )
     .query(async ({ ctx, input }) => {
-      const prices = await ctx.prisma.representante.findMany({
+      const representantes = await ctx.prisma.representante.findMany({
         where: {
           cotacaoId: input.cotacaoId,
-        },
-        include: {
           produtoCotado: {
-            include: {
-              produtoDaCotacao: {
-                select: {
-                  produto: {
-                    select: {
-                      nome: true,
-                      brand: true,
-                      unit: true,
-                      descricao: true,
-                    },
-                  },
-                },
-              },
-            },
+            some: {},
           },
         },
       });
-      return prices;
+      return representantes;
     }),
   deleteProdutosCotados: protectedProcedure
     .input(
@@ -93,5 +78,46 @@ export const produtoCotadoRouter = router({
         },
       });
       return deleteProdutosCotados;
+    }),
+  getProdutoCotadoByCotationIdAndSellerId: protectedProcedure
+    .input(
+      z.object({
+        cotationId: z.string(),
+        sellerId: z.string(),
+        skip: z.number(),
+        take: z.number(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const allProductsBySeller = await ctx.prisma.produtoCotado.findMany({
+        where: {
+          cotacaoId: input.cotationId,
+          representanteId: input.sellerId,
+        },
+        include: {
+          produtoDaCotacao: {
+            include: {
+              produto: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+        skip: input.skip,
+        take: input.take,
+      });
+      return allProductsBySeller;
+    }),
+  getNumberOfProdutoCotadoByCotationIdAndSellerId: protectedProcedure
+    .input(z.object({ cotationId: z.string(), sellerId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const numberOfprodutoCotado = await ctx.prisma.produtoCotado.count({
+        where: {
+          cotacaoId: input.cotationId,
+          representanteId: input.sellerId,
+        },
+      });
+      return numberOfprodutoCotado;
     }),
 });

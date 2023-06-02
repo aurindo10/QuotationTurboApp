@@ -44,7 +44,7 @@ export const CotacoesList = () => {
     return <div>loading</div>;
   }
   return (
-    <div className="flex w-full flex-col items-center gap-3 md:grid md:grid-cols-2 lg:md:grid-cols-3">
+    <div className="flex w-full flex-col items-center gap-3 pb-20 md:grid md:grid-cols-2 lg:md:grid-cols-3">
       {allCotacoes?.length === 0 ? (
         <div className="flex flex-col">
           <label className="text-[30px] font-bold">

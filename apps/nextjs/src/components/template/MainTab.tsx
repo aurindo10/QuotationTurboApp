@@ -51,7 +51,7 @@ export function MainTab() {
           </Tabs.Trigger>
         </Tabs.List>
         <Tabs.Content
-          className="grow rounded-b-md bg-slate-800 p-3 outline-none focus:shadow-[0_0_0_2px] focus:shadow-slate-50 md:p-5"
+          className="grow rounded-b-md bg-slate-800 p-3 pb-16 outline-none focus:shadow-[0_0_0_2px] focus:shadow-slate-50 md:p-5"
           value="tab1"
         >
           <div className="w-full space-y-2">
@@ -64,7 +64,7 @@ export function MainTab() {
           </div>
         </Tabs.Content>
         <Tabs.Content
-          className="grow rounded-b-md bg-slate-800 p-3 outline-none focus:shadow-[0_0_0_2px] focus:shadow-slate-50 md:p-5"
+          className="grow rounded-b-md bg-slate-800 p-3 pb-16 outline-none focus:shadow-[0_0_0_2px] focus:shadow-slate-50 md:p-5"
           value="tab2"
         >
           <div className="fixed bottom-4 right-4 z-50 flex items-end gap-4">

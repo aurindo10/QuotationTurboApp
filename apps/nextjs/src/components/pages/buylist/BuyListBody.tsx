@@ -140,10 +140,3 @@ export const BuyListTableBody = () => {
     </div>
   );
 };
-
-{
-  /* <div className="flex justify-start gap-6 py-4 px-2">
-<label>{`Vendedor: ${seller.nome}`}</label>
-<label>{` Empresa: ${seller.empresaName}`}</label>
-</div> */
-}

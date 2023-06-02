@@ -7,6 +7,7 @@ import { useSentPricesStore } from "../../../../../zustandStore/SentPrices";
 
 import { trpc } from "../../../../utils/trpc";
 import { DeletePriceListCotado } from "../RegisteredProducts/DeletePriceListCotado";
+import { OneTable } from "./oneTable";
 
 export const SentPricesBody = () => {
   const [open, setOpen] = React.useState(false);
@@ -66,66 +67,7 @@ export const SentPricesBody = () => {
                 <Trash></Trash>
               </button>
             </div>
-            <div className="space-y-2">
-              <div className="w-full overflow-x-auto">
-                <table className="table w-full ">
-                  {/* head */}
-                  <thead>
-                    <tr>
-                      <th className="w-56 bg-slate-700">Nome</th>
-                      <th className="bg-slate-700">Valor</th>
-                      <th className="w-56 bg-slate-700">Marca</th>
-                      <th className="w-56 bg-slate-700">Código</th>
-                      <th className="w-56 bg-slate-700">Unidade</th>
-                      <th className="w-56 bg-slate-700">Descrição</th>
-                    </tr>
-                  </thead>
-                  {seller.produtoCotado.map((product) => {
-                    function formatarParaReal(numero: number): string {
-                      return numero.toLocaleString("pt-BR", {
-                        style: "currency",
-                        currency: "BRL",
-                      });
-                    }
-                    return (
-                      <tbody key={product.id}>
-                        <tr key={product.id}>
-                          <th className="bg-slate-600">
-                            <div className="w-32 whitespace-normal md:w-full">
-                              {product.produtoDaCotacao.produto.nome}
-                            </div>
-                          </th>
-                          <td className="bg-slate-900">
-                            <label>
-                              {formatarParaReal(product.valor ?? 0)}
-                            </label>
-                          </td>
-
-                          <td className="bg-slate-900">
-                            <label>
-                              {product.produtoDaCotacao.produto.brand}
-                            </label>
-                          </td>
-                          <td className="bg-slate-900">
-                            <label>{product.code}</label>
-                          </td>
-                          <td className="bg-slate-900">
-                            <label>
-                              {product.produtoDaCotacao.produto.unit}
-                            </label>
-                          </td>
-                          <td className="bg-slate-900">
-                            <div className="w-40 whitespace-normal md:w-full">
-                              {product.produtoDaCotacao.produto.descricao}
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    );
-                  })}
-                </table>
-              </div>
-            </div>
+            <OneTable key={seller.id} sellerId={seller.id}></OneTable>
           </div>
         );
       })}

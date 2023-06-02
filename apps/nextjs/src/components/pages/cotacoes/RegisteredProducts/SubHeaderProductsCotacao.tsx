@@ -106,7 +106,7 @@ export const SubHeaderProductsCotacao = () => {
           </label>
           <button
             ref={buttonSendRef}
-            className="btn btn-square flex flex-col items-center text-center"
+            className="btn btn-square btn-warning flex flex-col items-center text-center"
             onClick={() => {
               setOpenCopyAndPasteModal(true);
             }}

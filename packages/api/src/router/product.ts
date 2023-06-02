@@ -27,14 +27,26 @@ export const productRouter = router({
       });
       return createdEmpresa;
     }),
-  getAllProducts: protectedProcedure.query(async ({ ctx, input }) => {
-    const allProducts = await ctx.prisma.product.findMany({
-      where: {
-        clerkIdOrg: ctx.auth.orgId,
-      },
-    });
-    return allProducts;
-  }),
+  getAllProducts: protectedProcedure
+    .input(
+      z.object({
+        skip: z.number(),
+        take: z.number(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const allProducts = await ctx.prisma.product.findMany({
+        where: {
+          clerkIdOrg: ctx.auth.orgId,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+        take: input.take,
+        skip: input.skip,
+      });
+      return allProducts;
+    }),
   deleteOneProduct: protectedProcedure
     .input(
       z.object({
@@ -79,6 +91,8 @@ export const productRouter = router({
     .input(
       z.object({
         cotacaoId: z.string(),
+        take: z.number(),
+        skip: z.number(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -92,6 +106,11 @@ export const productRouter = router({
           id: true,
           quantidade: true,
         },
+        orderBy: {
+          createdAt: "desc",
+        },
+        take: input.take,
+        skip: input.skip,
       });
       return foundProducts;
     }),
@@ -111,5 +130,28 @@ export const productRouter = router({
         },
       });
       return foundProduct;
+    }),
+  getNumberOfProducts: protectedProcedure.query(async ({ ctx }) => {
+    const numberOfProducts = await ctx.prisma.product.count({
+      where: {
+        clerkIdOrg: ctx.auth.orgId,
+      },
+    });
+    return numberOfProducts;
+  }),
+  getNumberOfProductsByCotation: protectedProcedure
+    .input(
+      z.object({
+        cotacaoId: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const numberOfProducts = await ctx.prisma.produtosDaCotacao.count({
+        where: {
+          clerkIdOrg: ctx.auth.orgId,
+          cotacaoId: input.cotacaoId,
+        },
+      });
+      return numberOfProducts;
     }),
 });
