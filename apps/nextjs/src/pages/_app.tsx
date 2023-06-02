@@ -29,7 +29,7 @@ const MyApp: AppType = ({
       appearance={{
         baseTheme: dark,
         variables: {
-          colorBackground: "#1F2937",
+          colorBackground: "#0F172A",
         },
       }}
     >

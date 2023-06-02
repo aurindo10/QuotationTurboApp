@@ -62,7 +62,7 @@ export const AddCotacaoModal = () => {
   return (
     <Dialog.Root open={open} onOpenChange={() => setOpen(!open)}>
       <div className="flex items-end gap-2">
-        <label className="text-slate-400">Adicionar Cotação</label>
+        <label className="font-bold text-slate-400">Adicionar Cotação</label>
         <button
           onClick={() => setOpen(true)}
           className="btn btn-primary btn-circle btn z-50"

@@ -39,12 +39,12 @@ export const Drawer = () => {
 
   return (
     <div data-theme="mytheme">
-      <div className="navbar bg-neutral">
-        <div className="navbar-start">
-          <div className="dropdown" ref={dropdownRef}>
+      <div className="navbar bg-blue-700">
+        <div className="navbar-start bg-blue-700">
+          <div className="dropdown bg-blue-700" ref={dropdownRef}>
             <label
               tabIndex={0}
-              className="btn btn-circle"
+              className="btn btn-circle btn-ghost"
               onClick={handleDropdownClick}
             >
               <svg
@@ -65,7 +65,7 @@ export const Drawer = () => {
             {isOpen && (
               <ul
                 tabIndex={0}
-                className="menu menu-compact dropdown-content  bg-neutral rounded-box mt-3 w-52 p-2 shadow"
+                className="menu menu-compact dropdown-content  rounded-box mt-3 w-52 bg-slate-900 p-2 shadow"
               >
                 <li>
                   <Link href={"/cotacoes"} onClick={closeDropdown}>
@@ -88,13 +88,10 @@ export const Drawer = () => {
         </div>
 
         <div className="navbar-end">
-          <button className="btn btn-circle"></button>
           <div className="px-2">
             <OrganizationSwitcher afterSwitchOrganizationUrl="/" hidePersonal />
           </div>
-          <button className="btn  btn-circle">
-            <UserButton afterSignOutUrl="/" />
-          </button>
+          <UserButton afterSignOutUrl="/" />
         </div>
       </div>
       <ToastInfo></ToastInfo>
