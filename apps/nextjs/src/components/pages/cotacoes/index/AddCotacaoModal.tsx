@@ -64,7 +64,7 @@ export const AddCotacaoModal = () => {
       <div>
         <button
           onClick={() => setOpen(true)}
-          className="btn btn-primary btn-circle btn-lg "
+          className="btn btn-primary btn-circle btn-lg z-50"
         >
           <Plus size={32} />
         </button>

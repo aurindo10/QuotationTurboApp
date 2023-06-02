@@ -5,6 +5,7 @@ import { SubHeaderProductsCotacao } from "../pages/cotacoes/RegisteredProducts/S
 import { trpc } from "../../utils/trpc";
 import { useRouter } from "next/router";
 import React from "react";
+import { TreeStructure } from "@phosphor-icons/react";
 
 export function MainTab() {
   const { mutateAsync: compareProductsCotados } =
@@ -66,12 +67,13 @@ export function MainTab() {
           className="grow rounded-b-md bg-slate-800 p-3 outline-none focus:shadow-[0_0_0_2px] focus:shadow-slate-50 md:p-5"
           value="tab2"
         >
-          <div className="flex w-full justify-end">
+          <div className="fixed bottom-4 right-4 z-50 flex items-end gap-4">
+            <label className="text-slate-50 ">Comparar estes preços</label>
             <button
-              className={`btn btn-warning ${isLoading}`}
+              className={`btn btn-warning btn-circle ${isLoading}`}
               onClick={HandleCompareProductsCotados}
             >
-              Comparar estes preços
+              <TreeStructure size={32} />
             </button>
           </div>
           <SentPricesBody></SentPricesBody>

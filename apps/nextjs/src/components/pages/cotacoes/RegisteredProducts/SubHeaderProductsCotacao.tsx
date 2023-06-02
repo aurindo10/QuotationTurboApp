@@ -97,7 +97,7 @@ export const SubHeaderProductsCotacao = () => {
         className="flex w-full flex-col items-center"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="fixed bottom-4 right-4 flex items-end gap-2 text-center">
+        <div className="fixed bottom-4 right-4 z-50 flex items-end gap-2 text-center">
           <label
             className="text-[15px] font-bold text-slate-50"
             onClick={() => buttonSendRef.current?.click()}
