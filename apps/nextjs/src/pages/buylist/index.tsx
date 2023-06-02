@@ -8,7 +8,7 @@ import { NextPageWithLayout } from "../_app";
 
 const Page: NextPageWithLayout = () => {
   return (
-    <div className="w-full px-2 md:px-4">
+    <div className="w-full px-2 py-4 md:px-4">
       <CotationBuyListPage></CotationBuyListPage>
     </div>
   );

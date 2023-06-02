@@ -66,7 +66,7 @@ export const AddProductModal = () => {
       <div>
         <button
           onClick={() => setOpen(true)}
-          className="btn btn-primary btn-square"
+          className="btn btn-primary btn-circle"
         >
           <Plus size={32} />
         </button>

@@ -50,22 +50,22 @@ export const ProductsTabe = () => {
         <div className="text-[30px]">Cadastre um produto</div>
       ) : (
         <div className="w-full overflow-x-auto">
-          <table className="table-zebra table w-full ">
+          <table className="table w-full ">
             <thead>
               <tr>
-                <th>Nome</th>
-                <th>Descriçãoxx</th>
-                <th>Marca</th>
-                <th>Código</th>
-                <th>Unidade</th>
-                <th className="w-8 text-center">Ações</th>
+                <th className="bg-slate-700">Nome</th>
+                <th className="bg-slate-700">Descriçãoxx</th>
+                <th className="bg-slate-700">Marca</th>
+                <th className="bg-slate-700">Código</th>
+                <th className="bg-slate-700">Unidade</th>
+                <th className="w-8 bg-slate-700 text-center">Ações</th>
               </tr>
             </thead>
             <tbody>
               {allPrducts?.map((product) => {
                 return (
                   <tr key={product.id}>
-                    <th>
+                    <th className="bg-slate-600">
                       <div className="w-32 whitespace-normal md:w-full">
                         {product.nome}
                       </div>

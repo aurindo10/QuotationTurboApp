@@ -8,7 +8,7 @@ import { NextPageWithLayout } from "../../_app";
 
 const Page: NextPageWithLayout = () => {
   return (
-    <div className="py-4 px-1 ">
+    <div className=" py-4 px-1">
       <MainTab></MainTab>
     </div>
   );

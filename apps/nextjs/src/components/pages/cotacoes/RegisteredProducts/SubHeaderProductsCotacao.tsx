@@ -1,18 +1,23 @@
 import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Share } from "@phosphor-icons/react";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import React from "react";
+import { useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { useProductsOfCotationStore } from "../../../../../zustandStore/ProductsOfCotationStore";
 import { useToastStore } from "../../../../../zustandStore/ToastStore";
 import { trpc } from "../../../../utils/trpc";
+import { CopyAndPasteModal } from "../index/CopyPasteModal";
 import { SelectInputProduct } from "./SelectInputProduct";
 
 const formSchemaToAddProductToCotacao = z.object({
   quantidade: z.number().min(0.01, "Este campo deve ter no mínimo 0.01"),
 });
 export const SubHeaderProductsCotacao = () => {
+  const [openCopyAndPasteModal, setOpenCopyAndPasteModal] =
+    React.useState(false);
   const [setToastOpen, setContent] = useToastStore((state) => [
     state.setOpenOnClique,
     state.setContent,
@@ -20,6 +25,7 @@ export const SubHeaderProductsCotacao = () => {
   const [isLoading, setIsloanding] = useState("");
   const router = useRouter();
   const idCotacao = router.query.id;
+  const buttonSendRef = useRef<HTMLButtonElement>(null);
 
   type FormData = z.infer<typeof formSchemaToAddProductToCotacao>;
   const { mutateAsync: addProductToCotacao } =
@@ -91,6 +97,23 @@ export const SubHeaderProductsCotacao = () => {
         className="flex w-full flex-col items-center"
         onSubmit={handleSubmit(onSubmit)}
       >
+        <div className="fixed bottom-4 right-4 flex items-end gap-2 text-center">
+          <label
+            className="text-[15px] font-bold text-slate-50"
+            onClick={() => buttonSendRef.current?.click()}
+          >
+            Compartilhar
+          </label>
+          <button
+            ref={buttonSendRef}
+            className="btn btn-square flex flex-col items-center text-center"
+            onClick={() => {
+              setOpenCopyAndPasteModal(true);
+            }}
+          >
+            <Share size={40} />
+          </button>
+        </div>
         <SelectInputProduct></SelectInputProduct>
         <div className="form-control w-[300px]">
           <label className="label">
@@ -133,6 +156,11 @@ export const SubHeaderProductsCotacao = () => {
           </span>
         </div>
       </form>
+      <CopyAndPasteModal
+        cotacaoId={(router.query.id as string) ?? ""}
+        open={openCopyAndPasteModal}
+        setOpen={setOpenCopyAndPasteModal}
+      ></CopyAndPasteModal>
     </div>
   );
 };

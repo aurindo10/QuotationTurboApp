@@ -1,16 +1,22 @@
 import { useUser } from "@clerk/nextjs";
-import { DotsThreeOutlineVertical, Trash } from "@phosphor-icons/react";
+import {
+  DotsThreeOutlineVertical,
+  FolderOpen,
+  Trash,
+} from "@phosphor-icons/react";
 import { trpc } from "../../../utils/trpc";
 import DropdownMenuDemo from "../cotacoes/index/DropDown";
 import { useCotacoesStore } from "../../../../zustandStore/CotacoesStore";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import DropdownMenuBuyList from "./DropDownBuyListPage";
 import { useBuyListsStore } from "../../../../zustandStore/BuyListStore";
 import { DeleteBuyListmodal } from "./DeleteBuyListModal";
 import { string } from "zod";
 import { zonedTimeToUtc, utcToZonedTime, format } from "date-fns-tz";
+import Link from "next/link";
 const timeZone = "America/Sao_Paulo";
 export const CotationBuyListPage = () => {
+  const buttonOpenRef = useRef<HTMLAnchorElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [infoToDeleteModal, setInfoToDeleteModal] = useState({
     cotacaoId: "",
@@ -41,17 +47,13 @@ export const CotationBuyListPage = () => {
       <div className="w-full" key={buyList.id}>
         {buyList.BuyList.length > 0 ? (
           <div
-            className="card card-compact bg-base-100 w-full max-w-xl shadow-xl"
+            className="card card-compact w-full max-w-[420px] bg-slate-700 shadow-xl  "
             key={buyList.id}
           >
-            <div className="card-body grid grid-cols-3">
-              <div className="col-span-2">
-                <h2 className="card-title">{buyList.nome}</h2>
-                <h3>{`Criado em: ${formattedDate}`}</h3>
-              </div>
-              <div className="card-actions justify-end">
-                <div className="flex flex-col items-center justify-center gap-2">
-                  <DropdownMenuBuyList id={buyList.id}></DropdownMenuBuyList>
+            <div className="card-body grid grid-cols-3 ">
+              <div className="col-span-2 space-y-2">
+                <div className="flex items-center gap-4">
+                  <h2 className="card-title">{buyList.nome}</h2>
                   <button
                     className="btn btn-square btn-accent btn-sm"
                     onClick={() => {
@@ -64,6 +66,27 @@ export const CotationBuyListPage = () => {
                   >
                     <Trash size={22}></Trash>
                   </button>
+                </div>
+
+                <h3>{`Criado em: ${formattedDate}`}</h3>
+              </div>
+              <div className="card-actions justify-end">
+                <div className="flex flex-col items-center justify-center gap-2">
+                  <div className="flex flex-col items-center text-center">
+                    <Link
+                      ref={buttonOpenRef}
+                      href={`/buylist/products/${buyList.id}`}
+                      className="btn btn-square flex flex-col items-center text-center"
+                    >
+                      <FolderOpen size={40} />
+                    </Link>
+                    <label
+                      className="text-[15px] font-bold text-slate-50"
+                      onClick={() => buttonOpenRef.current?.click()}
+                    >
+                      Abrir
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>
@@ -80,7 +103,7 @@ export const CotationBuyListPage = () => {
     );
   }
   return (
-    <div className="flex w-full flex-col items-center ">
+    <div className="flex w-full flex-col content-start items-center gap-2 md:grid md:grid-cols-3">
       {buyListElement}
       <DeleteBuyListmodal
         open={isOpen}

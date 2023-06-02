@@ -72,7 +72,7 @@ export const ProductsTableCotation = () => {
             {/* head */}
             <thead>
               <tr>
-                <th className=" bg-slate-700">Nome</th>
+                <th className=" w-56 bg-slate-700">Nome</th>
                 <th className=" bg-slate-700">QTD</th>
                 <th className=" bg-slate-700">Unidade</th>
                 <th className=" bg-slate-700">Descrição</th>
@@ -85,8 +85,8 @@ export const ProductsTableCotation = () => {
               {allProducts?.map((product) => {
                 return (
                   <tr key={product.id}>
-                    <th className="bg-slate-600">
-                      <div className=" whitespace-normal md:w-full">
+                    <th className=" bg-slate-600">
+                      <div className=" w-32 whitespace-normal md:w-full">
                         {product.produto.nome}
                       </div>
                     </th>

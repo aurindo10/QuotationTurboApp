@@ -15,6 +15,7 @@ import { DeleteCotacaoModal } from "./DeleteCotacaoModal";
 import React from "react";
 import { CopyAndPasteModal } from "./CopyPasteModal";
 import Link from "next/link";
+import { AddCotacaoModal } from "./AddCotacaoModal";
 const timeZone = "America/Sao_Paulo";
 export const CotacoesList = () => {
   const buttonSendRef = useRef<HTMLButtonElement>(null);
@@ -43,7 +44,7 @@ export const CotacoesList = () => {
     return <div>loading</div>;
   }
   return (
-    <div className="flex w-full flex-col items-center gap-3">
+    <div className="flex w-full flex-col items-center gap-3 md:grid md:grid-cols-2 lg:md:grid-cols-3">
       {allCotacoes?.length === 0 ? (
         <div className="flex flex-col">
           <label className="text-[30px] font-bold">
@@ -57,7 +58,7 @@ export const CotacoesList = () => {
         const formattedDate = format(zonedDate, "dd/MM/yyyy");
         return (
           <div
-            className="w-full max-w-xl rounded-lg bg-slate-700 py-4 px-1 shadow-2xl "
+            className="w-full max-w-[420px] rounded-lg bg-slate-700 py-4 px-1 shadow-2xl "
             key={cotacao.id}
           >
             <div className="grid grid-cols-[auto_170px_1fr_1fr]">
@@ -137,28 +138,9 @@ export const CotacoesList = () => {
         open={openDeletemodal}
         setOpen={setOpenDeleteModal}
       ></DeleteCotacaoModal>
+      <div className="fixed bottom-4 right-4">
+        <AddCotacaoModal></AddCotacaoModal>
+      </div>
     </div>
   );
 };
-
-{
-  /* <div className="card-body grid grid-cols-3">
-<div className="col-span-2">
-  <h2 className="card-title">{cotacao.nome}</h2>
-  <h3>{`Enviados: ${
-    cotacao.Representante ? cotacao.Representante.length : 0
-  }/${cotacao.ammountOfTradeRepresentative}`}</h3>
-  <h3>{`Criado em: ${formattedDate}`}</h3>
-</div>
-<div className="card-actions justify-end">
-  <div className="flex flex-col items-center justify-center gap-5">
-    <DropdownMenuDemo id={cotacao.id}></DropdownMenuDemo>
-    <button
-      className="btn btn-square btn-sm btn-accent"
-      onClick={() => setOpen(true)}
-    >
-      <Trash size={18} />
-    </button>
-  </div>
-</div> */
-}
