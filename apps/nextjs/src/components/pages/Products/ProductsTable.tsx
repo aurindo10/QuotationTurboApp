@@ -99,9 +99,9 @@ export const ProductsTabe = () => {
                     <td>
                       <label>{product.unit}</label>
                     </td>
-                    <th className="space-x-3">
+                    <th className="join">
                       <button
-                        className="btn btn-accent  btn-square"
+                        className="btn btn-accent  join-item btn-square"
                         onClick={() => {
                           setOpen(true);
                           setClickedProduct({
@@ -113,7 +113,7 @@ export const ProductsTabe = () => {
                         <Trash size={24} />
                       </button>
                       <button
-                        className="btn btn-warning  btn-square"
+                        className="btn btn-warning  join-item btn-square"
                         onClick={() => {
                           setEditModalOpen(true);
                           setInfoModalOpen({
@@ -147,9 +147,8 @@ export const ProductsTabe = () => {
         {Array.from(Array(numberOfPaginations), (item, index) => {
           return (
             <button
-              className="join-item btn btn-square"
+              className="join-item btn btn-sm"
               name="options"
-              aria-label="4"
               key={index}
               onClick={() => {
                 setCurrentPage(index + 1);

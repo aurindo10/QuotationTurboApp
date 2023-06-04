@@ -82,7 +82,7 @@ export const BuyListTableBody = () => {
                                   )}
                                 </label>
                               </td>
-                              <td className="bg-slate-900">
+                              <td>
                                 <div className="w-40 whitespace-normal md:w-full ">
                                   {
                                     product.produtoCotado.produtoDaCotacao

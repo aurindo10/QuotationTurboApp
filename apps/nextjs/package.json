@@ -39,7 +39,7 @@
     "class-variance-authority": "^0.6.0",
     "clsx": "^1.2.1",
     "cmdk": "^0.2.0",
-    "daisyui": "^2.51.6",
+    "daisyui": "^3.0.3",
     "date-fns": "^2.30.0",
     "date-fns-tz": "^2.0.0",
     "immer": "^10.0.1",

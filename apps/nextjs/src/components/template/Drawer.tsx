@@ -41,7 +41,7 @@ export const Drawer = () => {
     <div data-theme="mytheme">
       <div className="navbar bg-blue-700">
         <div className="navbar-start bg-blue-700">
-          <div className="dropdown bg-blue-700" ref={dropdownRef}>
+          <div className="dropdown z-50 bg-blue-700" ref={dropdownRef}>
             <label
               tabIndex={0}
               className="btn btn-circle btn-ghost"
