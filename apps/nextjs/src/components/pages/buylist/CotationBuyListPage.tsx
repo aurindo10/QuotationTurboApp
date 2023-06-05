@@ -44,7 +44,7 @@ export const CotationBuyListPage = () => {
       buyListCount++;
     }
     return (
-      <div className="w-full" key={buyList.id}>
+      <div className="flex w-full gap-2 md:flex-col" key={buyList.id}>
         {buyList.BuyList.length > 0 ? (
           <div
             className="card card-compact w-full max-w-[420px] bg-slate-700 shadow-xl  "
@@ -103,7 +103,7 @@ export const CotationBuyListPage = () => {
     );
   }
   return (
-    <div className="flex w-full flex-col content-start items-center gap-2 md:grid md:grid-cols-3">
+    <div className="">
       {buyListElement}
       <DeleteBuyListmodal
         open={isOpen}

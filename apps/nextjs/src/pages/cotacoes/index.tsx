@@ -9,11 +9,6 @@ import { NextPageWithLayout } from "../_app";
 const Page: NextPageWithLayout = () => {
   return (
     <div className="py-4 px-2 ">
-      <div className="flex justify-center">
-        <div className="flex w-full max-w-xl justify-end">
-          {/* <AddCotacaoModal></AddCotacaoModal> */}
-        </div>
-      </div>
       <CotacoesList></CotacoesList>
     </div>
   );
