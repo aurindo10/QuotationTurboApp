@@ -37,15 +37,26 @@ export const ProductsTabe = () => {
     trpc.product.getNumberOfProducts.useQuery();
   const { mutateAsync: getAllProducts, status } =
     trpc.product.getAllProducts.useMutation();
-  const [allPrducts, addManyProducts] = useProductsStore((state) => [
+  const [
+    allPrducts,
+    addManyProducts,
+    currentPage,
+    setCurrentPage,
+    inputValue,
+    setInputValue,
+  ] = useProductsStore((state) => [
     state.allPrducts,
     state.addManyProducts,
+    state.currentPage,
+    state.setCurrentPage,
+    state.inputValue,
+    state.setInputValue,
   ]);
   const productsPerPage = 6;
   const numberOfPaginations = Math.ceil(
-    (numberOfProducts ?? 0) / productsPerPage,
+    (inputValue.length === 0 ? numberOfProducts ?? 0 : allPrducts.length) /
+      productsPerPage,
   );
-  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const handleGetAllProducts = async () => {
@@ -55,8 +66,10 @@ export const ProductsTabe = () => {
       });
       addManyProducts(data);
     };
-    handleGetAllProducts();
-  }, [currentPage]);
+    if (inputValue.length === 0) {
+      handleGetAllProducts();
+    }
+  }, [currentPage, getAllProducts, addManyProducts]);
   return (
     <div className="pb-16">
       {status === "loading" && loadingNumbersOfProducts === "loading" ? (

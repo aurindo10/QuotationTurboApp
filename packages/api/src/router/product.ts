@@ -154,4 +154,37 @@ export const productRouter = router({
       });
       return numberOfProducts;
     }),
+  searchProduct: protectedProcedure
+    .input(
+      z.object({
+        nome: z.string(),
+        take: z.number(),
+        skip: z.number(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const foundProducts = await ctx.prisma.product.findMany({
+        where: {
+          clerkIdOrg: ctx.auth.orgId,
+          OR: [
+            {
+              nome: {
+                contains: input.nome,
+              },
+            },
+            {
+              descricao: {
+                contains: input.nome,
+              },
+            },
+          ],
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+        take: input.take,
+        skip: input.skip,
+      });
+      return foundProducts;
+    }),
 });
