@@ -86,9 +86,8 @@ export const Drawer = () => {
             )}
           </div>
         </div>
-
         <div className="navbar-end">
-          <div className="px-2">
+          <div className="ml-2 mr-2 ">
             <OrganizationSwitcher afterSwitchOrganizationUrl="/" hidePersonal />
           </div>
           <UserButton afterSignOutUrl="/" />
