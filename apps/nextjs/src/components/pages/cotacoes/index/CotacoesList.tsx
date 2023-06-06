@@ -45,7 +45,11 @@ export const CotacoesList = () => {
   }
   return (
     <div>
-      <AddCotacaoModal></AddCotacaoModal>
+      <div className="flex justify-center">
+        <div className="flex w-full max-w-[360px] justify-start md:max-w-full">
+          <AddCotacaoModal></AddCotacaoModal>
+        </div>
+      </div>
       <div className="mt-2 flex w-full flex-col items-center gap-3 pb-20 md:flex-row">
         {allCotacoes?.length === 0 ? (
           <div className="flex flex-col">
