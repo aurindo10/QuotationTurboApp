@@ -1,6 +1,7 @@
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/router";
 import { ReactElement, useContext, useEffect } from "react";
+import { usePageStore } from "../../zustandStore/PageStore";
 import { SearchInput } from "../components/pages/cotacoes/RegisteredProducts/SearchInput";
 import { ProductsHeader } from "../components/pages/Products/ProductsHeader";
 import { ProductsTabe } from "../components/pages/Products/ProductsTable";
@@ -8,6 +9,8 @@ import { Drawer } from "../components/template/Drawer";
 import { NextPageWithLayout } from "./_app";
 
 const Page: NextPageWithLayout = () => {
+  const [setTitle] = usePageStore((state) => [state.setTitle]);
+  setTitle("Produtos");
   return (
     <div className="w-full space-y-3 py-4 px-2 md:px-4">
       <div className="flex w-full justify-center">

@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useRouter as pastUseRouter } from "next/router";
 import React from "react";
 import { useEffect } from "react";
+import { usePageStore } from "../../../../../zustandStore/PageStore";
 import { useSentPricesStore } from "../../../../../zustandStore/SentPrices";
 
 import { trpc } from "../../../../utils/trpc";
@@ -10,6 +11,8 @@ import { DeletePriceListCotado } from "../RegisteredProducts/DeletePriceListCota
 import { OneTable } from "./oneTable";
 
 export const SentPricesBody = () => {
+  const [setTitle] = usePageStore((state) => [state.setTitle]);
+  setTitle("Cotacões enviadas");
   const [open, setOpen] = React.useState(false);
   const [representanteInfo, setRepresentanteInfo] = React.useState({
     representanteId: "",

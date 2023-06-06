@@ -1,12 +1,7 @@
-import {
-  OrganizationSwitcher,
-  SignedIn,
-  SignedOut,
-  useAuth,
-  UserButton,
-} from "@clerk/nextjs";
+import { useAuth, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { usePageStore } from "../../../zustandStore/PageStore";
 import { ToastInfo } from "../atoms/Toast";
 
 export const Drawer = () => {
@@ -30,6 +25,11 @@ export const Drawer = () => {
     }
   };
   const { orgSlug } = useAuth();
+  const [title, setTitle] = usePageStore((state) => [
+    state.title,
+    state.setTitle,
+  ]);
+
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -82,14 +82,19 @@ export const Drawer = () => {
                     Lista de compras
                   </Link>
                 </li>
+                <li>
+                  <Link href={"/org"} onClick={closeDropdown}>
+                    Empresas
+                  </Link>
+                </li>
               </ul>
             )}
           </div>
         </div>
+        <div className="navbar-center">
+          <div className="">{title}</div>
+        </div>
         <div className="navbar-end">
-          <div className="ml-2 mr-2 ">
-            <OrganizationSwitcher afterSwitchOrganizationUrl="/" hidePersonal />
-          </div>
           <UserButton afterSignOutUrl="/" />
         </div>
       </div>

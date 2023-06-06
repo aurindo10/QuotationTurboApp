@@ -1,8 +1,11 @@
 import { ReactElement } from "react";
+import { usePageStore } from "../../zustandStore/PageStore";
 import { Drawer } from "../components/template/Drawer";
 import { NextPageWithLayout } from "./_app";
 
 const Page: NextPageWithLayout = () => {
+  const [setTitle] = usePageStore((state) => [state.setTitle]);
+  setTitle("Olá");
   return (
     <div className="w-full py-4 px-2 md:px-4">
       <div>

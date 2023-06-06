@@ -6,6 +6,7 @@ import React from "react";
 import { useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
+import { usePageStore } from "../../../../../zustandStore/PageStore";
 import { useProductsOfCotationStore } from "../../../../../zustandStore/ProductsOfCotationStore";
 import { useToastStore } from "../../../../../zustandStore/ToastStore";
 import { trpc } from "../../../../utils/trpc";
@@ -16,6 +17,8 @@ const formSchemaToAddProductToCotacao = z.object({
   quantidade: z.number().min(0.01, "Este campo deve ter no mínimo 0.01"),
 });
 export const SubHeaderProductsCotacao = () => {
+  const [setTitle] = usePageStore((state) => [state.setTitle]);
+  setTitle("Produtos da Cotação");
   const [openCopyAndPasteModal, setOpenCopyAndPasteModal] =
     React.useState(false);
   const [setToastOpen, setContent] = useToastStore((state) => [
