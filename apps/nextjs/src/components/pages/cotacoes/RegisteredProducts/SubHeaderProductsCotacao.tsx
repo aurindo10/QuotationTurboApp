@@ -93,27 +93,28 @@ export const SubHeaderProductsCotacao = () => {
   };
   return (
     <div className="w-full">
-      <form
-        className="flex w-full flex-col items-center"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <div className="fixed bottom-4 right-4 z-50 flex items-end gap-2 text-center">
+      <div className="mb-[-20px] flex w-full justify-end">
+        <button
+          ref={buttonSendRef}
+          className="btn btn-warning btn-sm z-50"
+          onClick={() => {
+            setOpenCopyAndPasteModal(true);
+          }}
+        >
+          <Share size={18} />
           <label
-            className="text-[15px] font-bold text-slate-400"
+            className="text-[12px] font-bold"
             onClick={() => buttonSendRef.current?.click()}
           >
             Compartilhar
           </label>
-          <button
-            ref={buttonSendRef}
-            className="btn btn-circle btn-warning flex flex-col items-center text-center"
-            onClick={() => {
-              setOpenCopyAndPasteModal(true);
-            }}
-          >
-            <Share size={40} />
-          </button>
-        </div>
+        </button>
+      </div>
+
+      <form
+        className="flex w-full flex-col items-center"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <SelectInputProduct></SelectInputProduct>
         <div className="form-control w-[300px]">
           <label className="label">
