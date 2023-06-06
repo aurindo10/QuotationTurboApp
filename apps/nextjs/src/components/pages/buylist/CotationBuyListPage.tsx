@@ -47,10 +47,10 @@ export const CotationBuyListPage = () => {
       <div className="flex w-full gap-2 md:flex-col" key={buyList.id}>
         {buyList.BuyList.length > 0 ? (
           <div
-            className="card card-compact w-full max-w-[420px] bg-slate-700 shadow-xl  "
+            className="card card-compact w-full max-w-[360px] bg-slate-700 shadow-xl  "
             key={buyList.id}
           >
-            <div className="card-body grid grid-cols-3 ">
+            <div className="card-body grid grid-cols-4 ">
               <div className="col-span-2 space-y-2">
                 <div className="flex items-center gap-4">
                   <h2 className="card-title">{buyList.nome}</h2>
@@ -70,23 +70,21 @@ export const CotationBuyListPage = () => {
 
                 <h3>{`Criado em: ${formattedDate}`}</h3>
               </div>
-              <div className="card-actions justify-end">
-                <div className="flex flex-col items-center justify-center gap-2">
-                  <div className="flex flex-col items-center text-center">
-                    <Link
-                      ref={buttonOpenRef}
-                      href={`/buylist/products/${buyList.id}`}
-                      className="btn btn-square flex flex-col items-center text-center"
-                    >
-                      <FolderOpen size={40} />
-                    </Link>
-                    <label
-                      className="text-[15px] font-bold text-slate-50"
-                      onClick={() => buttonOpenRef.current?.click()}
-                    >
-                      Abrir
-                    </label>
-                  </div>
+              <div className="col-start-4 mt-[-10px] flex items-center justify-center">
+                <div className="flex flex-col items-center justify-center">
+                  <Link
+                    ref={buttonOpenRef}
+                    href={`/buylist/products/${buyList.id}`}
+                    className="btn btn-square btn-ghost"
+                  >
+                    <FolderOpen size={40} />
+                  </Link>
+                  <label
+                    className="text-[15px] font-bold text-slate-50"
+                    onClick={() => buttonOpenRef.current?.click()}
+                  >
+                    Abrir
+                  </label>
                 </div>
               </div>
             </div>

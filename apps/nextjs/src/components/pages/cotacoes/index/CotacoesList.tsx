@@ -58,10 +58,10 @@ export const CotacoesList = () => {
         const formattedDate = format(zonedDate, "dd/MM/yyyy");
         return (
           <div
-            className="w-full max-w-[420px] rounded-lg bg-slate-700 py-4 px-1 shadow-2xl "
+            className="w-full max-w-[360px] rounded-lg bg-slate-700 py-4 px-1 shadow-2xl "
             key={cotacao.id}
           >
-            <div className="grid grid-cols-[auto_170px_1fr_1fr]">
+            <div className="grid grid-cols-[auto_150px_1fr_1fr]">
               <div className="text-gray-800">
                 <AlignLeft className="h-auto w-auto" size={65} />
               </div>
@@ -93,7 +93,7 @@ export const CotacoesList = () => {
               <div className="flex flex-col items-center text-center">
                 <button
                   ref={buttonSendRef}
-                  className="btn btn-square flex flex-col items-center text-center"
+                  className="btn btn-square btn-ghost flex flex-col items-center text-center"
                   onClick={() => {
                     setIdCotacao(cotacao.id);
                     setOpenCopyAndPasteModal(true);
@@ -112,7 +112,7 @@ export const CotacoesList = () => {
                 <Link
                   ref={buttonOpenRef}
                   href={`/cotacoes/onecotacao/${cotacao.id}`}
-                  className="btn btn-square flex flex-col items-center text-center"
+                  className="btn btn-square btn-ghost flex flex-col items-center text-center"
                 >
                   <FolderOpen size={40} />
                 </Link>
