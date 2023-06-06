@@ -67,17 +67,18 @@ export function MainTab() {
           className="grow rounded-b-md bg-slate-800 p-3 pb-16 outline-none focus:shadow-[0_0_0_2px] focus:shadow-slate-50 md:p-5"
           value="tab2"
         >
-          <div className="fixed bottom-4 right-4 z-50 flex items-end gap-4">
-            <label className="font-bold text-slate-400 ">
-              Comparar estes preços
-            </label>
+          <div className="flex w-full justify-end">
             <button
-              className={`btn btn-warning btn-circle ${isLoading}`}
+              className={`btn btn-warning btn-sm ${isLoading}`}
               onClick={HandleCompareProductsCotados}
             >
               <TreeStructure size={32} />
+              <label className="text-[12px] font-bold">
+                Comparar estes preços
+              </label>
             </button>
           </div>
+
           <SentPricesBody></SentPricesBody>
         </Tabs.Content>
       </Tabs.Root>
