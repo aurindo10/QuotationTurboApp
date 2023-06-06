@@ -92,7 +92,7 @@ export const Drawer = () => {
           </div>
         </div>
         <div className="navbar-center">
-          <div className="">{title}</div>
+          <div className="text-[18px] font-bold">{title}</div>
         </div>
         <div className="navbar-end">
           <UserButton afterSignOutUrl="/" />

@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { useToastStore } from "../../../../zustandStore/ToastStore";
 
 const RadioGroupDemo = () => {
+  const [loading, setLoading] = React.useState("");
   const { setActive, organizationList, isLoaded } = useOrganizationList();
   const [idOrg, setIdOrg] = React.useState<string | undefined>();
   const { organization } = useOrganization();
@@ -20,8 +21,10 @@ const RadioGroupDemo = () => {
     }
   }, [organization, isLoaded]);
   const handleSubmmit = () => {
+    setLoading("loading");
     setActive?.({ organization: idOrg })
       .then(() => {
+        setLoading("");
         setToastOpen();
         setContent({
           title: "Empresa alterada com sucesso",
@@ -30,6 +33,7 @@ const RadioGroupDemo = () => {
         });
       })
       .catch((err) => {
+        setLoading("");
         console.log(err);
         setToastOpen();
         setContent({
@@ -76,6 +80,7 @@ const RadioGroupDemo = () => {
           handleSubmmit();
         }}
       >
+        <span className={`${loading} loading-spinner`}></span>
         Mudar Empresa
       </button>
     </div>
