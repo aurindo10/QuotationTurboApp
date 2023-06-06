@@ -12,12 +12,12 @@ const Page: NextPageWithLayout = () => {
     <div className="w-full space-y-3 py-4 px-2 md:px-4">
       <div className="flex w-full justify-center">
         <div className="w-full max-w-md space-y-2">
-          <ProductsHeader></ProductsHeader>
           <SearchInput></SearchInput>
         </div>
       </div>
       <div className="flex w-full justify-center">
         <div className="w-full max-w-7xl">
+          <ProductsHeader></ProductsHeader>
           <ProductsTabe></ProductsTabe>
         </div>
       </div>

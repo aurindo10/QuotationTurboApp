@@ -63,13 +63,13 @@ export const AddProductModal = () => {
   };
   return (
     <Dialog.Root open={open} onOpenChange={() => setOpen(!open)}>
-      <div className="flex items-end gap-2 ">
-        <label className="text-slate-400">Adicionar Produto</label>
+      <div className="my-2 flex items-end gap-2">
         <button
           onClick={() => setOpen(true)}
-          className="btn btn-primary btn-circle"
+          className="btn btn-primary btn-sm text-[12px]"
         >
-          <Plus size={32} />
+          <Plus size={18} />
+          <label>Adicionar Produto</label>
         </button>
       </div>
       <Dialog.Portal>
