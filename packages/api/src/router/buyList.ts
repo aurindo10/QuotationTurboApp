@@ -96,6 +96,7 @@ export const buyListRouter = router({
                   produtoDaCotacao: {
                     select: {
                       id: true,
+                      quantidade: true,
                       produto: {
                         select: {
                           nome: true,
@@ -187,6 +188,7 @@ export const buyListRouter = router({
               produtoDaCotacao: {
                 select: {
                   id: true,
+                  quantidade: true,
                   produto: {
                     select: {
                       nome: true,
