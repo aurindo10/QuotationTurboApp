@@ -1,4 +1,10 @@
 import { useAuth, UserButton } from "@clerk/nextjs";
+import {
+  Barcode,
+  Buildings,
+  ListNumbers,
+  ShoppingCart,
+} from "@phosphor-icons/react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { usePageStore } from "../../../zustandStore/PageStore";
@@ -68,24 +74,28 @@ export const Drawer = () => {
           </div>
           <div className="mx-2 flex-1 px-2 text-[20px] font-bold">{title}</div>
           <div className="hidden h-12 items-center lg:block">
-            <ul className="menu menu-horizontal">
+            <ul className="menu menu-horizontal menu-lg mt-[-10px]">
               <li>
                 <Link href={"/cotacoes"} onClick={closeDropdown}>
+                  <ListNumbers size={22} />
                   Cotações
                 </Link>
               </li>
               <li>
                 <Link href={"/products"} onClick={closeDropdown}>
+                  <Barcode size={22} />
                   Produtos
                 </Link>
               </li>
               <li>
                 <Link href={"/buylist"} onClick={closeDropdown}>
+                  <ShoppingCart size={22} />
                   Lista de compras
                 </Link>
               </li>
               <li>
                 <Link href={"/org"} onClick={closeDropdown}>
+                  <Buildings size={22} />
                   Empresas
                 </Link>
               </li>
@@ -101,23 +111,26 @@ export const Drawer = () => {
       </div>
       <div className="drawer-side">
         <label htmlFor="my-drawer-3" className="drawer-overlay"></label>
-        <ul className="menu h-full w-52 bg-slate-800 p-4">
+        <ul className="menu menu-lg h-full w-52 bg-slate-800 p-4">
           {/* Sidebar content here */}
           <li
             onClick={() => {
               setChcked(false);
             }}
           >
-            <Link href={"/cotacoes"} onClick={closeDropdown}>
+            <Link href={"/cotacoes"} onClick={closeDropdown} className="px-0">
+              <ListNumbers size={22} />
               Cotações
             </Link>
           </li>
+          {/* <div className="divider m-0 h-0"></div> */}
           <li
             onClick={() => {
               setChcked(false);
             }}
           >
-            <Link href={"/products"} onClick={closeDropdown}>
+            <Link href={"/products"} onClick={closeDropdown} className="px-0">
+              <Barcode size={22} />
               Produtos
             </Link>
           </li>
@@ -126,7 +139,8 @@ export const Drawer = () => {
               setChcked(false);
             }}
           >
-            <Link href={"/buylist"} onClick={closeDropdown}>
+            <Link href={"/buylist"} onClick={closeDropdown} className="px-0">
+              <ShoppingCart size={22} />
               Lista de compras
             </Link>
           </li>
@@ -135,7 +149,8 @@ export const Drawer = () => {
               setChcked(false);
             }}
           >
-            <Link href={"/org"} onClick={closeDropdown}>
+            <Link href={"/org"} onClick={closeDropdown} className="px-0">
+              <Buildings size={22} />
               Empresas
             </Link>
           </li>
