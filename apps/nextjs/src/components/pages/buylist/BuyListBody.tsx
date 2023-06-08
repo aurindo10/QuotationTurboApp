@@ -48,7 +48,7 @@ export const BuyListTableBody = () => {
         once: true,
       });
 
-      // URL.revokeObjectURL(url); // uncomment this line if you no longer need the URL
+      URL.revokeObjectURL(url);
     } catch (error) {
       console.error(error);
     }
@@ -67,6 +67,7 @@ export const BuyListTableBody = () => {
   if (status === "loading") {
     return <div>loading</div>;
   }
+
   return (
     <div className="space-y-4 ">
       {allBuyListByCotation.map((seller) => {
@@ -74,18 +75,6 @@ export const BuyListTableBody = () => {
           <div className="mt-6" key={seller.id}>
             {seller.buyList.length > 0 && (
               <div>
-                <button
-                  className="btn btn-primary"
-                  onClick={() =>
-                    handlePdfGeneration(
-                      seller.buyList,
-                      seller.nome,
-                      seller.empresaName ?? "",
-                    )
-                  }
-                >
-                  Baixar
-                </button>
                 <div className="my-2 flex items-center gap-4">
                   <div className=" flex items-center gap-2 text-[18px]">
                     <User size={32} />
@@ -95,6 +84,18 @@ export const BuyListTableBody = () => {
                     <Buildings size={32} />
                     <label>{`${seller.empresaName}`}</label>
                   </div>
+                  <button
+                    className="btn btn-primary btn-xs"
+                    onClick={() =>
+                      handlePdfGeneration(
+                        seller.buyList,
+                        seller.nome,
+                        seller.empresaName ?? "",
+                      )
+                    }
+                  >
+                    Baixar
+                  </button>
                 </div>
                 <div className="space-y-2">
                   <div className="w-full overflow-x-auto">

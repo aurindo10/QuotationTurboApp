@@ -8,8 +8,7 @@ import {
   Image,
 } from "@react-pdf/renderer";
 import { RouterOutputs } from "../../utils/trpc";
-import building from "../../../public/building.png";
-// Create styles
+
 const styles = StyleSheet.create({
   page: {
     backgroundColor: "#E4E4E4",
@@ -43,7 +42,6 @@ export const MyDocument = ({
   userName,
   createdAt,
   empresaName,
-  urlOrgLogo,
 }: Props) => {
   return (
     <Document>
@@ -81,9 +79,13 @@ export const MyDocument = ({
               marginLeft: "32px",
             }}
           >
-            <Text style={{ marginLeft: "" }}>{orgName}</Text>
-            <Text style={{ marginLeft: "" }}>Autor: {userName}</Text>
-            <Text style={{ marginLeft: "" }}>Data:{createdAt} </Text>
+            <Text style={{ marginLeft: "", fontSize: "16px" }}>{orgName}</Text>
+            <Text style={{ marginLeft: "", fontSize: "14px" }}>
+              Autor: {userName}
+            </Text>
+            <Text style={{ marginLeft: "", fontSize: "14px" }}>
+              {`Data: ${createdAt}`}
+            </Text>
           </View>
         </View>
         <View
@@ -94,10 +96,23 @@ export const MyDocument = ({
             marginTop: "16px",
             gap: "4px",
             marginLeft: "32px",
+            fontSize: "14px",
           }}
         >
-          <Text style={{}}>Vendedor: {sellerName}</Text>
-          <Text style={{}}>Empresa: {empresaName}</Text>
+          <Text
+            style={{
+              fontSize: "14px",
+            }}
+          >
+            Vendedor: {sellerName}
+          </Text>
+          <Text
+            style={{
+              fontSize: "14px",
+            }}
+          >
+            Empresa: {empresaName}
+          </Text>
         </View>
         <View
           style={{ display: "flex", flexDirection: "column", width: "100%" }}
@@ -173,7 +188,7 @@ export const MyDocument = ({
                 textAlign: "center",
               }}
             >
-              Valor (R$)
+              Valor
             </Text>
           </View>
           {products.map((product) => {
