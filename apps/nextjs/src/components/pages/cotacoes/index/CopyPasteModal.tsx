@@ -1,7 +1,7 @@
 import { useUser } from "@clerk/nextjs";
 import { CopySimple, Plus } from "@phosphor-icons/react";
 import * as Dialog from "@radix-ui/react-dialog";
-import React from "react";
+import React, { useEffect } from "react";
 import { useCotacoesStore } from "../../../../../zustandStore/CotacoesStore";
 import { useProductsStore } from "../../../../../zustandStore/ProductStore";
 import { useToastStore } from "../../../../../zustandStore/ToastStore";
@@ -19,10 +19,13 @@ export const CopyAndPasteModal = ({ cotacaoId, setOpen, open }: Props) => {
   const [deleteCotacaoState] = useCotacoesStore((state) => [
     state.deleteCotacao,
   ]);
-  const { data } = trpc.cotacoes.getProductsFromOneCotacao.useQuery({
+  const { data, refetch } = trpc.cotacoes.getProductsFromOneCotacao.useQuery({
     idCotacao: cotacaoId,
   });
   const [isLoading, setIsLoading] = React.useState("");
+  useEffect(() => {
+    refetch();
+  }, [open]);
 
   const handleCopyToClipboard = async () => {
     try {
