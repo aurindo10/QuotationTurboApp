@@ -1,16 +1,18 @@
 import { useUser } from "@clerk/nextjs";
 import { CopySimple, Plus } from "@phosphor-icons/react";
 import * as Dialog from "@radix-ui/react-dialog";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useCotacoesStore } from "../../../../../zustandStore/CotacoesStore";
 import { useProductsStore } from "../../../../../zustandStore/ProductStore";
 import { useToastStore } from "../../../../../zustandStore/ToastStore";
-import { trpc } from "../../../../utils/trpc";
+import { RouterOutputs, trpc } from "../../../../utils/trpc";
 interface Props {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   cotacaoId: string;
 }
+type Data = RouterOutputs["cotacoes"]["getProductsFromOneCotacao"];
+
 export const CopyAndPasteModal = ({ cotacaoId, setOpen, open }: Props) => {
   const [setToastOpen, setContent] = useToastStore((state) => [
     state.setOpenOnClique,
@@ -19,13 +21,22 @@ export const CopyAndPasteModal = ({ cotacaoId, setOpen, open }: Props) => {
   const [deleteCotacaoState] = useCotacoesStore((state) => [
     state.deleteCotacao,
   ]);
-  const { data, refetch } = trpc.cotacoes.getProductsFromOneCotacao.useQuery({
-    idCotacao: cotacaoId,
-  });
+  const [data, setData] = useState<Data>();
+  const { mutateAsync: getDataFromDb } =
+    trpc.cotacoes.getProductsFromOneCotacao.useMutation({});
   const [isLoading, setIsLoading] = React.useState("");
   useEffect(() => {
-    refetch();
-  }, [open]);
+    const fetchData = async () => {
+      await getDataFromDb({
+        idCotacao: cotacaoId,
+      }).then((res) => {
+        setData(res);
+      });
+    };
+    if (open) {
+      fetchData();
+    }
+  }, [open, getDataFromDb, cotacaoId]);
 
   const handleCopyToClipboard = async () => {
     try {

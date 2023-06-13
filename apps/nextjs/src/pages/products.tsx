@@ -10,7 +10,9 @@ import { NextPageWithLayout } from "./_app";
 
 const Page: NextPageWithLayout = () => {
   const [setTitle] = usePageStore((state) => [state.setTitle]);
-  setTitle("Produtos");
+  useEffect(() => {
+    setTitle("Produtos");
+  });
   return (
     <div className="w-full space-y-3 py-4 px-2 md:px-4">
       <div className="flex w-full justify-center">

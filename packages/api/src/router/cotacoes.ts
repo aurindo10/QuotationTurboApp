@@ -84,7 +84,7 @@ export const cotacoesRouter = router({
         idCotacao: z.string(),
       }),
     )
-    .query(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       const foundCotacao = await ctx.prisma.cotacoes.findUnique({
         where: {
           id: input.idCotacao,

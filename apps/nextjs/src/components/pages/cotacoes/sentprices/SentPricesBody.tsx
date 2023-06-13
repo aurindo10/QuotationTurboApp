@@ -12,7 +12,9 @@ import { OneTable } from "./oneTable";
 
 export const SentPricesBody = () => {
   const [setTitle] = usePageStore((state) => [state.setTitle]);
-  setTitle("Cotacões enviadas");
+  useEffect(() => {
+    setTitle("Cotacões enviadas");
+  });
   const [open, setOpen] = React.useState(false);
   const [representanteInfo, setRepresentanteInfo] = React.useState({
     representanteId: "",

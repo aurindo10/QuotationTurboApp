@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { ReactElement, useEffect } from "react";
 import { usePageStore } from "../../../zustandStore/PageStore";
 import { CotationBuyListPage } from "../../components/pages/buylist/CotationBuyListPage";
 import RadioGroupDemo from "../../components/pages/org/switcher";
@@ -7,7 +7,9 @@ import { NextPageWithLayout } from "../_app";
 
 const Page: NextPageWithLayout = () => {
   const [setTitle] = usePageStore((state) => [state.setTitle]);
-  setTitle("Empresas");
+  useEffect(() => {
+    setTitle("Empresas");
+  });
   return (
     <div className="w-full px-2 py-4 md:px-4">
       <div className="flex items-center justify-center">

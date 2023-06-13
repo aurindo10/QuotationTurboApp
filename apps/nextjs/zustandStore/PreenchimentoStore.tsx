@@ -12,11 +12,9 @@ type Store = {
   step: number;
   setStep: (step: number) => void;
   produtoCotado: produtosCotado[];
-  updateProdutoCotado: (produtoCotado: {
-    valor: number;
-    quantidadeMinima: number;
-    code: string;
-  }) => void;
+  updateProdutoCotado: (produtoCotado: { valor: number }) => void;
+  updateProdutoCotadoCode: (code: string) => void;
+  updateProdutoCotadoQuantidadeMinima: (quantidadeMinima: number) => void;
 };
 
 export const usePreenchimentoStore = create(
@@ -47,9 +45,17 @@ export const usePreenchimentoStore = create(
     updateProdutoCotado: (produtoCotado) => {
       set((state) => {
         state.produtoCotado[state.step - 1]!.valor = produtoCotado.valor;
+      });
+    },
+    updateProdutoCotadoCode: (code) => {
+      set((state) => {
+        state.produtoCotado[state.step - 1]!.code = code;
+      });
+    },
+    updateProdutoCotadoQuantidadeMinima: (quantidadeMinima) => {
+      set((state) => {
         state.produtoCotado[state.step - 1]!.quantidadeMinima =
-          produtoCotado.quantidadeMinima;
-        state.produtoCotado[state.step - 1]!.code = produtoCotado.code;
+          quantidadeMinima;
       });
     },
   })),

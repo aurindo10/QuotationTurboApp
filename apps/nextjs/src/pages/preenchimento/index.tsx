@@ -5,7 +5,7 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { usePreenchimentoStore } from "../../../zustandStore/PreenchimentoStore";
 import { PreenchimentoPage } from "../../components/preenchimento/HeaderPreenchimentoPage";
-import { trpc } from "../../utils/trpc";
+import { RouterOutputs, trpc } from "../../utils/trpc";
 
 const FormSchema = z.object({
   valor: z.number().min(0),
@@ -13,6 +13,7 @@ const FormSchema = z.object({
   quantidadeMinima: z.number().min(0),
 });
 type FormData = z.infer<typeof FormSchema>;
+type OneCotacao = RouterOutputs["cotacoes"]["getProductsFromOneCotacao"];
 export default function Page() {
   const [loading, setLoading] = useState("");
   const { mutateAsync: sendProposta } =
@@ -21,19 +22,19 @@ export default function Page() {
   const [valorDisplay, setValorDisplay] = useState("");
 
   const transformToReal = (value: number) => {
-    const onlyNums = value.toString().replace(/[^0-9]/g, "");
-    const floatNum = parseFloat((parseInt(onlyNums) / 100).toString()).toFixed(
-      2,
-    );
+    console.log(value);
     const formatted = new Intl.NumberFormat("pt-BR", {
       style: "currency",
       currency: "BRL",
-    }).format(parseFloat(floatNum));
+    }).format(value);
+    console.log(formatted);
     setValorDisplay(formatted);
-    setValor(parseFloat(floatNum));
+    setValor(value);
   };
+
   const handleValorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
+
     const onlyNums = input.replace(/[^0-9]/g, "");
     const parsedNum = parseFloat(onlyNums) / 100;
 
@@ -42,8 +43,10 @@ export default function Page() {
         style: "currency",
         currency: "BRL",
       }).format(parsedNum);
-
       setValorDisplay(formatted);
+      updateProdutoCotado({
+        valor: parsedNum,
+      });
       setValor(parsedNum);
     }
   };
@@ -57,6 +60,8 @@ export default function Page() {
     allProductsCotados,
     updateProdutoCotado,
     produtoCotado,
+    updateProdutoCotadoCode,
+    updateProdutoCotadoQuantidadeMinima,
   ] = usePreenchimentoStore((state) => [
     state.setAllProductCotados,
     state.step,
@@ -64,11 +69,14 @@ export default function Page() {
     state.produtoCotado,
     state.updateProdutoCotado,
     state.produtoCotado,
+    state.updateProdutoCotadoCode,
+    state.updateProdutoCotadoQuantidadeMinima,
   ]);
-  const { data: oneCotacao, status } =
-    trpc.cotacoes.getProductsFromOneCotacao.useQuery({
-      idCotacao: representanteInfo.idCotacao as string,
-    });
+  const { mutateAsync: getOneCotacao, status } =
+    trpc.cotacoes.getProductsFromOneCotacao.useMutation({});
+  const [lengthOfProducts, setLengthOfProducts] = useState(0);
+  const [localStep, setLocalStep] = useState(step);
+
   const {
     handleSubmit,
     control,
@@ -84,19 +92,29 @@ export default function Page() {
       quantidadeMinima: 0,
     },
   });
-  const lengthOfProducts =
-    oneCotacao?.produtos.length === undefined ? 0 : oneCotacao.produtos.length;
+  const [oneCotacao, setOneCotacao] = useState<OneCotacao>(null);
   useEffect(() => {
-    if (oneCotacao) {
-      if (!allProductsCotados[step]) {
-        setAllProductCotados(
-          oneCotacao,
-          representanteInfo.idRepresentante as string,
-        );
-      }
-    }
-  }, [oneCotacao, status]);
-  const [localStep, setLocalStep] = useState(step);
+    const oneCotacaoFromDb = async () => {
+      await getOneCotacao({
+        idCotacao: representanteInfo.idCotacao as string,
+      })
+        .then((res) => {
+          setLengthOfProducts(res?.produtos.length ?? 0);
+          setOneCotacao(res);
+          if (!allProductsCotados[step]) {
+            setAllProductCotados(
+              res,
+              representanteInfo.idRepresentante as string,
+            );
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      return { message: "ok" };
+    };
+    oneCotacaoFromDb();
+  }, []);
 
   useEffect(() => {
     if (allProductsCotados[step - 1]) {
@@ -118,13 +136,6 @@ export default function Page() {
   const HandleBack = () => {
     if (localStep > 1) setStep(localStep - 1);
   };
-  const onSubmit = async () => {
-    updateProdutoCotado({
-      valor: valor,
-      code: getValues("code"),
-      quantidadeMinima: getValues("quantidadeMinima"),
-    });
-  };
 
   if (status === "loading") return <div>loading</div>;
   const handleSendProposta = async () => {
@@ -142,7 +153,7 @@ export default function Page() {
     }
   };
   return (
-    <form className="w-full" onChange={() => onSubmit()}>
+    <form className="w-full">
       <div className="w-full">
         <PreenchimentoPage
           oneCotacao={oneCotacao!}
@@ -184,6 +195,7 @@ export default function Page() {
                 onChange={(e) => {
                   if (e.target.value === "") return field.onChange("");
                   field.onChange(parseInt(e.target.value));
+                  updateProdutoCotadoQuantidadeMinima(parseInt(e.target.value));
                 }}
                 type="number"
                 placeholder="0 unidades"
@@ -202,6 +214,10 @@ export default function Page() {
             render={({ field }) => (
               <input
                 {...field}
+                onChange={(e) => {
+                  field.onChange(e.target.value);
+                  updateProdutoCotadoCode(e.target.value);
+                }}
                 type="text"
                 placeholder="00000"
                 className="input input-bordered w-full max-w-xs"

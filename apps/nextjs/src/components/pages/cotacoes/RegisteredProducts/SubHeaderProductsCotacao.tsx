@@ -2,7 +2,7 @@ import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Share } from "@phosphor-icons/react";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 import { useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -18,7 +18,7 @@ const formSchemaToAddProductToCotacao = z.object({
 });
 export const SubHeaderProductsCotacao = () => {
   const [setTitle] = usePageStore((state) => [state.setTitle]);
-  setTitle("Produtos da Cotação");
+
   const [openCopyAndPasteModal, setOpenCopyAndPasteModal] =
     React.useState(false);
   const [setToastOpen, setContent] = useToastStore((state) => [
@@ -58,6 +58,9 @@ export const SubHeaderProductsCotacao = () => {
     defaultValues: {
       quantidade: 0,
     },
+  });
+  useEffect(() => {
+    setTitle("Produtos da Cotação");
   });
   const onSubmit = async (data: FormData) => {
     setIsloanding("loading");

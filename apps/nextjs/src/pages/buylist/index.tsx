@@ -9,7 +9,9 @@ import { NextPageWithLayout } from "../_app";
 
 const Page: NextPageWithLayout = () => {
   const [setTitle] = usePageStore((state) => [state.setTitle]);
-  setTitle("Listas de compras");
+  useEffect(() => {
+    setTitle("Listas de compras");
+  });
   return (
     <div className="w-full px-2 py-4 md:px-4">
       <CotationBuyListPage></CotationBuyListPage>

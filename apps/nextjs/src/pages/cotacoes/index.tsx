@@ -9,7 +9,9 @@ import { NextPageWithLayout } from "../_app";
 
 const Page: NextPageWithLayout = () => {
   const [setTitle] = usePageStore((state) => [state.setTitle]);
-  setTitle("Cotações");
+  useEffect(() => {
+    setTitle("Cotações");
+  });
   return (
     <div className="py-4 px-2 ">
       <CotacoesList></CotacoesList>
