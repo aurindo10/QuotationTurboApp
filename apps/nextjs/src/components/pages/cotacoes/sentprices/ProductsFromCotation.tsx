@@ -44,7 +44,7 @@ export const ProductsTableCotation = () => {
     trpc.product.getNumberOfProductsByCotation.useQuery({
       cotacaoId: router.query.id as string,
     });
-  const productsPerPage = 4;
+  const productsPerPage = 12;
   const numberOfPaginations = Math.ceil(
     (numberOfProducts ?? 0) / productsPerPage,
   );

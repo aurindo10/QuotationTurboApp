@@ -52,7 +52,7 @@ export const ProductsTabe = () => {
     state.inputValue,
     state.setInputValue,
   ]);
-  const productsPerPage = 6;
+  const productsPerPage = 12;
   const numberOfPaginations = Math.ceil(
     (inputValue.length === 0 ? numberOfProducts ?? 0 : allPrducts.length) /
       productsPerPage,

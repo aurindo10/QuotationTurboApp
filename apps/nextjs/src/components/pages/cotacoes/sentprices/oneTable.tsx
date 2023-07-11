@@ -18,7 +18,7 @@ export function OneTable({ sellerId }: OneTable) {
     });
   const { mutateAsync: getProductBySellerId, status } =
     trpc.produCotado.getProdutoCotadoByCotationIdAndSellerId.useMutation();
-  const productsPerPage = 4;
+  const productsPerPage = 12;
   const numberOfPaginations = Math.ceil(
     (numberOfProducts ?? 0) / productsPerPage,
   );

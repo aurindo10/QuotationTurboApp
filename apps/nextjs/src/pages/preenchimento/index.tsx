@@ -39,6 +39,9 @@ export default function Page() {
     const parsedNum = parseFloat(onlyNums) / 100;
 
     if (!isNaN(parsedNum)) {
+      if (parsedNum > 0) {
+        updateProdutoCotadoNaoPossui(true);
+      }
       const formatted = new Intl.NumberFormat("pt-BR", {
         style: "currency",
         currency: "BRL",
@@ -62,6 +65,7 @@ export default function Page() {
     produtoCotado,
     updateProdutoCotadoCode,
     updateProdutoCotadoQuantidadeMinima,
+    updateProdutoCotadoNaoPossui,
   ] = usePreenchimentoStore((state) => [
     state.setAllProductCotados,
     state.step,
@@ -71,6 +75,7 @@ export default function Page() {
     state.produtoCotado,
     state.updateProdutoCotadoCode,
     state.updateProdutoCotadoQuantidadeMinima,
+    state.updateProdutoCotadoNaoPossui,
   ]);
   const { mutateAsync: getOneCotacao, status } =
     trpc.cotacoes.getProductsFromOneCotacao.useMutation({});
@@ -160,7 +165,21 @@ export default function Page() {
           localStep={localStep}
         ></PreenchimentoPage>
       </div>
+
       <div className="flex w-full flex-col items-center">
+        <div className="form-control">
+          <label className="label cursor-pointer gap-1 ">
+            <span className="label-text text-red-500">Não tenho este item</span>
+            <input
+              type="checkbox"
+              className="toggle"
+              checked={!allProductsCotados[step - 1]?.naoPossui}
+              onChange={(e) => {
+                updateProdutoCotadoNaoPossui(!e.target.checked);
+              }}
+            />
+          </label>
+        </div>
         <div className="form-control w-full max-w-xs">
           <label className="label">
             <span className="label-text">Valor do produto</span>
@@ -226,38 +245,48 @@ export default function Page() {
           />
         </div>
       </div>
-      <div className="flex w-full justify-center">
-        <div className="buttons my-4 flex w-full max-w-xs justify-between">
-          <button
-            className="btn btn-error btn-sm"
-            disabled={localStep === 1 || loading === "loading" ? true : false}
-            onClick={(e) => {
-              if (loading === "") {
-                e.preventDefault();
-                HandleBack();
-              }
-            }}
-          >
-            Anterior
-          </button>
 
-          <span>{`${localStep}/${lengthOfProducts}`}</span>
-          <button
-            className={`btn btn-error btn-sm `}
-            disabled={
-              localStep === lengthOfProducts || loading === "loading"
-                ? true
-                : false
-            }
-            onClick={(e) => {
-              if (loading === "") {
-                e.preventDefault();
-                HandleNext();
+      <div className="flex w-full justify-center">
+        <div className="w-full max-w-xs">
+          {valor <= 0 && allProductsCotados[step - 1]?.naoPossui && (
+            <div className="text-center text-[12px] text-red-500">
+              Para clicar em próximo preencha o valor do produto ou marque a
+              opção acima como "Não tenho este item"
+            </div>
+          )}
+
+          <div className="buttons my-4 flex w-full max-w-xs justify-between">
+            <button
+              className="btn btn-error btn-sm"
+              disabled={localStep === 1 || loading === "loading" ? true : false}
+              onClick={(e) => {
+                if (loading === "") {
+                  e.preventDefault();
+                  HandleBack();
+                }
+              }}
+            >
+              Anterior
+            </button>
+
+            <span>{`${localStep}/${lengthOfProducts}`}</span>
+            <button
+              className={`btn btn-error btn-sm `}
+              disabled={
+                localStep === lengthOfProducts ||
+                loading === "loading" ||
+                (valor <= 0 && allProductsCotados[step - 1]?.naoPossui)
               }
-            }}
-          >
-            Próximo
-          </button>
+              onClick={(e) => {
+                if (loading === "") {
+                  e.preventDefault();
+                  HandleNext();
+                }
+              }}
+            >
+              Próximo
+            </button>
+          </div>
         </div>
       </div>
       <div className="flex w-full justify-center">
@@ -265,12 +294,14 @@ export default function Page() {
           <button
             onClick={(e) => {
               if (loading === "") {
-                e.preventDefault(), handleSendProposta();
+                e.preventDefault();
+                handleSendProposta();
               }
             }}
             className={`btn btn-primary  ${loading} ${
               loading === "loading" ? "cursor-not-allowed" : ""
-            }} `}
+            } `}
+            disabled={valor <= 0 && allProductsCotados[step - 1]?.naoPossui}
           >
             Enviar orçamento
           </button>

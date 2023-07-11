@@ -3,6 +3,17 @@ import { z } from "zod";
 import { clerkClient } from "@clerk/nextjs/server";
 import { TRPCError } from "@trpc/server";
 import { TRPCClientError } from "@trpc/client";
+
+type ProdutoCotado = {
+  id: string;
+  valor: number | null;
+  representanteId: string;
+};
+
+type ProdutoDaCotacao = {
+  cotacaoId: string;
+  produtoCotado: ProdutoCotado[];
+};
 export const buyListRouter = router({
   compareProductsCotados: protectedProcedure
     .input(
@@ -46,18 +57,46 @@ export const buyListRouter = router({
         });
       } else {
         const productsCompared = allProductsFromCotacao.map(
-          (produtoDaCotacao) => {
+          (produtoDaCotacao: ProdutoDaCotacao) => {
+            // Verifica se produtoCotado não é nulo, indefinido ou vazio
+            if (
+              !produtoDaCotacao.produtoCotado ||
+              produtoDaCotacao.produtoCotado.length === 0
+            ) {
+              throw new TRPCError({
+                code: "NOT_FOUND",
+                message: "Não há produtos cotados para essa cotação",
+              });
+            }
+
             const cheapestProduct = produtoDaCotacao.produtoCotado.reduce(
-              (prev, current) =>
-                (
-                  prev.valor === 0
-                    ? 1000000000
-                    : prev.valor! <
-                      (current.valor === 0 ? 100000000 : current.valor!)
-                )
+              (prev: ProdutoCotado, current: ProdutoCotado) => {
+                // Verifica se os valores são números e não são nulos
+                if (typeof prev.valor !== "number" || prev.valor === null) {
+                  throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "Valor anterior inválido",
+                  });
+                }
+
+                if (
+                  typeof current.valor !== "number" ||
+                  current.valor === null
+                ) {
+                  throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "Valor atual inválido",
+                  });
+                }
+
+                // Faz a comparação
+                return (prev.valor === 0 ? 1000000000 : prev.valor) <
+                  (current.valor === 0 ? 1000000000 : current.valor)
                   ? prev
-                  : current,
+                  : current;
+              },
             );
+
             return {
               produtoCotadoId: cheapestProduct.id,
               cotacaoId: produtoDaCotacao.cotacaoId,

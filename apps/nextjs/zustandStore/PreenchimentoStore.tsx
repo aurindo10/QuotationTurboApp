@@ -2,7 +2,9 @@ import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import { RouterInputs, RouterOutputs } from "../src/utils/trpc";
 type allProducts = RouterOutputs["cotacoes"]["getProductsFromOneCotacao"];
-type produtosCotado = RouterInputs["produCotado"]["addProductCotado"];
+type produtosCotado = RouterInputs["produCotado"]["addProductCotado"] & {
+  naoPossui?: boolean;
+};
 
 type Store = {
   setAllProductCotados: (
@@ -15,6 +17,7 @@ type Store = {
   updateProdutoCotado: (produtoCotado: { valor: number }) => void;
   updateProdutoCotadoCode: (code: string) => void;
   updateProdutoCotadoQuantidadeMinima: (quantidadeMinima: number) => void;
+  updateProdutoCotadoNaoPossui: (quantidadeMinima: boolean) => void;
 };
 
 export const usePreenchimentoStore = create(
@@ -25,6 +28,7 @@ export const usePreenchimentoStore = create(
         ? allProducts.produtos.map((produto) => {
             return {
               valor: 0,
+              naoPossui: true,
               cotacaoId: produto.cotacaoId,
               representanteId: representanteId,
               quantidadeMinima: 0,
@@ -56,6 +60,11 @@ export const usePreenchimentoStore = create(
       set((state) => {
         state.produtoCotado[state.step - 1]!.quantidadeMinima =
           quantidadeMinima;
+      });
+    },
+    updateProdutoCotadoNaoPossui: (possui) => {
+      set((state) => {
+        state.produtoCotado[state.step - 1]!.naoPossui = possui;
       });
     },
   })),

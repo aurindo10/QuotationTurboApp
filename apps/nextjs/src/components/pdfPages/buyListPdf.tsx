@@ -244,7 +244,7 @@ export const MyDocument = ({
                     textAlign: "center",
                   }}
                 >
-                  Tramontina
+                  {product.produtoCotado.produtoDaCotacao.produto.brand}
                 </Text>
                 <Text
                   style={{

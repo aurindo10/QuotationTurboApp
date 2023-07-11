@@ -1,0 +1,10 @@
+version: "3"
+services:
+  centro-medico:
+    image: bitnami/postgresql
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRESQL_USERNAME=docker
+      - POSTGRESQL_DATABASE=centro-medico
+      - POSTGRESQL_PASSWORD=medico123
